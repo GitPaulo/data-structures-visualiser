@@ -1,0 +1,23 @@
+{
+  "name": "HYP",
+  "version": "1.0.0",
+  "description": "Algorithms &amp; Datastructures Visualiser Tool",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GitPaulo/DSA-Visualiser.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GitPaulo/DSA-Visualiser/issues"
+  },
+  "homepage": "https://github.com/GitPaulo/DSA-Visualiser#readme",
+  "devDependencies": {
+    "electron": "4.0.4"
+  }
+}
