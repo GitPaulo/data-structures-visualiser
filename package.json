@@ -19,5 +19,6 @@
   "homepage": "https://github.com/GitPaulo/DSA-Visualiser#readme",
   "devDependencies": {
     "electron": "4.0.4"
-  }
+  },
+  "dependencies": {}
 }
