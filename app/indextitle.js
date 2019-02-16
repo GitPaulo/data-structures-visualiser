@@ -1,3 +1,5 @@
+const util = require(`${__dirname}/scripts/utility`);
+
 /* Particle System */
 
 function Vehicle(p, x, y) {
@@ -75,10 +77,11 @@ Vehicle.prototype.flee = function(target) {
 
 /* P5 SKETCH */
 
-let sketch = function(p){
+let sketch = function(p) {
 	const TITLE_TEXT = "Algorithm Visualiser" 
-	var font;
-	var vehicles = [];
+	
+	let font;
+	let vehicles;
 
 	p.preload = function () {
 		font = p.loadFont(`${__dirname}/assets/Meteora.ttf`);
@@ -92,21 +95,23 @@ let sketch = function(p){
 		p.background(51);
 		
 		const FONT_SIZE = w/12;
-		var points = font.textToPoints(TITLE_TEXT, w/2 - FONT_SIZE*TITLE_TEXT.length/3.5, h/1.4, FONT_SIZE, {
+		let points = font.textToPoints(TITLE_TEXT, w/2 - FONT_SIZE*TITLE_TEXT.length/3.5, h/1.4, FONT_SIZE, {
 			sampleFactor: 0.15
 		});
 
-		for (var i = 0; i < points.length; i++) {
-			var pt = points[i];
-			var vehicle = new Vehicle(p, pt.x, pt.y);
+		vehicles = [];
+
+		for (let i = 0; i < points.length; i++) {
+			let pt = points[i];
+			let vehicle = new Vehicle(p, pt.x, pt.y);
 			vehicles.push(vehicle);
 		}
 	}
 
 	p.draw = function () {
 		p.background(40);
-		for (var i = 0; i < vehicles.length; i++) {
-			var v = vehicles[i];
+		for (let i = 0; i < vehicles.length; i++) {
+			let v = vehicles[i];
 			v.behaviors();
 			v.update();
 			v.show();
@@ -114,4 +119,9 @@ let sketch = function(p){
 	}
 }
 
-new p5(sketch, 'titleCanvas'); // attach it to div id: `titleCanvas` on index.html
+let titleCanvasElement = new p5(sketch, 'title_canvas'); // attach it to div id: `titleCanvas` on index.html
+
+// reload it on screen resize
+util.addEvent(window, "resize", function(event) {
+	titleCanvasElement.setup();
+});

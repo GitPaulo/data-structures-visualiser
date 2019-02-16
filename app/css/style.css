@@ -1,19 +1,133 @@
-/* GENERAL CSS */
+/***********************
+       General CSS 
+************************/
 
+html,
 body {
+    height: 100%;
+    min-height: 100%;
     background-color: rgb(40, 40, 40);
     padding: 0;
-    margin: 0;  
+    margin: 0;
     overflow-x: hidden;
     overflow-y: hidden
 }
 
-/* INDEX.HTML */
+/* custom scrollbar */
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(52, 214, 255);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #b30000;
+}
+
+/*custom slider*/
+input[type="range"] { 
+    margin: auto;
+    -webkit-appearance: none;
+    position: relative;
+    overflow: hidden;
+    height: 20px;
+    width: 115px;
+    cursor: pointer;
+    border-radius: 0; /* iOS */
+}
+
+::-webkit-slider-runnable-track {
+    background: #ddd;
+}
+
+/*
+ * 1. Set to 0 width and remove border for a slider without a thumb
+ */
+::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; /* 1 */
+    height: 40px;
+    background: #fff;
+    box-shadow: -100vw 0 0 100vw dodgerblue;
+    border: 2px solid #999; /* 1 */
+}
+
+::-moz-range-track {
+    height: 40px;
+    background: #ddd;
+}
+
+::-moz-range-thumb {
+    background: #fff;
+    height: 40px;
+    width: 20px;
+    border: 3px solid #999;
+    border-radius: 0 !important;
+    box-shadow: -100vw 0 0 100vw dodgerblue;
+    box-sizing: border-box;
+}
+
+::-ms-fill-lower { 
+    background: dodgerblue;
+}
+
+::-ms-thumb { 
+    background: #fff;
+    border: 2px solid #999;
+    height: 40px;
+    width: 20px;
+    box-sizing: border-box;
+}
+
+::-ms-ticks-after { 
+    display: none; 
+}
+
+::-ms-ticks-before { 
+    display: none; 
+}
+
+::-ms-track { 
+    background: #ddd;
+    color: transparent;
+    height: 40px;
+    border: none;
+}
+
+::-ms-tooltip { 
+    display: none;
+}
+
+/*console log div override*/
+.console-log-div {
+    border: 1px solid black;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    overflow: auto;
+    height: 12%;
+    width: 97% !important;
+    min-width: 0%;
+}
+
+/***********************
+       index.html
+************************/
 
 .main {
     position: relative;
-    height: 100vh;
-    width:  100%;
+    height: 100%;
     /* background: red; */
 }
 
@@ -32,10 +146,324 @@ body {
     font-size: 2.5vh;
 }
 
-#visualiser_button {
+#visualiser_button {}
 
+#playground_button {}
+
+/***********************
+     navigation.html 
+************************/
+
+/* Style the navbar */
+#navbar {
+    height: 8%;
+    overflow: hidden;
+    background-color: #333;
 }
 
-#playground_button {
+/* Navbar links */
+#navbar a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 12px;
+    padding-top: 20px;
+    text-decoration: none;
+}
 
+#navbar a img:hover {
+    color: aliceblue;
+    background: grey;
+}
+
+#navbar h1 {
+    color: white;
+    font: 500;
+    font-size: 200%;
+    padding-top: 22px;
+}
+
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+/***********************
+     visualiser.html 
+************************/
+
+.visualiser {
+    height: 92%;
+    transition: margin-left 1s;
+}
+
+/* The sidebar menu */
+.sidebar {
+    height: 92%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 8%;
+    left: 0;
+    background-color: #111;
+    overflow: hidden;
+    padding-top: 60px;
+    transition: 1s;
+}
+
+/* The sidebar links */
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidebar a:hover {
+    color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidebar .close-button {
+    position: relative;
+    font-size: 32px;
+}
+
+/* The button used to open the sidebar */
+.open-button {
+    height: 5%;
+    width: 100%;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    border: none;
+    margin-bottom: 0rem;
+}
+
+/* Quadrant */
+.quadrant-container {
+    height: 100%;
+}
+
+.quadrant-top {
+    overflow: hidden;
+    height: 50%;
+}
+
+.quadrant-bottom {
+    overflow: hidden;
+    height: 50%;
+}
+
+.quadrant {
+    position: relative;
+    height: 100%;
+    width: 50%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border-right: 8px solid black;
+    border-bottom: 8px solid black;
+    overflow: auto;
+}
+
+.quadrant.visualiser {
+    width: 50%;
+    float: left;
+}
+
+.quadrant.information {
+    width: 50%;
+    float: right;
+    padding: .2em 2em 2em 2em;
+    color: white;
+}
+
+.quadrant.console {
+    width: 50%;
+    float: left;
+    padding: .2em 2em 2em 2em;
+    line-height: 1;
+    font-family: "Courier New", monospace;
+    background-image: linear-gradient(to right, rgb(20, 20, 20), rgb(60, 60, 60));
+    color: white;
+    height: 100%;
+}
+
+.quadrant.codefollow {
+    width: 50%;
+    float: right;
+}
+
+/* Visualiser Animator */
+
+#visualisation_canvas {
+    overflow: scroll;
+}
+
+#visualisation_controls {
+    text-align: center; 
+    vertical-align: middle;
+}
+
+.button-primary.animation-button {
+    border-radius: 0%;
+    width: 20%;
+    text-align: center; 
+}
+
+.button-primary.animation-button i.material-icons {
+    text-align: center; 
+    vertical-align: middle;
+}
+
+/* Visualiser Console */
+output {
+    clear: both;
+    width: 100%;
+}
+
+output h3 {
+    margin: 0;
+}
+
+output h2 {
+    margin: 0;
+}
+
+output pre {
+    margin: 0;
+}
+
+output p {
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+
+.input-line {
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: horizontal;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: horizontal;
+    box-align: stretch;
+    clear: both;
+    color: white;
+    margin-top: 20px;
+}
+
+.input-line div:nth-child(2) {
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1;
+}
+
+.prompt {
+    white-space: nowrap;
+    color: #96b38a;
+    margin-right: 7px;
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-orient: vertical;
+    display: -moz-box;
+    -moz-box-pack: center;
+    -moz-box-orient: vertical;
+    display: box;
+    box-pack: center;
+    box-orient: vertical;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.cmdline {
+    outline: none;
+    background-color: transparent;
+    margin: 0;
+    width: 100%;
+    font: inherit;
+    border: none;
+    color: inherit;
+}
+
+.ls-files {
+    height: 45px;
+    -webkit-column-width: 100px;
+    -moz-column-width: 100px;
+    -o-column-width: 100px;
+    column-width: 100px;
+}
+
+/* Visualiser Information */
+.quadrant.information h1 {
+    font-size: 4vh;
+}
+
+/* Visualiser CodeFollow */
+
+/***********************
+     playground.html 
+************************/
+
+.editor-container {
+    height: 70%;
+}
+
+#playground_console {
+    height: 18%;
+}
+
+.editor-controls {
+    display: table;
+    width: 100%;
+}
+
+.button-primary.control-button {
+    margin: 0%;
+    padding: 0%;
+    width: 33.3333333333333%;
+    /* nothing to see here - move along */
+    border-radius: 0%;
+    display: table-cell;
+    border: 1.5px solid rgb(20, 20, 20);
+    font-size: 1.25vh;
+}
+
+/***********************
+       about.html 
+************************/
+#about_title {
+    color: white;
+    text-align: center;
+    margin: 1%;
+    font-size: 4vh;
+}
+
+#about_subtitle {
+    color: white;
+    text-align: center;
+    font-size: 2.5vh;
+}
+
+.text-container {
+    border: 10px inset #02B9FF;
+    border-radius: 30px 30px 30px 30px;
+    height: 72%;
+    margin: 2%;
+}
+
+.text-container p {
+    margin: 2%;
+    color: white;
 }

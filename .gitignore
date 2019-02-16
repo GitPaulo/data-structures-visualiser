@@ -62,6 +62,6 @@ typings/
 
 # yolo
 .stackdump
-.exe.stackdump
-stackdump
 sh.exe.stackdump
+.exe.stackdump
+bash.exe.stackdump

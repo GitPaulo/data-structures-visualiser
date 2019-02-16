@@ -2,10 +2,8 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Hello p5.js!</title>
+        <title>Algorithms & Data Structures Visualiser</title>
         <script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
-        <!--<script language="javascript" src="libraries/p5.dom.js"></script>-->
-        <!--<script language="javascript" src="libraries/p5.sound.js"></script>-->
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/skeleton.css">
         <link rel="stylesheet" href="css/style.css">
@@ -13,17 +11,14 @@
     <body>
         <div class="main">
             <div class="main-container">
-                <div id='titleCanvas'></div>
+                <div id='title_canvas'></div>
                 <button class="button-primary main-button" id="visualiser_button">Visualiser</button>
                 <button class="button-primary main-button" id="playground_button">Playground</button>
-                <button class="button-primary main-button" id="playground_button">About</button>
+                <button class="button-primary main-button" id="about_button">About</button>
             </div>
         </div>
     </body>
     <!--keep it at the bottom to prevent slowing down page loading of visuals-->
-    <script language="javascript" type="text/javascript" src="js/title.js"></script>
-    <script>
-        // You can also require other files to run in this process
-         require('../renderer.js')
-    </script>
+    <script language="javascript" type="text/javascript" src="indextitle.js"></script>
+    <script language="javascript" type="text/javascript" src="indexlogic.js"></script>
 </html>
