@@ -12,10 +12,6 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     var histpos  = 0;
     var histtemp = 0;
 
-    window.addEventListener('click', function (e) {
-        cmdLine.focus();
-    }, false);
-
     cmdLine.addEventListener('click', inputTextClick, false);
     cmdLine.addEventListener('keydown', historyHandler, false);
     cmdLine.addEventListener('keydown', processNewCommand, false);

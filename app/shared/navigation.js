@@ -28,4 +28,10 @@ jQuery( "#"+DIV_ID ).load(path.join(root.path, 'app/shared/navigation.html'), fu
             navbar.classList.remove("sticky");
         }
     };
+
+    let elements = document.getElementsByTagName("home-button");
+    // make this all elements pls
+    elements[0].addEventListener("click", () => {
+        document.location.href = path.join(root.path, 'app/index.html');
+    });
 });

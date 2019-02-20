@@ -7,10 +7,70 @@ body {
     height: 100%;
     min-height: 100%;
     background-color: rgb(40, 40, 40);
-    padding: 0;
-    margin: 0;
-    overflow-x: hidden;
-    overflow-y: hidden
+    overflow: hidden;
+}
+
+nav {
+    height: 8%;
+    overflow: hidden;
+    background-color: #333;
+}
+
+/* Navbar links */
+nav a {
+    display: inline-block;
+    color: #f2f2f2;
+    padding: 12px;
+    padding-top: 20px;
+}
+
+home-button a {
+    color: rgb(52, 214, 255);
+    margin: .5%;
+    display: inline;
+    font-size: 5vh;
+    transition: .5s;
+}
+
+home-button a:hover {
+    color: aliceblue;
+    background: grey;
+    cursor: pointer;
+    transition: 2s;
+}
+
+nav h1 {
+    display: inline-block;
+    color: white;
+    font: 500;
+    font-size: 3.3vh;
+    padding-top: 22px;
+}
+
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+page {
+    position: fixed;
+    display: inline-block;
+    visibility: hidden;
+    height: 92%;
+    width: 100%;
+    overflow: auto;
+}
+
+loading {
+    display: block;
+    width: 100%;
+    height: 92%;
+    background-color: black;
+    background-image: url("../assets/loading.gif");
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 /* custom scrollbar */
@@ -36,7 +96,7 @@ body {
 }
 
 /*custom slider*/
-input[type="range"] { 
+input[type="range"] {
     margin: auto;
     -webkit-appearance: none;
     position: relative;
@@ -44,7 +104,8 @@ input[type="range"] {
     height: 20px;
     width: 115px;
     cursor: pointer;
-    border-radius: 0; /* iOS */
+    border-radius: 0;
+    /* iOS */
 }
 
 ::-webkit-slider-runnable-track {
@@ -56,11 +117,13 @@ input[type="range"] {
  */
 ::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 20px; /* 1 */
+    width: 20px;
+    /* 1 */
     height: 40px;
     background: #fff;
     box-shadow: -100vw 0 0 100vw dodgerblue;
-    border: 2px solid #999; /* 1 */
+    border: 2px solid #999;
+    /* 1 */
 }
 
 ::-moz-range-track {
@@ -78,11 +141,11 @@ input[type="range"] {
     box-sizing: border-box;
 }
 
-::-ms-fill-lower { 
+::-ms-fill-lower {
     background: dodgerblue;
 }
 
-::-ms-thumb { 
+::-ms-thumb {
     background: #fff;
     border: 2px solid #999;
     height: 40px;
@@ -90,22 +153,22 @@ input[type="range"] {
     box-sizing: border-box;
 }
 
-::-ms-ticks-after { 
-    display: none; 
+::-ms-ticks-after {
+    display: none;
 }
 
-::-ms-ticks-before { 
-    display: none; 
+::-ms-ticks-before {
+    display: none;
 }
 
-::-ms-track { 
+::-ms-track {
     background: #ddd;
     color: transparent;
     height: 40px;
     border: none;
 }
 
-::-ms-tooltip { 
+::-ms-tooltip {
     display: none;
 }
 
@@ -117,7 +180,7 @@ input[type="range"] {
     color: white;
     overflow: auto;
     height: 12%;
-    width: 97% !important;
+    width: 97.3% !important;
     min-width: 0%;
 }
 
@@ -150,53 +213,13 @@ input[type="range"] {
 
 #playground_button {}
 
-/***********************
-     navigation.html 
-************************/
-
-/* Style the navbar */
-#navbar {
-    height: 8%;
-    overflow: hidden;
-    background-color: #333;
-}
-
-/* Navbar links */
-#navbar a {
-    float: left;
-    display: block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 12px;
-    padding-top: 20px;
-    text-decoration: none;
-}
-
-#navbar a img:hover {
-    color: aliceblue;
-    background: grey;
-}
-
-#navbar h1 {
-    color: white;
-    font: 500;
-    font-size: 200%;
-    padding-top: 22px;
-}
-
-/* The sticky class is added to the navbar with JS when it reaches its scroll position */
-.sticky {
-    position: fixed;
-    top: 0;
-    width: 100%;
-}
 
 /***********************
      visualiser.html 
 ************************/
 
 .visualiser {
-    height: 92%;
+    display: block;
     transition: margin-left 1s;
 }
 
@@ -205,6 +228,7 @@ input[type="range"] {
     height: 92%;
     width: 0;
     position: fixed;
+    display: inline-block;
     z-index: 1;
     top: 8%;
     left: 0;
@@ -232,6 +256,7 @@ input[type="range"] {
 
 /* Position and style the close button (top right corner) */
 .sidebar .close-button {
+    color: white;
     position: relative;
     font-size: 32px;
 }
@@ -240,7 +265,7 @@ input[type="range"] {
 .open-button {
     height: 5%;
     width: 100%;
-    font-size: 20px;
+    font-size: 2vh;
     cursor: pointer;
     background-color: #111;
     color: white;
@@ -249,18 +274,15 @@ input[type="range"] {
 }
 
 /* Quadrant */
-.quadrant-container {
-    height: 100%;
-}
 
 .quadrant-top {
     overflow: hidden;
-    height: 50%;
+    height: 47.5%;
 }
 
 .quadrant-bottom {
     overflow: hidden;
-    height: 50%;
+    height: 47.5%;
 }
 
 .quadrant {
@@ -306,23 +328,34 @@ input[type="range"] {
 /* Visualiser Animator */
 
 #visualisation_canvas {
-    overflow: scroll;
+    overflow: auto;
+    background: red;
+    width: 100%;
+    height: 85%;
+    margin-bottom: 1%;
 }
 
 #visualisation_controls {
-    text-align: center; 
+    text-align: center;
     vertical-align: middle;
 }
 
 .button-primary.animation-button {
     border-radius: 0%;
     width: 20%;
-    text-align: center; 
+    text-align: center;
 }
 
 .button-primary.animation-button i.material-icons {
-    text-align: center; 
+    text-align: center;
     vertical-align: middle;
+}
+
+#step_speed {
+    text-align: center;
+    vertical-align: middle;
+    outline-style: solid;
+    outline-color: black;
 }
 
 /* Visualiser Console */
@@ -411,6 +444,10 @@ output p {
 }
 
 /* Visualiser CodeFollow */
+#visualiser_text_area {
+    width: 100px;
+    height: 100px;
+}
 
 /***********************
      playground.html 
@@ -459,7 +496,7 @@ output p {
 .text-container {
     border: 10px inset #02B9FF;
     border-radius: 30px 30px 30px 30px;
-    height: 72%;
+    height: 77%;
     margin: 2%;
 }
 

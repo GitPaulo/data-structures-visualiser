@@ -2,7 +2,7 @@ const CodeMirror = require('codemirror');
 
 let _ = require('codemirror/mode/jsx/jsx');
 
-var visualiserElement   = document.getElementById("visualiser");
+var pageElement         = document.getElementById("page");
 var sidebarElement      = document.getElementById("sidebar");
 var opensidebarElement  = document.getElementById("open_sidebar");
 var closesidebarElement = document.getElementById("close_sidebar");
@@ -12,17 +12,19 @@ let pauseButtonElement  = document.getElementById('pause_button');
 
 opensidebarElement.onclick = function() {
     // Dynamic Width calculation?
-    visualiserElement.style.marginLeft = "280px";
-    sidebarElement.style.width         = "280px";
-    sidebarElement.style.display       = 'inline-block'
-    opensidebarElement.style.display   = 'none';
+    pageElement.style.marginLeft   = "280px";
+    sidebarElement.style.width     = "280px";
+    sidebarElement.style.display   = 'inline-block';
+    opensidebarElement.innerHTML   = "|";
+    opensidebarElement.style.color = "#818181";
 }
 
 closesidebarElement.onclick = function() {
-    visualiserElement.style.marginLeft = "0%";
-    sidebarElement.style.width         = "0%";
-    sidebarElement.style.display       = "block";
-    opensidebarElement.style.display   = "inline-block";
+    pageElement.style.marginLeft   = "0%";
+    sidebarElement.style.width     = "0%";
+    sidebarElement.style.display   = "block";
+    opensidebarElement.innerHTML   = "&#9776; Open Sidebar";
+    opensidebarElement.style.color = "white";
 }
 
 playButtonElement.onclick = function () {
@@ -37,16 +39,22 @@ pauseButtonElement.onclick = function () {
 
 const editor = CodeMirror.fromTextArea(codeFollowElement, {
     mode:  "jsx",
-    lineNumbers: true
+    styleActiveLine: true,
+    lineNumbers: true,
+    lineWrapping: true
 });
 
-editor.setValue(`
-function notWorkingYet() {
+editor.setSize("100%", "100%");
 
+editor.setValue(`/* This section will contain the algorithm for the respective animation*/
+function notWorkingYet() {
+    let bannanas = "yum yum";
+    for (let i = 1; i < 1000; i++) { 
+        console.log("nom", "nom");
+    }
+    return bannanas;
 }
 `);
-
-editor.setSize("100%", "100%");
 
 jQuery(document).ready(function(event){
 

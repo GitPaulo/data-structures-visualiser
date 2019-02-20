@@ -1,5 +1,4 @@
-
-'use strict'; //fsa
+'use strict';
 
 // goodbye this app needs no security lol
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';

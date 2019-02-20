@@ -2,6 +2,9 @@ const util = require("../../scripts/utility");
 
 var noLoop = false;
 
+let ve_id = 'visualisation_canvas'; 
+let visualisationCanvasElement = document.getElementById(ve_id);
+
 let sketch = function(p){
     let angle1 = 0;
     let angle2 = 0;
@@ -12,13 +15,14 @@ let sketch = function(p){
 	}
 
 	p.setup = function () {
-        let w = p.windowWidth/2 - 16;
-		let h = p.windowHeight/2.65;
+        let w = visualisationCanvasElement.offsetWidth;
+		let h = visualisationCanvasElement.offsetHeight;
 
-		p.createCanvas(w, h);
+        let c = p.createCanvas(w, h);
+
         p.background(0);
         p.noStroke();
-        p.rectMode(3);
+        p.rectMode(p.CENTER);
 	}
 
 	p.draw = function () {
@@ -56,9 +60,10 @@ let sketch = function(p){
 	}
 }
 
-let visualisationCanvasElement = new p5(sketch, 'visualisation_canvas'); // attach it to div id: `titleCanvas` on index.html
+
+let visualisationCanvas = new p5(sketch, ve_id); // attach it to div id: `titleCanvas` on index.html
 
 // reload it on screen resize
 util.addEvent(window, "resize", function(event) {
-	visualisationCanvasElement.setup();// dont use setup? just call resize? // figure out overflow of canvas    
+	visualisationCanvas.setup();// dont use setup? just call resize? // figure out overflow of canvas    
 });

@@ -92,7 +92,6 @@ let sketch = function(p) {
 		let h = p.windowHeight/3;
 
 		p.createCanvas(w, h);
-		p.background(51);
 		
 		const FONT_SIZE = w/12;
 		let points = font.textToPoints(TITLE_TEXT, w/2 - FONT_SIZE*TITLE_TEXT.length/3.5, h/1.4, FONT_SIZE, {
