@@ -1,4 +1,5 @@
-const util = require("../../scripts/utility");
+const util = require("../../structures/modules/utility");
+const p5   = require('p5');
 
 var noLoop = false;
 

@@ -4,7 +4,7 @@ const jQuery = require("jquery");
 
 const DIV_ID = "navbar";
 
-jQuery( "#"+DIV_ID ).load(path.join(root.path, 'app/shared/navigation.html'), function(html, err) {
+jQuery( "#"+DIV_ID ).load(path.join(root.path, 'views/shared/navigation.html'), function(html, err) {
     if ( err === "error" ){
         console.log("Error with loading navigation file!");
         return;
@@ -32,6 +32,6 @@ jQuery( "#"+DIV_ID ).load(path.join(root.path, 'app/shared/navigation.html'), fu
     let elements = document.getElementsByTagName("home-button");
     // make this all elements pls
     elements[0].addEventListener("click", () => {
-        document.location.href = path.join(root.path, 'app/index.html');
+        document.location.href = path.join(root.path, 'views/home/home.html');
     });
 });

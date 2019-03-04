@@ -7,32 +7,28 @@ const { app, BrowserWindow } = require('electron');
 const path                   = require('path');
 const url                    = require('url');
 
-const APP_FOLDER_NAME = 'app';
+const INDEX_FOLDER_PATH = path.join(__dirname, 'views', 'home');
+const WINDOW_WIDTH      = 1500;
+const WINDOW_HEIGHT     = 900;
 
 let mainWindow;
 
 function createWindow() {
-    // screen can only be used on ready event
-    const { screen } = require('electron');
-    let mainScreen   = screen.getPrimaryDisplay();
-    let dimensions   = mainScreen.size;
-
     mainWindow = new BrowserWindow({
-        width: dimensions.width/1.25,
-        height: dimensions.height/1.25,
-        center: true,
-        alwaysOnTop: false,
+        width:          WINDOW_WIDTH,
+        height:         WINDOW_HEIGHT,
+        center:         true,
+        alwaysOnTop:    false,
         useContentSize: true // when false, width/height will set the size of the whole app, including frames. If true, innerWindow will be set instead, resulting in a bigger app window
     });
 
     // Load the index.html of the app
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, APP_FOLDER_NAME, 'index.html'),
+        pathname:  path.join(INDEX_FOLDER_PATH, 'home.html'),
         protocol: 'file:',
-        slashes: true
+        slashes:   true
     }));
 
-    // Open the DevTools on start
     //mainWindow.webContents.openDevTools("undock")
 
     // Emitted when the window is closed
@@ -42,7 +38,6 @@ function createWindow() {
 }
 
 // This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
 app.on('ready', createWindow);
 
 // Quit when all windows are closed.

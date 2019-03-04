@@ -26,6 +26,7 @@
     "app-root-path": "^2.1.0",
     "codemirror": "^5.39.0",
     "console-log-div": "^0.6.3",
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "p5": "^0.7.3"
   }
 }

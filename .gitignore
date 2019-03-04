@@ -65,3 +65,6 @@ typings/
 sh.exe.stackdump
 .exe.stackdump
 bash.exe.stackdump
+
+#data folder
+data/

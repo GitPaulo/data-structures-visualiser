@@ -1,4 +1,5 @@
-const util = require(`${__dirname}/scripts/utility`);
+const util = require('../../structures/modules/utility');
+const p5   = require('p5');
 
 /* Particle System */
 
@@ -84,7 +85,7 @@ let sketch = function(p) {
 	let vehicles;
 
 	p.preload = function () {
-		font = p.loadFont(`${__dirname}/assets/Meteora.ttf`);
+		font = p.loadFont('../../assets/Meteora.ttf');
 	}
 
 	p.setup = function () {
@@ -121,6 +122,6 @@ let sketch = function(p) {
 let titleCanvasElement = new p5(sketch, 'title_canvas'); // attach it to div id: `titleCanvas` on index.html
 
 // reload it on screen resize
-util.addEvent(window, "resize", function(event) {
+util.addEvent(window, 'resize', function(event) {
 	titleCanvasElement.setup();
 });
