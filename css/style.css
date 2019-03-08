@@ -1,294 +1,294 @@
 /***********************
-       General CSS 
+	   General CSS 
 ************************/
 
 html,
 body {
-    height: 100%;
-    min-height: 100%;
-    background-color: rgb(40, 40, 40);
-    overflow: hidden;
+	height: 100%;
+	min-height: 100%;
+	background-color: rgb(40, 40, 40);
+	overflow: hidden;
 }
 
 nav {
-    height: 8%;
-    overflow: hidden;
-    background-color: #333;
+	height: 8%;
+	overflow: hidden;
+	background-color: #333;
 }
 
 /* Navbar links */
 nav a {
-    display: inline-block;
-    color: #f2f2f2;
-    padding: 12px;
-    padding-top: 20px;
+	display: inline-block;
+	color: #f2f2f2;
+	padding: 12px;
+	padding-top: 20px;
 }
 
 home-button a {
-    color: rgb(52, 214, 255);
-    margin: .5%;
-    display: inline;
-    font-size: 5vh;
-    transition: .5s;
+	color: rgb(52, 214, 255);
+	margin: .5%;
+	display: inline;
+	font-size: 5vh;
+	transition: .5s;
 }
 
 home-button a:hover {
-    color: aliceblue;
-    background: grey;
-    cursor: pointer;
-    transition: 2s;
+	color: aliceblue;
+	background: grey;
+	cursor: pointer;
+	transition: 2s;
 }
 
 nav h1 {
-    display: inline-block;
-    color: white;
-    font: 500;
-    font-size: 3.3vh;
-    padding-top: 22px;
+	display: inline-block;
+	color: white;
+	font: 500;
+	font-size: 3.3vh;
+	padding-top: 22px;
 }
 
 /***** The sticky class ******/
 /*is added to the navbar with JS when it reaches its scroll position */
 .sticky {
-    position: fixed;
-    top: 0;
-    width: 100%;
+	position: fixed;
+	top: 0;
+	width: 100%;
 }
 
 page {
-    position: fixed;
-    display: block;
-    visibility: hidden;
-    height: 92%;
-    width: 100%;
-    overflow: auto;
+	position: fixed;
+	display: block;
+	visibility: hidden;
+	height: 92%;
+	width: 100%;
+	overflow: auto;
 }
 
 loading {
-    display: block;
-    width: 100%;
-    height: 92%;
-    background-color: black;
-    background-image: url("../assets/media/loading.gif");
-    background-repeat: no-repeat;
-    background-position: center;
+	display: block;
+	width: 100%;
+	height: 92%;
+	background-color: black;
+	background-image: url("../assets/media/loading.gif");
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
-loading-visualiser { 
-    display: none;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    background-image: url("../assets/media/loading.gif");
-    background-repeat: no-repeat;
-    background-position: center;
+loading-visualiser {
+	display: none;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	background-image: url("../assets/media/loading.gif");
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 /***** Custom Scrollbar *****/
 /* width */
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+	width: 8px;
+	height: 8px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey;
+	box-shadow: inset 0 0 5px grey;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: rgb(52, 214, 255);
+	background: rgb(52, 214, 255);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #b30000;
+	background: #b30000;
 }
 
 /*custom slider*/
 input[type="range"] {
-    margin: auto;
-    -webkit-appearance: none;
-    position: relative;
-    overflow: hidden;
-    height: 20px;
-    width: 115px;
-    cursor: pointer;
-    border-radius: 0;
-    /* iOS */
+	margin: auto;
+	-webkit-appearance: none;
+	position: relative;
+	overflow: hidden;
+	height: 20px;
+	width: 115px;
+	cursor: pointer;
+	border-radius: 0;
+	/* iOS */
 }
 
 ::-webkit-slider-runnable-track {
-    background: #ddd;
+	background: #ddd;
 }
 
 /*
  * 1. Set to 0 width and remove border for a slider without a thumb
  */
 ::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px;
-    /* 1 */
-    height: 40px;
-    background: #fff;
-    box-shadow: -100vw 0 0 100vw dodgerblue;
-    border: 2px solid #999;
-    /* 1 */
+	-webkit-appearance: none;
+	width: 20px;
+	/* 1 */
+	height: 40px;
+	background: #fff;
+	box-shadow: -100vw 0 0 100vw dodgerblue;
+	border: 2px solid #999;
+	/* 1 */
 }
 
 ::-moz-range-track {
-    height: 40px;
-    background: #ddd;
+	height: 40px;
+	background: #ddd;
 }
 
 ::-moz-range-thumb {
-    background: #fff;
-    height: 40px;
-    width: 20px;
-    border: 3px solid #999;
-    border-radius: 0 !important;
-    box-shadow: -100vw 0 0 100vw dodgerblue;
-    box-sizing: border-box;
+	background: #fff;
+	height: 40px;
+	width: 20px;
+	border: 3px solid #999;
+	border-radius: 0 !important;
+	box-shadow: -100vw 0 0 100vw dodgerblue;
+	box-sizing: border-box;
 }
 
 ::-ms-fill-lower {
-    background: dodgerblue;
+	background: dodgerblue;
 }
 
 ::-ms-thumb {
-    background: #fff;
-    border: 2px solid #999;
-    height: 40px;
-    width: 20px;
-    box-sizing: border-box;
+	background: #fff;
+	border: 2px solid #999;
+	height: 40px;
+	width: 20px;
+	box-sizing: border-box;
 }
 
 ::-ms-ticks-after {
-    display: none;
+	display: none;
 }
 
 ::-ms-ticks-before {
-    display: none;
+	display: none;
 }
 
 ::-ms-track {
-    background: #ddd;
-    color: transparent;
-    height: 40px;
-    border: none;
+	background: #ddd;
+	color: transparent;
+	height: 40px;
+	border: none;
 }
 
 ::-ms-tooltip {
-    display: none;
+	display: none;
 }
 
 /***** console log div override *****/
 .console-log-div {
-    border: 1px solid black;
-    padding: 5px 10px;
-    border-radius: 5px;
-    color: white;
-    overflow: auto;
-    height: 12%;
-    width: 97.3% !important;
-    min-width: 0%;
+	border: 1px solid black;
+	padding: 5px 10px;
+	border-radius: 5px;
+	color: white;
+	overflow: auto;
+	height: 12%;
+	width: 97.3% !important;
+	min-width: 0%;
 }
 
 /***** Popup Frame Calsses ******/
 /* pop out class */
 .popout {
-    animation: popout 1s ease;
-    -webkit-animation: popout .8s ease;
+	animation: popout 1s ease;
+	-webkit-animation: popout .8s ease;
 }
 
 @keyframes popout {
-    from {
-        transform: scale(0)
-    }
+	from {
+		transform: scale(0)
+	}
 
-    to {
-        transform: scale(1)
-    }
+	to {
+		transform: scale(1)
+	}
 }
 
 @-webkit-keyframes popout {
-    from {
-        -webkit-transform: scale(0)
-    }
+	from {
+		-webkit-transform: scale(0)
+	}
 
-    to {
-        -webkit-transform: scale(1)
-    }
+	to {
+		-webkit-transform: scale(1)
+	}
 }
 
 /* slide out class */
 .slide-out {
-    transform: translateY(-200vh) rotate(0deg);
-    transition: all 1.25s ease;
+	transform: translateY(-200vh) rotate(0deg);
+	transition: all 1.25s ease;
 }
 
 /* The popup (background) */
 .popup {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgb(0, 0, 0);
+	background-color: rgba(0, 0, 0, 0.4);
 }
 
 /* popup Content/Box */
 .popup-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 50%;
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 50%;
 }
 
 /* The Close Button */
 .popup-close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
 }
 
 .popup-close-button:hover,
 .popup-close-button:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
 }
 
 /***********************
-       index.html
+	   index.html
 ************************/
 
 .main {
-    position: relative;
-    height: 100%;
-    /* background: red; */
+	position: relative;
+	height: 100%;
+	/* background: red; */
 }
 
 .main-container {
-    position: absolute;
-    width: 100%;
-    height: 50%;
-    top: 25%;
-    text-align: center;
-    /* background: yellow; */
+	position: absolute;
+	width: 100%;
+	height: 50%;
+	top: 25%;
+	text-align: center;
+	/* background: yellow; */
 }
 
 .button-primary.main-button {
-    width: 25%;
-    height: 12%;
-    font-size: 2.5vh;
+	width: 25%;
+	height: 12%;
+	font-size: 2.5vh;
 }
 
 #visualiser_button {}
@@ -297,324 +297,326 @@ input[type="range"] {
 
 
 /***********************
-     visualiser.html 
+	 visualiser.html 
 ************************/
 
 .visualiser {
-    display: block;
-    transition: 1s;
-    overflow: hidden;
+	display: block;
+	transition: 1s;
+	overflow: hidden;
 }
 
 /* The sidebar menu */
 .sidebar {
-    height: 90%;
-    width: 0;
-    position: fixed;
-    display: inline-block;
-    z-index: 1;
-    top: 8%;
-    left: 0;
-    background-color: #111;
-    overflow: auto;
-    padding-top: 20px;
-    transition: 1s;
+	height: 90%;
+	width: 0;
+	position: fixed;
+	display: inline-block;
+	z-index: 1;
+	top: 8%;
+	left: 0;
+	background-color: #111;
+	overflow: auto;
+	padding-top: 20px;
+	transition: 1s;
 }
 
 /* The sidebar categories */
 .sidebar h1 {
-    padding: 8px 8px 8px 32px;
-    font-size: 2.9vh;
-    color: #f1f1f1;
-    display: flex;
-    overflow: hidden;
-    white-space: nowrap;
-    margin-bottom: 0%;
+	padding: 8px 8px 8px 32px;
+	font-size: 2.9vh;
+	color: #f1f1f1;
+	display: flex;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-bottom: 0%;
 }
 
 /* The sidebar links */
 .sidebar a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 2vh;
-    color: #818181;
-    display: flex;
-    overflow: hidden;
-    white-space: nowrap;
-    cursor: pointer;
+	padding: 8px 8px 8px 32px;
+	text-decoration: none;
+	font-size: 2vh;
+	color: #818181;
+	display: flex;
+	overflow: hidden;
+	white-space: nowrap;
+	cursor: pointer;
 }
 
 .sidebar a::before {
-    content: "\2192"; /* Insert content that looks like bullets */
-    padding-right: 9px;
-    color: rgb(75, 198, 255); /* Or a color you prefer */
-  }
+	content: "\2192";
+	/* Insert content that looks like bullets */
+	padding-right: 9px;
+	color: rgb(75, 198, 255);
+	/* Or a color you prefer */
+}
 
 /* When you mouse over the navigation links, change their color */
 .sidebar a:hover {
-    color: #f1f1f1;
+	color: #f1f1f1;
 }
 
 /* Position and style the close button (top right corner) */
 .sidebar .close-button {
-    color: white;
-    position: relative;
-    font-size: 32px;
-    cursor: pointer;
+	color: white;
+	position: relative;
+	font-size: 32px;
+	cursor: pointer;
 }
 
 /* The button used to open the sidebar */
 .open-button {
-    height: 5%;
-    width: 100%;
-    font-size: 2vh;
-    cursor: pointer;
-    background-color: #111;
-    color: white;
-    border: none;
-    margin-bottom: 0rem;
-    border-radius: 0%;
+	height: 5%;
+	width: 100%;
+	font-size: 2vh;
+	cursor: pointer;
+	background-color: #111;
+	color: white;
+	border: none;
+	margin-bottom: 0rem;
+	border-radius: 0%;
 }
 
 /* Quadrant */
 .quadrants {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: margin-left 1s;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	transition: margin-left 1s;
 }
 
 .quadrant-top {
-    overflow: hidden;
-    height: 47.5%;
+	overflow: hidden;
+	height: 47.5%;
 }
 
 .quadrant-bottom {
-    overflow: hidden;
-    height: 47.5%;
+	overflow: hidden;
+	height: 47.5%;
 }
 
 .quadrant {
-    position: relative;
-    height: 100%;
-    width: 50%;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    border-right: 8px solid black;
-    border-bottom: 8px solid black;
-    overflow: auto;
+	position: relative;
+	height: 100%;
+	width: 50%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	border-right: 8px solid black;
+	border-bottom: 8px solid black;
+	overflow: auto;
 }
 
 .quadrant.visualiser {
-    width: 50%;
-    float: left;
+	width: 50%;
+	float: left;
 }
 
 .quadrant.information {
-    width: 50%;
-    float: right;
-    padding: .2em 2em 2em 2em;
-    color: white;
+	width: 50%;
+	float: right;
+	padding: .2em 2em 2em 2em;
+	color: white;
 }
 
 .quadrant.console {
-    width: 50%;
-    float: left;
-    padding: .2em 2em 2em 2em;
-    line-height: 1;
-    font-family: "Courier New", monospace;
-    background-image: linear-gradient(to right, rgb(20, 20, 20), rgb(60, 60, 60));
-    color: white;
-    height: 100%;
+	width: 50%;
+	float: left;
+	padding: .2em 2em 2em 2em;
+	line-height: 1;
+	font-family: "Courier New", monospace;
+	background-image: linear-gradient(to right, rgb(20, 20, 20), rgb(60, 60, 60));
+	color: white;
+	height: 100%;
 }
 
 .quadrant.codefollow {
-    width: 50%;
-    float: right;
+	width: 50%;
+	float: right;
 }
 
 /* Visualiser Animator */
 
 #visualisation_canvas {
-    background  :rgb(40, 40, 40);
-    width: 100%;
-    height: 100%;
-    overflow: scroll;
+	background: rgb(40, 40, 40);
+	width: 100%;
+	height: 100%;
+	overflow: scroll;
 }
 
 #visualisation_controls {
-    padding-top: 2%;
-    text-align:     center;
-    vertical-align: middle;
-    display: none;
+	padding-top: 2%;
+	text-align: center;
+	vertical-align: middle;
+	display: none;
 }
 
 .button-primary.animation-button {
-    border-radius: 0%;
-    width: 20%;
-    text-align: center;
+	border-radius: 0%;
+	width: 20%;
+	text-align: center;
 }
 
 .button-primary.animation-button i.material-icons {
-    text-align: center;
-    vertical-align: middle;
+	text-align: center;
+	vertical-align: middle;
 }
 
 #step_speed {
-    text-align: center;
-    vertical-align: middle;
-    outline-style: solid;
-    outline-color: black;
+	text-align: center;
+	vertical-align: middle;
+	outline-style: solid;
+	outline-color: black;
 }
 
 /* Visualiser Console */
 output {
-    clear: both;
-    width: 100%;
+	clear: both;
+	width: 100%;
 }
 
 output h3 {
-    margin: 0;
+	margin: 0;
 }
 
 output h2 {
-    margin: 0;
+	margin: 0;
 }
 
 output pre {
-    margin: 0;
+	margin: 0;
 }
 
 output p {
-    margin-top: .5em;
-    margin-bottom: .5em;
+	margin-top: .5em;
+	margin-bottom: .5em;
 }
 
 .input-line {
-    display: -webkit-box;
-    -webkit-box-orient: horizontal;
-    -webkit-box-align: stretch;
-    display: -moz-box;
-    -moz-box-orient: horizontal;
-    -moz-box-align: stretch;
-    display: box;
-    box-orient: horizontal;
-    box-align: stretch;
-    clear: both;
-    color: white;
-    margin-top: 20px;
-    width: 100%;
-    padding-bottom: .5ch;
-    border-bottom-style: dashed;
-    border-bottom-width: .2ch
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-align: stretch;
+	display: -moz-box;
+	-moz-box-orient: horizontal;
+	-moz-box-align: stretch;
+	display: box;
+	box-orient: horizontal;
+	box-align: stretch;
+	clear: both;
+	color: white;
+	margin-top: 20px;
+	width: 100%;
+	padding-bottom: .5ch;
+	border-bottom-style: dashed;
+	border-bottom-width: .2ch
 }
 
 .input-line div:nth-child(2) {
-    -webkit-box-flex: 1;
-    -moz-box-flex: 1;
-    box-flex: 1;
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	box-flex: 1;
 }
 
 .prompt {
-    white-space: nowrap;
-    color: #96b38a;
-    margin-right: 7px;
-    display: -webkit-box;
-    -webkit-box-pack: center;
-    -webkit-box-orient: vertical;
-    display: -moz-box;
-    -moz-box-pack: center;
-    -moz-box-orient: vertical;
-    display: box;
-    box-pack: center;
-    box-orient: vertical;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
+	white-space: nowrap;
+	color: #96b38a;
+	margin-right: 7px;
+	display: -webkit-box;
+	-webkit-box-pack: center;
+	-webkit-box-orient: vertical;
+	display: -moz-box;
+	-moz-box-pack: center;
+	-moz-box-orient: vertical;
+	display: box;
+	box-pack: center;
+	box-orient: vertical;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
 }
 
 .cmdline {
-    outline: none;
-    background-color: transparent;
-    margin: 0;
-    width: 100%;
-    font: inherit;
-    border: none;
-    color: inherit;
+	outline: none;
+	background-color: transparent;
+	margin: 0;
+	width: 100%;
+	font: inherit;
+	border: none;
+	color: inherit;
 }
 
 .ls-files {
-    height: 45px;
-    -webkit-column-width: 100px;
-    -moz-column-width: 100px;
-    -o-column-width: 100px;
-    column-width: 100px;
+	height: 45px;
+	-webkit-column-width: 100px;
+	-moz-column-width: 100px;
+	-o-column-width: 100px;
+	column-width: 100px;
 }
 
 /* Visualiser Information */
 .quadrant.information h1 {
-    font-size: 4vh;
+	font-size: 4vh;
 }
 
 /* Visualiser CodeFollow */
 #visualiser_text_area {
-    width: 100px;
-    height: 100px;
+	width: 100px;
+	height: 100px;
 }
 
 /***********************
-     playground.html 
+	 playground.html 
 ************************/
 
 .editor-container {
-    height: 70%;
+	height: 70%;
 }
 
 #playground_console {
-    height: 18%;
+	height: 18%;
 }
 
 .editor-controls {
-    display: table;
-    width: 100%;
+	display: table;
+	width: 100%;
 }
 
 .button-primary.control-button {
-    margin: 0%;
-    padding: 0%;
-    width: 33.3333333333333%;
-    /* nothing to see here - move along */
-    border-radius: 0%;
-    display: table-cell;
-    border: 1.5px solid rgb(20, 20, 20);
-    font-size: 1.25vh;
+	margin: 0%;
+	padding: 0%;
+	width: 33.3333333333333%;
+	/* nothing to see here - move along */
+	border-radius: 0%;
+	display: table-cell;
+	border: 1.5px solid rgb(20, 20, 20);
+	font-size: 1.25vh;
 }
 
 /***********************
-       about.html 
+	   about.html 
 ************************/
 #about_title {
-    color: white;
-    text-align: center;
-    margin: 1%;
-    font-size: 4vh;
+	color: white;
+	text-align: center;
+	margin: 1%;
+	font-size: 4vh;
 }
 
 #about_subtitle {
-    color: white;
-    text-align: center;
-    font-size: 2.5vh;
+	color: white;
+	text-align: center;
+	font-size: 2.5vh;
 }
 
 .text-container {
-    border: 10px inset #02B9FF;
-    border-radius: 30px 30px 30px 30px;
-    height: 77%;
-    margin: 2%;
+	border: 10px inset #02B9FF;
+	border-radius: 30px 30px 30px 30px;
+	height: 77%;
+	margin: 2%;
 }
 
 .text-container p {
-    margin: 2%;
-    color: white;
+	margin: 2%;
+	color: white;
 }
