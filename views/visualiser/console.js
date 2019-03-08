@@ -3,7 +3,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     var output  = document.querySelector(outputContainer);
 
     const CMDS = [
-        'clear', 'date', 'echo', 'help', 'uname', 'showcontrols'
+        'clear', 'date', 'echo', 'help', 'uname', 'showcontrols', 'insert', 'remove', 'search'
     ];
 
     var fs       = null;
@@ -135,6 +135,48 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 let controlsElement = document.getElementById("visualisation_controls");
                 controlsElement.style.display = controlsElement.style.display === "block" ? "none" : "block";
                 write(`Set display property of the controls to: ${controlsElement.style.display}`);
+                break;
+            case 'insert':
+                if (activeItem === null)
+                    return write('There is no selected data structure to perform an operation on!');
+                
+                try {
+                    write(`Performing insert operation on '${activeItem.id}' with parameters: ${args+""}`);
+                    activeItem.insert(...args).then((result)=>{
+                        write(result.message);
+                    });
+                } catch (error) {
+                    write(error);    
+                }    
+                
+                break;
+            case 'remove':
+                if (activeItem === null)
+                    return write('There is no selected data structure to perform an operation on!');
+
+                try {
+                    write(`Performing remove operation on '${activeItem.id}' with parameters: ${args+""}`);
+                    activeItem.remove(...args).then((result)=>{
+                        write(result.message);
+                    });
+                } catch (error) {
+                    write(error);    
+                }
+
+                break;
+            case 'search':
+                if (activeItem === null)
+                    return write('There is no selected data structure to perform an operation on!');
+
+                try {
+                    write(`Performing search operation on '${activeItem.id}' with parameters: ${args+""}`);
+                    activeItem.search(...args).then((result) => {
+                        write(result.message);
+                    });
+                } catch (error) {
+                    write(error);    
+                }
+
                 break;
             default:
                 if (cmd) {

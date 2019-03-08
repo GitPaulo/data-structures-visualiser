@@ -9,7 +9,7 @@ const url                    = require('url');
 
 const INDEX_FOLDER_PATH = path.join(__dirname, 'views', 'home');
 const WINDOW_WIDTH      = 1500;
-const WINDOW_HEIGHT     = 900;
+const WINDOW_HEIGHT     = 950;
 
 let mainWindow;
 

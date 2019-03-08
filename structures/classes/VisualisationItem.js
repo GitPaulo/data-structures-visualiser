@@ -3,6 +3,18 @@ class VisualisationItem {
         this.id 			 = id;
         this.descriptiveData = descriptiveData; // from yaml object
     }
+    
+    insert() {
+        throw "Not implemented!";
+    }
+
+    remove() {
+        throw "Not implemented!";
+    }
+
+    search() {
+        throw "Not implemented!";
+    }
 
     draw() {
         throw "Not implemented!";

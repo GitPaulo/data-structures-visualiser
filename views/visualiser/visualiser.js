@@ -20,7 +20,7 @@ let closesidebarElement = document.getElementById("close_sidebar");
 let noitemContentElement = document.getElementById("noitem_content");
 let itemContentElement   = document.getElementById("item_content");
 // Code Follow (Quadrant)
-let codeFollowElement  = document.getElementById('visualiser_text_area');
+let codeFollowElement  = document.getElementById('visualiser_text_area'); 
 // Visualiser (Quadrant)
 let canvasID                   = 'visualisation_canvas'; // used in canvas.js
 let visualisationCanvasElement = document.getElementById(canvasID);
@@ -172,11 +172,13 @@ pauseButtonElement.onclick = function () {
 
 /* Code mirror initialisation */
 const editor = CodeMirror.fromTextArea(codeFollowElement, {
-    mode:  "jsx",
-    styleActiveLine: true,
-    lineNumbers:     true,
-    lineWrapping:    true
+    mode:                "jsx",
+    styleActiveLine:     true,
+    styleActiveSelected: true,
+    lineNumbers:         true,
+    lineWrapping:        true
 });
 
 editor.setSize("100%", "100%");
 editor.setValue(`/* No Data Structure selected! Please open the side bar for selection. */`);
+editor.markText({line: 1, ch: 1}, {line: 1, ch: 10}, {className: "styled-background"});

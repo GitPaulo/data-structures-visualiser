@@ -1,4 +1,4 @@
-Title: Array
+Title: Static Array
 Description: |- 
  An array is a collection of items stored at contiguous memory locations. 
  The idea is to store multiple items of the same type together. 
@@ -8,10 +8,23 @@ Operations:
  Insertion:
   Description: Operation which inserts a new element into array.
   Complexity: O(1)
+  Pseudo-Code: |-
+     Array[index] <- value;
  Deletion:
   Description: Operation which deletes an element indexed in the array.
   Complexity: O(1)
+  Pseudo-Code: |-
+     Array[index] <- NIL;
  Search:
   Description: Operation which searches the array for a value.
   Complexity: O(n)
+  Pseudo-Code: |-
+     FOR i <- 1 TO Array.length DO
+       IF Array[i] == value THEN
+         RETURN true
+       ENDIF
+     ENDFOR
+     RETURN false
 Space Complexity: O(n)
+Pseudo-Code: |-
+  Array = [value1, value2, ..., valueN]
