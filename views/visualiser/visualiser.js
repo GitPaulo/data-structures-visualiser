@@ -5,7 +5,7 @@ const p5         = require('p5');
 let _            = require('codemirror/mode/jsx/jsx');
 
 /* Core Elements */
-let pageElement         = document.getElementById("page"); 
+let pageElement         = document.getElementById("page");
 let loadingElement      = document.getElementById("loading_visualiser");
 
 /* Page Elements */
@@ -23,7 +23,7 @@ let itemContentElement   = document.getElementById("item_content");
 let codeFollowElement  = document.getElementById('visualiser_text_area');
 // Visualiser (Quadrant)
 let canvasID                   = 'visualisation_canvas'; // used in canvas.js
-let visualisationCanvasElement = document.getElementById(canvasID); 
+let visualisationCanvasElement = document.getElementById(canvasID);
 let playButtonElement          = document.getElementById('play_button');
 let pauseButtonElement         = document.getElementById('pause_button');
 // Console (Quadrant) [mostly on console.js]
@@ -34,7 +34,7 @@ var items             = null;
 var VisualisationItem = require('../../structures/classes/VisualisationItem');
 
 /* Side bar items loader */
-(function () {    
+(function () {
     items = require("../../structures/datastructures");
 
     let visualiserItemLoad = function (item) {
@@ -45,14 +45,14 @@ var VisualisationItem = require('../../structures/classes/VisualisationItem');
         loadingElement.style.display   = "block";
         quadrantsElement.style.display = "none";
         loadingTitleElement.innerHTML  = `Loading '${item.id}'`
-        
+
         setTimeout(() => {
             loadingElement.style.display   = "none";
             quadrantsElement.style.display = "block";
         }, 1000);
-        
+
         // Code quadrant update
-        
+
         // Text quadrant update
         noitemContentElement.style.display = "none";
         itemContentElement.innerHTML       = ""; // clear current html
@@ -60,7 +60,7 @@ var VisualisationItem = require('../../structures/classes/VisualisationItem');
         let titleElement       = document.createElement("h1");
         titleElement.innerHTML = item.descriptiveData.Title;
         itemContentElement.appendChild(titleElement);
-        
+
         let descriptionElement       = document.createElement("p");
         descriptionElement.innerHTML = item.descriptiveData.Description;
         itemContentElement.appendChild(descriptionElement);
@@ -90,7 +90,7 @@ var VisualisationItem = require('../../structures/classes/VisualisationItem');
             operationComplexityElement.innerHTML = `<b>Complexity:</b> ${operationTextObject.Complexity}`;
             itemContentElement.appendChild(operationComplexityElement);
         }
-        
+
         let spaceComplexityElement            = document.createElement("h2");
         spaceComplexityElement.style.fontSize = "2.8vh";
         spaceComplexityElement.innerHTML      = `<b>Space Complexity:</b> ${item.descriptiveData["Space Complexity"]}`;
@@ -104,13 +104,13 @@ var VisualisationItem = require('../../structures/classes/VisualisationItem');
 
         sidebarElement.appendChild(categoryLabelElement);
     }
-    
+
     let addSideBarItem = function (item) {
         let itemLabelElement       = document.createElement("a");
         itemLabelElement.innerHTML = item.id;
         itemLabelElement.classList.add("item-label");
 
-        // on click function 
+        // on click function
         itemLabelElement.onclick = function (){
             let cname = "hvr-float-shadow";
             this.classList.add(cname);
@@ -123,7 +123,7 @@ var VisualisationItem = require('../../structures/classes/VisualisationItem');
 
         sidebarElement.appendChild(itemLabelElement);
     }
-    
+
     for (let categoryName in items) {
         let categoryItems = items[categoryName];
         addSideBarCategory(categoryName);
@@ -136,7 +136,7 @@ var VisualisationItem = require('../../structures/classes/VisualisationItem');
 /* Event functions */
 let waitCanvasResize = () => {
     setTimeout(() => {
-        if (visualisationCanvas)    
+        if (visualisationCanvas)
             visualisationCanvas.setup(visualisationCanvasElement.offsetWidth, visualisationCanvasElement.offsetHeight);
     }, 800);
 }

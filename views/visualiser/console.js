@@ -133,7 +133,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 break;
             case 'showcontrols':
                 let controlsElement = document.getElementById("visualisation_controls");
-                controlsElement.style.display = controlsElement.style.display === "block" ? "none" : "block";                
+                controlsElement.style.display = controlsElement.style.display === "block" ? "none" : "block";
                 write(`Set display property of the controls to: ${controlsElement.style.display}`);
                 break;
             default:

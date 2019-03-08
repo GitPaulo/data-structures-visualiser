@@ -25,7 +25,7 @@ let importPopupCloseButtonElement = document.getElementById("import_close");
 let importPopupContentElement     = document.getElementById("import_content");
 let importPopupSelectElement      = document.getElementById("import_select");
 let importPopupButtonElement      = document.getElementById("import_import");
-let importPopupExternalElement    = document.getElementById("import_external"); 
+let importPopupExternalElement    = document.getElementById("import_external");
 
 // Code mirror setup
 const editor = CodeMirror.fromTextArea(editorElement, {
@@ -47,7 +47,7 @@ editor.setSize('100%', '100%');
 runButtonElement.onclick = function () {
     console.log(eval(editor.getValue()));
 }
- 
+
 importButtonElement.onclick = function () {
     importPopupElement.style.display = "block";
 }
@@ -61,18 +61,18 @@ exportButtonElement.onclick = function () {
 
 importPopupCloseButtonElement.onclick = async function () {
     importPopupContentElement.classList.add("slide-out");
-    await setTimeout(() => { 
-        importPopupElement.style.display = "none";  
-        importPopupContentElement.classList.remove("slide-out")}, 
+    await setTimeout(() => {
+        importPopupElement.style.display = "none";
+        importPopupContentElement.classList.remove("slide-out")},
     600);
 }
 
 importPopupSelectElement.onchange = function () {
     let value = importPopupSelectElement.value;
-    console.log(">> ", value) 
+    console.log(">> ", value)
     if ( value === "%external%" ){
         dialog.showOpenDialog({
-                properties: ['openFile', 'multiSelections'] 
+                properties: ['openFile', 'multiSelections']
             }, function (files) {
                 if (files !== undefined) {
                     // handle files

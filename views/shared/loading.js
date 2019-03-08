@@ -1,5 +1,4 @@
 const INTERVAL = 1300;
-
 function onReady(callback) {
     var intervalID = window.setInterval(checkReady, INTERVAL);
 

@@ -21,7 +21,7 @@ var visualisationCanvas = new p5((env) => {
 
         let tw = env.textWidth(msg);
         let th = env.textSize();
-        
+
         env.fill(255, 255, 255);
         env.text(msg, env.width/2 - tw/2, env.height/2 + th/2);
 
@@ -31,25 +31,25 @@ var visualisationCanvas = new p5((env) => {
 
         let tw2 = env.textWidth(msg2);
         let th2 = env.textSize();
-        
+
         env.fill(255, 255, 255);
         env.text(msg2, env.width/2 - tw2/2, env.height/1.5 + th2/2);
     }
 
-	env.draw = function () {
+    env.draw = function () {
         if (env.noLoop)
             return;
-        
+
         if (activeItem === null) {
             env.noItemScreen();
             return;
-        } 
+        }
 
         // clear and draw!
         env.background(40,40,40);
         activeItem.draw(env);
     }
-    
+
 
 }, canvasID); // attach it to div id: `titleCanvas` on index.html
 

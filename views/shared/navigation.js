@@ -1,7 +1,6 @@
 const root   = require(`app-root-path`);
 const path   = require('path');
 const jQuery = require("jquery");
-
 const DIV_ID = "navbar";
 
 jQuery( "#"+DIV_ID ).load(path.join(root.path, 'views/shared/navigation.html'), function(html, err) {
@@ -15,7 +14,7 @@ jQuery( "#"+DIV_ID ).load(path.join(root.path, 'views/shared/navigation.html'), 
     name     = name.replace(/^\w/, c => c.toUpperCase())
 
     document.getElementById("navbar_title_path").innerHTML = `Algorithm Visualiser &#8594; ${name}`;
-    
+
     var navbar = document.getElementById("navbar");
 
     // Get the offset position of the navbar
