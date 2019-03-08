@@ -1,3 +1,4 @@
+const path       = require('path');
 const CodeMirror = require('codemirror');
 const {dialog}   = require('electron').remote;
 let _ = require('codemirror/mode/jsx/jsx');

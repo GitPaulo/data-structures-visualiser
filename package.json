@@ -23,7 +23,6 @@
     "electron-packager": "^13.0.1"
   },
   "dependencies": {
-    "app-root-path": "^2.1.0",
     "codemirror": "^5.39.0",
     "console-log-div": "^0.6.3",
     "jquery": "^3.3.1",
