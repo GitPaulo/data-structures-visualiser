@@ -1,18 +1,17 @@
 var visualisationCanvas = new p5((env) => {
     // Member vars
     env.noLoop = false;
-    
-	env.preload = function () {
+
+    env.preload = function () {
         // is loaded before setup() and draw() are called
         env.CAPS_FONT   = env.loadFont('../../assets/fonts/BebasNeue-Bold.otf');
         env.NORMAL_FONT = env.loadFont('../../assets/fonts/Montserrat-Light.otf');
-	}
+    }
 
-    env.setup = function (w=visualisationCanvasElement.offsetWidth, 
-                            h=visualisationCanvasElement.offsetHeight) {
+    env.setup = function (w=visualisationCanvasElement.offsetWidth,  h=visualisationCanvasElement.offsetHeight) {
         let c = env.createCanvas(w, h);
         env.stroke(0,0,0)
-	}
+    }
 
     env.noItemScreen = function () {
         let msg = "Animation Canvas";
