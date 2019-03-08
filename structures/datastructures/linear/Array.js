@@ -6,7 +6,7 @@ class VArray extends VisualisationItem {
 
 	draw(env) {
 		env.rect(30, 20, 55, 55);
-		console.log("K")
+		console.log("K");
 	}
 }
 
