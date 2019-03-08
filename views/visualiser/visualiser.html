@@ -4,6 +4,7 @@
         <script src="../shared/loading.js"></script>
         <link rel="stylesheet" href="../../css/normalize.css">
         <link rel="stylesheet" href="../../css/skeleton.css">
+        <link rel="stylesheet" href="../../css/hover-min.css">
         <link rel="stylesheet" href="../../css/style.css">
         <link rel="stylesheet" href="../../css/codemirror.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -19,55 +20,55 @@
         <page class="visualiser" id="page">
             <!-- Menu bar -->
             <aside id="sidebar" class="sidebar">
-                <a href="javascript:void(0)" id="close_sidebar" class="close-button">&#9776; DS/Alg List</a>
-                <a href="#">Data Structure 1</a>
-                <a href="#">Data Structure 2</a>
-                <a href="#">Algorithm 1</a>
-                <a href="#">Algorithm 2</a>
+                <h1 href="javascript:void(0)" id="close_sidebar" class="close-button hvr-grow-shadow">&#9776; Visualiser</h1>
             </aside>     
             <button id="open_sidebar" class="open-button">&#9776; Open Sidebar</button>
             <!-- Dependent Frame-->
             <!-- Had to use to outer divs because position fixed breaks floating-->
-            <div class="quadrant-top">
-                <div class="quadrant visualiser">
-                    <div id='visualisation_canvas'></div>
-                    <div id='visualisation_controls'>
-                        <button class="button-primary animation-button" id="step_back_button"><i class="material-icons">arrow_back</i></button>
-                        <button class="button-primary animation-button" id="play_button"><i class="material-icons">play_circle_filled</i></button>
-                        <button class="button-primary animation-button" id="pause_button"><i class="material-icons">pause_circle_filled</i></button>
-                        <button class="button-primary animation-button" id="step_forward_button"><i class="material-icons">arrow_forward</i></button>
-                        <input type="range" min="1" max="5" value="2" class="slider" id="step_speed">
+            <loading-visualiser id="loading_visualiser">
+                <div style="position: relative; top: 30%"">
+                    <h1 id="loading_visualiser_title" style="text-align: center;  color: white; font-size: 8vh;">Loading...</h1>
+                </div>
+            </loading-visualiser>
+            <!-- Quadrants (Item dependent) -->
+            <div class="quadrants" id="quadrants">
+                <div class="quadrant-top">
+                    <div class="quadrant visualiser">
+                        <div id='visualisation_canvas'></div>
+                        <div id='visualisation_controls'>
+                            <button class="button-primary animation-button" id="step_back_button"><i class="material-icons">arrow_back</i></button>
+                            <button class="button-primary animation-button" id="play_button"><i class="material-icons">play_circle_filled</i></button>
+                            <button class="button-primary animation-button" id="pause_button"><i class="material-icons">pause_circle_filled</i></button>
+                            <button class="button-primary animation-button" id="step_forward_button"><i class="material-icons">arrow_forward</i></button>
+                            <input type="range" min="1" max="5" value="2" class="slider" id="step_speed">
+                        </div>
+                    </div>
+                    <div class="quadrant information">
+                        <div id="noitem_content" style="text-align: center;">
+                            <h1 style="margin-top: 1.4%;">Informational Panel</h1>
+                            <img src="../../assets/media/info.png" style="height:40%; width:40%">
+                        </div>
+                        <div id="item_content"><!-- content auto generated from yaml file --></div>   
                     </div>
                 </div>
-                <div class="quadrant information">
-                    <h1>Item Title</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in interdum mi, ut fringilla arcu. 
-                    Curabitur dictum ex sit amet erat accumsan, non semper metus aliquet. Ut iaculis felis mi, ut fringilla mi dignissim sed. 
-                    Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
-                    Proin viverra arcu at dui volutpat, cursus lobortis tellus interdum. In ultrices lorem leo. Donec arcu sapien, aliquet nec placerat at, tempor non magna. 
-                    Pellentesque efficitur interdum nisl, at aliquet arcu ultricies id. Donec justo sapien, convallis ut tempus quis, convallis vitae mi. </p>
-                    <img src="https://d.wattpad.com/story_parts/439363527/images/14d0777ed57e2e23297407364480.jpg"></img>
-                    <h1>Complexity</h1>
-                    <p><b>Time Complexity:</b> O(bannanas)</p>
-                    <p><b>Space Complexity:</b> Theta(mango)</p>
-                    <h1>References</h1>
-                    <a href="https://www.youtube.com/watch?v=nlLhw1mtCFA">Not Fake Reference1 - CLICK ME</a>
-                </div>
-            </div>
-            <div class="quadrant-bottom">
-                <div class="quadrant console" id="wrapper">
-                    <output></output>
-                    <div id="input-line" class="input-line">
-                        <div class="prompt"></div><div><input class="cmdline" autofocus/></div>
+                <div class="quadrant-bottom">
+                    <div class="quadrant console" id="wrapper">
+                        <output></output>
+                        <div id="input-line" class="input-line">
+                            <div class="prompt"></div><div><input class="cmdline" autofocus/></div>
+                        </div>
+                    </div>
+                    <div class="quadrant codefollow">
+                        <textarea id="visualiser_text_area"></textarea>
                     </div>
                 </div>
-                <div class="quadrant codefollow">
-                    <textarea id="visualiser_text_area"></textarea>
+                <div>
+                    <p style="color: white;margin: 0%;">This is an easter egg :)</p>
                 </div>
             </div>
         </page>
     </body>
+    <script src="./visualiser.js"></script>
     <script src="./canvas.js"></script>
-    <script src="./visualiser.js"></script> <!-- Visualiser elements need canvas to be loaded! -->
     <script src="./console.js"></script> <!-- Console loads last. It needs canvas object and other visualiser objects. -->
 </html>

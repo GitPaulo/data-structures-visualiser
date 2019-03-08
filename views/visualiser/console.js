@@ -3,7 +3,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     var output  = document.querySelector(outputContainer);
 
     const CMDS = [
-        'clear', 'date', 'echo', 'help', 'uname'
+        'clear', 'date', 'echo', 'help', 'uname', 'showcontrols'
     ];
 
     var fs       = null;
@@ -65,7 +65,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
             line.removeAttribute('id')
             line.classList.add('line');
 
-            var input = line.querySelector('input.cmdline');
+            var input       = line.querySelector('input.cmdline');
             input.autofocus = false;
             input.readOnly  = true;
 
@@ -117,7 +117,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
         switch (cmd) {
             case 'clear':
                 output.innerHTML = '';
-                this.value = '';
+                this.value       = '';
                 return;
             case 'date':
                 write(new Date());
@@ -131,6 +131,11 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
             case 'uname':
                 write(navigator.appVersion);
                 break;
+            case 'showcontrols':
+                let controlsElement = document.getElementById("visualisation_controls");
+                controlsElement.style.display = controlsElement.style.display === "block" ? "none" : "block";                
+                write(`Set display property of the controls to: ${controlsElement.style.display}`);
+                break;
             default:
                 if (cmd) {
                     write(cmd + ': command not found');
@@ -140,7 +145,11 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
 
     return {
         init: function () {
-            write('<h2>Visualiser Console</h2><p>' + new Date() + '</p><p>Enter "help" for more information.</p>');
+            write('<h2>Visualiser Console</h2><p id="date_console">' + new Date() + '</p><p>Enter "help" for more information.</p>');
+            let consoleTimeElement = document.getElementById("date_console")
+            window.setInterval(function(){ // might cause problems!
+                consoleTimeElement.innerHTML = new Date();
+            }, 1000);
         },
         write: write // so we can print out stuff
     }
@@ -148,7 +157,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
 
 var terminalInstance;
 jQuery(function() {
-    jQuery('.prompt').html('[input] # ');
+    jQuery('.prompt').html('> ');
 
     // Initialize a new terminal object
     terminalInstance = new Terminal('#input-line .cmdline', '#wrapper output');

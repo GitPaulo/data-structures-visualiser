@@ -3,20 +3,20 @@ const p5   = require('p5');
 
 /* Particle System */
 
-function Vehicle(p, x, y) {
-	this.pos 	  = p.createVector(p.random(p.width), p.random(p.height));
-	this.target   = p.createVector(x, y);
+function Vehicle(env, x, y) {
+	this.pos 	  = env.createVector(env.random(env.width), env.random(env.height));
+	this.target   = env.createVector(x, y);
 	this.vel 	  = p5.Vector.random2D();
-	this.acc      = p.createVector();
+	this.acc      = env.createVector();
 	this.r 		  = 4;
 	this.maxspeed = 7;
 	this.maxforce = 1;
-	this.p        = p;
+	this.env        = env;
 }
   
 Vehicle.prototype.behaviors = function() {
 	var arrive = this.arrive(this.target);
-	var mouse  = this.p.createVector(this.p.mouseX, this.p.mouseY);
+	var mouse  = this.env.createVector(this.env.mouseX, this.env.mouseY);
 	var flee   = this.flee(mouse);
 
 	arrive.mult(1);
@@ -37,9 +37,9 @@ Vehicle.prototype.update = function() {
 }
 
 Vehicle.prototype.show = function() {
-	this.p.stroke(this.p.map(this.vel.mag(), 0, 10, 255, 0));
-	this.p.strokeWeight(this.r);
-	this.p.point(this.pos.x, this.pos.y);
+	this.env.stroke(this.env.map(this.vel.mag(), 0, 10, 255, 0));
+	this.env.strokeWeight(this.r);
+	this.env.point(this.pos.x, this.pos.y);
 }
 
 Vehicle.prototype.arrive = function(target) {
@@ -48,7 +48,7 @@ Vehicle.prototype.arrive = function(target) {
 	var speed 	= this.maxspeed;
 	
 	if (d < 100) {
-		speed = this.p.map(d, 0, 100, 0, this.maxspeed);
+		speed = this.env.map(d, 0, 100, 0, this.maxspeed);
 	}
 	
 	desired.setMag(speed);
@@ -72,27 +72,27 @@ Vehicle.prototype.flee = function(target) {
 		
 		return steer;
 	} else {
-		return this.p.createVector(0, 0);
+		return this.env.createVector(0, 0);
 	}
 }
 
 /* P5 SKETCH */
 
-let sketch = function(p) {
+let sketch = function(env) {
 	const TITLE_TEXT = "Algorithm Visualiser" 
 	
 	let font;
 	let vehicles;
 
-	p.preload = function () {
-		font = p.loadFont('../../assets/Meteora.ttf');
+	env.preload = function () {
+		font = env.loadFont('../../assets/fonts/Meteora.ttf');
 	}
 
-	p.setup = function () {
-		let w = p.windowWidth;
-		let h = p.windowHeight/3;
+	env.setup = function () {
+		let w = env.windowWidth;
+		let h = env.windowHeight/3;
 
-		p.createCanvas(w, h);
+		env.createCanvas(w, h);
 		
 		const FONT_SIZE = w/12;
 		let points = font.textToPoints(TITLE_TEXT, w/2 - FONT_SIZE*TITLE_TEXT.length/3.5, h/1.4, FONT_SIZE, {
@@ -103,13 +103,13 @@ let sketch = function(p) {
 
 		for (let i = 0; i < points.length; i++) {
 			let pt = points[i];
-			let vehicle = new Vehicle(p, pt.x, pt.y);
+			let vehicle = new Vehicle(env, pt.x, pt.y);
 			vehicles.push(vehicle);
 		}
 	}
 
-	p.draw = function () {
-		p.background(40);
+	env.draw = function () {
+		env.background(40);
 		for (let i = 0; i < vehicles.length; i++) {
 			let v = vehicles[i];
 			v.behaviors();

@@ -27,6 +27,7 @@
     "codemirror": "^5.39.0",
     "console-log-div": "^0.6.3",
     "jquery": "^3.3.1",
+    "js-yaml": "^3.12.2",
     "p5": "^0.7.3"
   }
 }

@@ -57,7 +57,7 @@ nav h1 {
 
 page {
     position: fixed;
-    display: inline-block;
+    display: block;
     visibility: hidden;
     height: 92%;
     width: 100%;
@@ -69,7 +69,17 @@ loading {
     width: 100%;
     height: 92%;
     background-color: black;
-    background-image: url("../assets/loading.gif");
+    background-image: url("../assets/media/loading.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+loading-visualiser { 
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    background-image: url("../assets/media/loading.gif");
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -292,12 +302,13 @@ input[type="range"] {
 
 .visualiser {
     display: block;
-    transition: margin-left 1s;
+    transition: 1s;
+    overflow: hidden;
 }
 
 /* The sidebar menu */
 .sidebar {
-    height: 92%;
+    height: 90%;
     width: 0;
     position: fixed;
     display: inline-block;
@@ -305,21 +316,39 @@ input[type="range"] {
     top: 8%;
     left: 0;
     background-color: #111;
-    overflow: hidden;
-    padding-top: 60px;
+    overflow: auto;
+    padding-top: 20px;
     transition: 1s;
+}
+
+/* The sidebar categories */
+.sidebar h1 {
+    padding: 8px 8px 8px 32px;
+    font-size: 2.9vh;
+    color: #f1f1f1;
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-bottom: 0%;
 }
 
 /* The sidebar links */
 .sidebar a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 2vh;
     color: #818181;
     display: flex;
     overflow: hidden;
     white-space: nowrap;
+    cursor: pointer;
 }
+
+.sidebar a::before {
+    content: "\2192"; /* Insert content that looks like bullets */
+    padding-right: 9px;
+    color: rgb(75, 198, 255); /* Or a color you prefer */
+  }
 
 /* When you mouse over the navigation links, change their color */
 .sidebar a:hover {
@@ -331,6 +360,7 @@ input[type="range"] {
     color: white;
     position: relative;
     font-size: 32px;
+    cursor: pointer;
 }
 
 /* The button used to open the sidebar */
@@ -343,9 +373,16 @@ input[type="range"] {
     color: white;
     border: none;
     margin-bottom: 0rem;
+    border-radius: 0%;
 }
 
 /* Quadrant */
+.quadrants {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: margin-left 1s;
+}
 
 .quadrant-top {
     overflow: hidden;
@@ -400,16 +437,17 @@ input[type="range"] {
 /* Visualiser Animator */
 
 #visualisation_canvas {
-    overflow: auto;
-    background: red;
+    background  :rgb(40, 40, 40);
     width: 100%;
-    height: 85%;
-    margin-bottom: 1%;
+    height: 100%;
+    overflow: scroll;
 }
 
 #visualisation_controls {
-    text-align: center;
+    padding-top: 2%;
+    text-align:     center;
     vertical-align: middle;
+    display: none;
 }
 
 .button-primary.animation-button {
@@ -466,6 +504,10 @@ output p {
     clear: both;
     color: white;
     margin-top: 20px;
+    width: 100%;
+    padding-bottom: .5ch;
+    border-bottom-style: dashed;
+    border-bottom-width: .2ch
 }
 
 .input-line div:nth-child(2) {
