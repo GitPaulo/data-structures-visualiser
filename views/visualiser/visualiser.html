@@ -36,11 +36,11 @@
                     <div class="quadrant visualiser">
                         <div id='visualisation_canvas'></div>
                         <div id='visualisation_controls'>
-                            <button class="button-primary animation-button" id="step_back_button"><i class="material-icons">arrow_back</i></button>
+                            <button class="button-primary animation-button" id="step_backward_button"><i class="material-icons">arrow_back</i></button>
                             <button class="button-primary animation-button" id="play_button"><i class="material-icons">play_circle_filled</i></button>
                             <button class="button-primary animation-button" id="pause_button"><i class="material-icons">pause_circle_filled</i></button>
                             <button class="button-primary animation-button" id="step_forward_button"><i class="material-icons">arrow_forward</i></button>
-                            <input type="range" min="1" max="5" value="2" class="slider" id="step_speed">
+                            <input type="range" min="0" max="2" value="1" step="0.25" class="slider" id="step_speed">
                         </div>
                     </div>
                     <div class="quadrant information">
@@ -60,6 +60,7 @@
                     </div>
                     <div class="quadrant codefollow">
                         <textarea id="visualiser_text_area"></textarea>
+                        <button class="button-primary control-button" id="overwrite_button" style="width: 100%; border-color:white;">Overwrite Memory</button>
                     </div>
                 </div>
                 <div>

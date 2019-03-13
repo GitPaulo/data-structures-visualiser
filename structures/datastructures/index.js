@@ -1,10 +1,10 @@
 // assign all datastructures to exports. This will become the "item array";
-const fs 	  = require('fs');
-const path 	  = require('path');
-const YAML	  = require('js-yaml');
-const getDirs = p => fs.readdirSync(p).filter(f => fs.statSync(path.join(p, f)).isDirectory());
+const fs   = require('fs');
+const path = require('path');
+const YAML = require('js-yaml');
 
-let dirs = getDirs(__dirname);
+var getDirs = p => fs.readdirSync(p).filter(f => fs.statSync(path.join(p, f)).isDirectory());
+let dirs    = getDirs(__dirname);
 
 for (let dir of dirs) {
     module.exports[dir] = [];

@@ -1,7 +1,8 @@
 const path       = require('path');
 const CodeMirror = require('codemirror');
+const Beautify   = require("js-beautify").js;
 const {dialog}   = require('electron').remote;
-let _ = require('codemirror/mode/jsx/jsx');
+let _            = require('codemirror/mode/jsx/jsx');
 
 const fs = require('fs');
 
@@ -15,10 +16,11 @@ if (!fs.existsSync(folderPath)) {
 }
 
 // Page Elements
-let editorElement       = document.getElementById('editor_text_area');
-let runButtonElement    = document.getElementById('run_button');
-let importButtonElement = document.getElementById("import_button");
-let exportButtonElement = document.getElementById("export_button");
+let editorElement         = document.getElementById('editor_text_area');
+let runButtonElement      = document.getElementById('run_button');
+let beautifyButtonElement = document.getElementById("beautify_button");
+let importButtonElement   = document.getElementById("import_button");
+let exportButtonElement   = document.getElementById("export_button");
 
 // Popup Elements
 let importPopupElement            = document.getElementById("import_frame");
@@ -49,6 +51,10 @@ runButtonElement.onclick = function () {
     console.log(eval(editor.getValue()));
 }
 
+beautifyButtonElement.onclick = function () {
+    editor.setValue(Beautify(editor.getValue(), { indent_size: 3, space_in_empty_paren: true }))
+}
+
 importButtonElement.onclick = function () {
     importPopupElement.style.display = "block";
 }
@@ -70,7 +76,7 @@ importPopupCloseButtonElement.onclick = async function () {
 
 importPopupSelectElement.onchange = function () {
     let value = importPopupSelectElement.value;
-    console.log(">> ", value)
+
     if ( value === "%external%" ){
         dialog.showOpenDialog({
                 properties: ['openFile', 'multiSelections']

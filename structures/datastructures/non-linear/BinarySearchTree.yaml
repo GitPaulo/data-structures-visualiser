@@ -1,17 +1,19 @@
 Title: Binary Search Tree
 Description: |- 
- An array is a collection of items stored at contiguous memory locations. 
- The idea is to store multiple items of the same type together. 
- This makes it easier to calculate the position of each element by simply adding an offset to a base value, i.e., the memory location of the first element of the array (generally denoted by the name of the array).
+ Binary Search Tree, is a node-based binary tree data structure which has the following properties
+   - The left subtree of a node contains only nodes with keys lesser than the node’s key.
+   - The right subtree of a node contains only nodes with keys greater than the node’s key.
+   - The left and right subtree each must also be a binary search tree.
+   - There must be no duplicate nodes.
 Image: assets/media/BST.png
 Operations:
  Insertion:
-  Description: Operation which inserts a new element into array.
+  Description: Operation which inserts a new element into the BST.
   Complexity: O(1)
  Deletion:
-   Description: Operation which deletes an element indexed in the array.
+   Description: Operation which deletes an element indexed into the BST.
    Complexity: O(1)
  Search:
-  Description: Operation which searches the array for a value.
+  Description: Operation which searches the BST for a value.
   Complexity: O(n)
 Space Complexity: O(n)

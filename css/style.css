@@ -579,18 +579,19 @@ output p {
 
 .editor-controls {
     display: table;
+    table-layout: fixed;
     width: 100%;
 }
 
 .button-primary.control-button {
     margin: 0%;
     padding: 0%;
-    width: 33.3333333333333%;
+    display: table-cell;
     /* nothing to see here - move along */
     border-radius: 0%;
-    display: table-cell;
     border: 1.5px solid rgb(20, 20, 20);
     font-size: 1.25vh;
+    width: calc( 100% / 4);
 }
 
 /***********************

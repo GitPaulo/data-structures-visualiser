@@ -1,23 +1,28 @@
+
 class VisualisationItem {
     constructor(id, descriptiveData) {
         this.id 			 = id;
         this.descriptiveData = descriptiveData; // from yaml object
     }
-    
+        
     insert() {
-        throw "Not implemented!";
+        throw `Insert operation is not implemented for ${this.constructor.name}.`;
     }
 
     remove() {
-        throw "Not implemented!";
+        throw `Remove operation is not implemented for ${this.constructor.name}.`;
     }
 
     search() {
-        throw "Not implemented!";
+        throw `Search operation is not implemented for ${this.constructor.name}.`;
+    }
+
+    sort() {
+        throw `Sort operation is not implemented for ${this.constructor.name}.`;
     }
 
     draw() {
-        throw "Not implemented!";
+        throw `Draw function not implemented.`;
     }
 }
 

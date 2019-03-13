@@ -1,8 +1,10 @@
 const CodeMirror = require('codemirror');
+const Beautify   = require('js-beautify').js;
 const util       = require("../../structures/modules/utility");
 const p5         = require('p5');
 
-let _            = require('codemirror/mode/jsx/jsx');
+var _                 = require('codemirror/mode/jsx/jsx');
+var VisualisationItem = require('../../structures/classes/VisualisationItem.js');
 
 /* Core Elements */
 let pageElement         = document.getElementById("page");
@@ -19,19 +21,26 @@ let closesidebarElement = document.getElementById("close_sidebar");
 // Text Item (Quadrant)
 let noitemContentElement = document.getElementById("noitem_content");
 let itemContentElement   = document.getElementById("item_content");
+
 // Code Follow (Quadrant)
-let codeFollowElement  = document.getElementById('visualiser_text_area'); 
+let codeFollowElement      = document.getElementById('visualiser_text_area'); 
+let overwriteButtonElement = document.getElementById('overwrite_button');
+
 // Visualiser (Quadrant)
 let canvasID                   = 'visualisation_canvas'; // used in canvas.js
 let visualisationCanvasElement = document.getElementById(canvasID);
 let playButtonElement          = document.getElementById('play_button');
 let pauseButtonElement         = document.getElementById('pause_button');
+let forwardButtonElement       = document.getElementById('step_backward_button');
+let backwardButtonElement      = document.getElementById('step_forward_button');
+let speedSliderElement         = document.getElementById('step_speed');
+
 // Console (Quadrant) [mostly on console.js]
 
-/* Handle side bar items */
-var activeItem        = null;
-var items             = null;
-var VisualisationItem = require('../../structures/classes/VisualisationItem');
+/* Global Variables */
+var activeItem = null;
+var items      = null;
+var speed      = 1; // multiplier
 
 /* Side bar items loader */
 (function () {
@@ -50,8 +59,6 @@ var VisualisationItem = require('../../structures/classes/VisualisationItem');
             loadingElement.style.display   = "none";
             quadrantsElement.style.display = "block";
         }, 1000);
-
-        // Code quadrant update
 
         // Text quadrant update
         noitemContentElement.style.display = "none";
@@ -95,6 +102,17 @@ var VisualisationItem = require('../../structures/classes/VisualisationItem');
         spaceComplexityElement.style.fontSize = "2.8vh";
         spaceComplexityElement.innerHTML      = `<b>Space Complexity:</b> ${item.descriptiveData["Space Complexity"]}`;
         itemContentElement.appendChild(spaceComplexityElement);
+
+        // Code quadrant update
+        let code = Beautify(activeItem.__proto__.constructor.toString(), { indent_size: 3, space_in_empty_paren: true });
+        codeFollowEditor.setValue(code);
+        
+        setTimeout(() => {
+            codeFollowEditor.refresh();
+            console.log("Refreshed code follow editor.");
+        }, 1000);
+        
+        console.log(activeItem.id, "loaded successfully!");
     }
 
     let addSideBarCategory = function (cname) {
@@ -140,6 +158,7 @@ let waitCanvasResize = () => {
             visualisationCanvas.setup(visualisationCanvasElement.offsetWidth, visualisationCanvasElement.offsetHeight);
     }, 800);
 }
+
 opensidebarElement.onclick = function() {
     pageElement.style.marginLeft   = "17%";
     pageElement.style.width        = "83%";
@@ -170,8 +189,27 @@ pauseButtonElement.onclick = function () {
     terminalInstance.write("Canvas animation paused!");
 }
 
+backwardButtonElement.onclick = function () {
+
+}
+
+forwardButtonElement.onclick = function () {
+
+}
+
+speedSliderElement.onchange = function () {
+    speed = speedSliderElement.value;
+    terminalInstance.write(`Animation speed multiplier changed to: ${speed}`);
+}
+
+overwriteButtonElement.onclick = function () {
+    alert("Working on it!");
+}
+
 /* Code mirror initialisation */
-const editor = CodeMirror.fromTextArea(codeFollowElement, {
+const DEFAULT_CODEFOLLOW_STRING = `/* No Data Structure selected! Please open the side bar for selection. */`;
+
+var codeFollowEditor = CodeMirror.fromTextArea(codeFollowElement, {
     mode:                "jsx",
     styleActiveLine:     true,
     styleActiveSelected: true,
@@ -179,6 +217,22 @@ const editor = CodeMirror.fromTextArea(codeFollowElement, {
     lineWrapping:        true
 });
 
-editor.setSize("100%", "100%");
-editor.setValue(`/* No Data Structure selected! Please open the side bar for selection. */`);
-editor.markText({line: 1, ch: 1}, {line: 1, ch: 10}, {className: "styled-background"});
+codeFollowEditor.setSize("100%", "90%");
+codeFollowEditor.setValue(DEFAULT_CODEFOLLOW_STRING);
+
+codeFollowEditor.setCode = function (func, beautifyData={ indent_size: 3, space_in_empty_paren: true }) {
+    // Copy operation code to editor
+    var code = Beautify(func.toString(), beautifyData);
+    codeFollowEditor.setValue(code);
+}
+
+codeFollowEditor.resetCode = function (beautifyData={ indent_size: 3, space_in_empty_paren: true }) {
+    if (activeItem === null ) {
+        codeFollowEditor.setValue(DEFAULT_CODEFOLLOW_STRING);
+        return;
+    }
+
+    var code = Beautify(activeItem.__proto__.constructor.toString(), beautifyData); 
+    codeFollowEditor.setValue(code);
+}
+

@@ -3,7 +3,10 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     var output  = document.querySelector(outputContainer);
 
     const CMDS = [
-        'clear', 'date', 'echo', 'help', 'uname', 'showcontrols', 'insert', 'remove', 'search'
+        'clear', 'date', 'echo', 
+        'help', 'instructions',
+        'uname', 'showcontrols',
+        'insert', 'remove', 'search', 'sort'
     ];
 
     var fs       = null;
@@ -72,7 +75,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
             output.appendChild(line);
 
             if (this.value && this.value.trim()) {
-                var args = this.value.split(' ').filter(function (val, i) {
+                var args = this.value.split(/[ ,]+/).filter(function (val, i) { // split by space and comma
                     return val;
                 });
                 var cmd = args[0].toLowerCase();
@@ -118,7 +121,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
             case 'clear':
                 output.innerHTML = '';
                 this.value       = '';
-                return;
+                break;
             case 'date':
                 write(new Date());
                 break;
@@ -128,6 +131,31 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
             case 'help':
                 write('<div class="ls-files">' + CMDS.join('<br>') + '</div>');
                 break;
+            case 'instructions':
+                if (activeItem === null){
+                    write("No active item! Please select a DS from the side bar.");
+                    break;
+                }
+
+                let objectProperties = Object.getOwnPropertyNames(activeItem.__proto__);
+                let help             = `${activeItem.id} - Command Operation Instructions<br>[<b>cmd arg1,...,argN</b> => "description"]<br><br>`;
+                
+                for (let property of objectProperties){
+                    let hax = activeItem.__proto__[property];
+                    if (typeof hax === "undefined")
+                        continue;
+
+                    let params  = util.getParamNames(hax) + "";
+                    params      = params === "" ? "(none)" : params;
+
+                    let helpStr = hax.help;
+                    if (helpStr) {
+                        help += `<b>\u2023 ${property} ${params} </b>=> "${helpStr}"<br>`;
+                    }
+                }
+
+                write(help);
+                break
             case 'uname':
                 write(navigator.appVersion);
                 break;
@@ -140,10 +168,14 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 if (activeItem === null)
                     return write('There is no selected data structure to perform an operation on!');
                 
+                // Copy operation code to editor
+                codeFollowEditor.setCode(activeItem.insert);
+
                 try {
                     write(`Performing insert operation on '${activeItem.id}' with parameters: ${args+""}`);
                     activeItem.insert(...args).then((result)=>{
                         write(result.message);
+                        codeFollowEditor.resetCode();
                     });
                 } catch (error) {
                     write(error);    
@@ -154,10 +186,14 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 if (activeItem === null)
                     return write('There is no selected data structure to perform an operation on!');
 
+                // Copy operation code to editor
+                codeFollowEditor.setCode(activeItem.remove);
+
                 try {
                     write(`Performing remove operation on '${activeItem.id}' with parameters: ${args+""}`);
                     activeItem.remove(...args).then((result)=>{
                         write(result.message);
+                        codeFollowEditor.resetCode();
                     });
                 } catch (error) {
                     write(error);    
@@ -168,10 +204,32 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 if (activeItem === null)
                     return write('There is no selected data structure to perform an operation on!');
 
+                // Copy operation code to editor
+                codeFollowEditor.setCode(activeItem.search);
+
                 try {
                     write(`Performing search operation on '${activeItem.id}' with parameters: ${args+""}`);
                     activeItem.search(...args).then((result) => {
                         write(result.message);
+                        codeFollowEditor.resetCode();
+                    });
+                } catch (error) {
+                    write(error);    
+                }
+
+                break;
+            case 'sort':
+                if (activeItem === null)
+                    return write('There is no selected data structure to perform an operation on!');
+
+                // Copy operation code to editor
+                codeFollowEditor.setCode(activeItem.sort);
+
+                try {
+                    write(`Performing sort operation on '${activeItem.id}' with parameters: ${args+""}`);
+                    activeItem.sort(...args).then((result) => {
+                        write(result.message);
+                        codeFollowEditor.resetCode();
                     });
                 } catch (error) {
                     write(error);    
