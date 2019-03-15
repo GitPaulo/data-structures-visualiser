@@ -1,3 +1,4 @@
+/* global VisualisationItem, codeFollowEditor, util, speed */
 /*********
  * NOTES: 
  * 	- "value" comes from console and is a string! Because of JS we can usually ignore this if we use double equals operators.
@@ -108,9 +109,15 @@ StaticArray.sortingMethods = {
 		for (let i = 0; i < length; i++) {
 			let value = items[i].value;
 			// store the current item value so it can be placed right
-			for (let j = i - 1; j > -1 && items[j].value > value; j--) {
+			let j;
+			for (j = i - 1; j > -1 && items[j].value > value; j--) {
 				// loop through the items in the sorted array (the items from the current to the beginning)
 				// copy each item to the next one
+				// highlight
+				await items[i].highlight([20,120,50], 700);
+				await items[j].highlight([120, 60, 50], 400);
+				await items[j+1].highlight([120, 60, 50], 400);
+
 				items[j + 1].value = items[j].value;
 			}
 			// the last item we've reached should now hold the value of the currently sorted item

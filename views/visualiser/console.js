@@ -1,3 +1,5 @@
+/*global activeItem, codeFollowEditor, jQuery, util*/
+
 var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     var cmdLine = document.querySelector(cmdLineContainer);
     var output  = document.querySelector(outputContainer);
@@ -9,8 +11,6 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
         'insert', 'remove', 'search', 'sort'
     ];
 
-    var fs       = null;
-    var cwd      = null;
     var history  = [];
     var histpos  = 0;
     var histtemp = 0;
@@ -19,7 +19,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     cmdLine.addEventListener('keydown', historyHandler, false);
     cmdLine.addEventListener('keydown', processNewCommand, false);
 
-    function inputTextClick(e) {
+    function inputTextClick() {
         this.value = this.value;
     }
 
@@ -87,25 +87,6 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
             window.scrollTo(0, getDocHeight());
             this.value = ''; // Clear/setup line for next input.
         }
-    }
-
-    function formatColumns(entries) {
-        var maxName = entries[0].name;
-        util.toArray(entries).forEach(function (entry, i) {
-            if (entry.name.length > maxName.length) {
-                maxName = entry.name;
-            }
-        });
-
-        var height = entries.length <= 3 ?
-            'height: ' + (entries.length * 15) + 'px;' : '';
-
-        // 12px monospace font yields ~7px screen width.
-        var colWidth = maxName.length * 7;
-
-        return ['<div class="ls-files" style="-webkit-column-width:',
-            colWidth, 'px;', height, '">'
-        ];
     }
 
     function write(html) {
@@ -240,7 +221,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 if (cmd) {
                     write(cmd + ': command not found');
                 }
-        };
+        }
     }
 
     return {

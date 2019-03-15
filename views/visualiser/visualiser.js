@@ -1,8 +1,10 @@
+/*global visualisationCanvas, terminalInstance*/
+
 const CodeMirror = require('codemirror');
 const Beautify   = require('js-beautify').js;
 const util       = require("../../structures/modules/utility");
 const p5         = require('p5');
-
+ 
 var _                 = require('codemirror/mode/jsx/jsx');
 var VisualisationItem = require('../../structures/classes/VisualisationItem.js');
 

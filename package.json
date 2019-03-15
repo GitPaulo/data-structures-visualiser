@@ -1,26 +1,27 @@
 {
-  "name": "DSA-Visualiser",
+  "name": "Data-Structures-Visualiser",
   "version": "1.0.0",
-  "description": "Algorithms &amp; Datastructures Visualiser Tool",
+  "description": "Algorithms &amp; Data Structures Visualisation Tool",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . DSA-Visualiser"
+    "build": "electron-packager . Data-Structures-Visualiser"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GitPaulo/DSA-Visualiser.git"
+    "url": "git+https://github.com/GitPaulo/Data-Structures-Visualiser.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/GitPaulo/DSA-Visualiser/issues"
+    "url": "https://github.com/GitPaulo/Data-Structures-Visualiser/issues"
   },
-  "homepage": "https://github.com/GitPaulo/DSA-Visualiser#readme",
+  "homepage": "https://github.com/GitPaulo/Data-Structures-Visualiser#readme",
   "devDependencies": {
     "electron": "^4.0.5",
-    "electron-packager": "^13.0.1"
+    "electron-packager": "^13.0.1",
+    "eslint": "^5.15.1"
   },
   "dependencies": {
     "codemirror": "^5.39.0",

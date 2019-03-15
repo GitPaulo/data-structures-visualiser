@@ -1,3 +1,5 @@
+/* global visualisationCanvasElement, p5, activeItem, canvasID, util */
+
 var visualisationCanvas = new p5((env) => {
     // Member vars
     env.noLoop = false;

@@ -1,3 +1,4 @@
+/* global VisualisationItem */
 class BinarySearchTree extends VisualisationItem {
     constructor(itemData) {
         super(
@@ -75,7 +76,7 @@ class BinarySearchTree extends VisualisationItem {
         if (typeof tfunc === "undefined")
             return { success: false, message: `Invalid transversal method! Check !instructions.` };
 
-        tfunc(this.root); // start at root!
+        found = tfunc(this.root, value); // start at root!
 
         let not = found ? "" : "not";
         return { success: found, message: `Value ${value} was ${not} found via ${method} transversal!` };
@@ -91,33 +92,33 @@ class BinarySearchTree extends VisualisationItem {
 }
 
 BinarySearchTree.transversalMethods = {
-    preorder : function(node) { 
+    preorder : function(node, value) { 
         if (node != null) { 
             console.log(node.value);
             if (value == node.value)
-                return (found=true); 
-            transversalMethods.preorder(node.left); 
-            transversalMethods.preorder(node.right); 
+                return true; 
+            BinarySearchTree.transversalMethods.preorder(node.left); 
+            BinarySearchTree.transversalMethods.preorder(node.right); 
         } 
     },
 
-    postorder : function (node) { 
+    postorder : function (node, value) { 
         if (node != null) { 
-            transversalMethods.postorder(node.left); 
-            transversalMethods.postorder(node.right); 
+            BinarySearchTree.transversalMethods.postorder(node.left); 
+            BinarySearchTree.transversalMethods.postorder(node.right); 
             console.log(node.value); 
             if (value == node.value)
-                return (found=true);  
+                return true;  
         } 
     },
 
-    inorder : function(node) {
+    inorder : function(node, value) {
         if (node !== null){ 
-            transversalMethods.inorder(node.left); 
+            BinarySearchTree.transversalMethods.inorder(node.left); 
             console.log(node.value); 
             if (value == node.value)
-                return (found=true);  
-            transversalMethods.inorder(node.right); 
+                return true;  
+            BinarySearchTree.transversalMethods.inorder(node.right); 
         } 
     },
 }
@@ -132,7 +133,7 @@ BinarySearchTree.NodeGraphic = class {
         this.value = value;
         this.left  = null;
         this.right = null;
-        
+        // parent?
     }
 
     draw(env) {

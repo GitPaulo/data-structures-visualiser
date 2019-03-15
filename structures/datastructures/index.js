@@ -1,4 +1,4 @@
-// assign all datastructures to exports. This will become the "item array";
+// Initialise and insert all DS items to exports. This will become the "item array";
 const fs   = require('fs');
 const path = require('path');
 const YAML = require('js-yaml');
@@ -22,6 +22,3 @@ for (let dir of dirs) {
         }
     });
 }
-
-// for debug
-console.log(module.exports);

@@ -68,3 +68,6 @@ bash.exe.stackdump
 
 #data folder
 data/
+
+#vscode settings
+.vscode/
