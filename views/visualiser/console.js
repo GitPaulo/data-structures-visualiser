@@ -1,4 +1,4 @@
-/*global activeItem, codeFollowEditor, jQuery, util*/
+/*global activeItem, activeOperation, jQuery, util, codeFollowEditor*/
 
 var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     var cmdLine = document.querySelector(cmdLineContainer);
@@ -97,6 +97,51 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
         return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
     }
 
+    function performItemOperation(key, args) {
+        if (activeItem === null)
+            return write('There is no selected data structure to perform an operation on!');
+        
+        if (typeof activeItem[key] === "undefined")
+            return write(`No operation function for ${key} found for this data structure!`);
+
+        let argumentsList = util.getParamNames(activeItem[key]); // always the operator!
+        let n1            = args.length; 
+        let n2            = argumentsList.length;
+
+        if (n1 < n2)
+            return write(`Invalid number of arguments - Expected ${n2} got ${n1}!`);
+
+        let originalFuncReference;
+        let operationCoroutine;
+
+        // Multi operations support: 
+        // Operation methods with multiple functions (Sort: bubble,insertion,...) will return the coroutine object of the appropiate method!
+        if (activeItem[key].constructor.name !== "AsyncGeneratorFunction"){
+            let rdata = activeItem[key](...args);
+            console.log({rdata});
+            if (rdata.success) {
+                originalFuncReference = rdata.coroutine;
+                operationCoroutine    = originalFuncReference.bind(activeItem);
+            } else {
+                return write(rdata.message);
+            }
+        } else {
+            originalFuncReference = activeItem[key];
+            operationCoroutine    = originalFuncReference.bind(activeItem); // required because changing reference storage.
+        }
+        
+        write(`Performing '${key}' operation on '${activeItem.id}' with parameters: ${args+""}`);
+        
+        console.log( {argumentsList, operationCoroutine, originalFuncReference} );
+        // Update code follow
+        codeFollowEditor.setCode(originalFuncReference);
+
+        // Data Structure Operation Call
+        // eslint-disable-next-line no-global-assign
+        activeOperation.assign(operationCoroutine(...args));
+        activeOperation.resume();
+    }
+
     function execCMD(cmd, args) {
         switch (cmd) {
             case 'clear':
@@ -141,81 +186,15 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 write(navigator.appVersion);
                 break;
             case 'showcontrols':
-                let controlsElement = document.getElementById("visualisation_controls");
+                let controlsElement           = document.getElementById("visualisation_controls");
                 controlsElement.style.display = controlsElement.style.display === "block" ? "none" : "block";
                 write(`Set display property of the controls to: ${controlsElement.style.display}`);
                 break;
             case 'insert':
-                if (activeItem === null)
-                    return write('There is no selected data structure to perform an operation on!');
-                
-                // Copy operation code to editor
-                codeFollowEditor.setCode(activeItem.insert);
-
-                try {
-                    write(`Performing insert operation on '${activeItem.id}' with parameters: ${args+""}`);
-                    activeItem.insert(...args).then((result)=>{
-                        write(result.message);
-                        codeFollowEditor.resetCode();
-                    });
-                } catch (error) {
-                    write(error);    
-                }    
-                
-                break;
             case 'remove':
-                if (activeItem === null)
-                    return write('There is no selected data structure to perform an operation on!');
-
-                // Copy operation code to editor
-                codeFollowEditor.setCode(activeItem.remove);
-
-                try {
-                    write(`Performing remove operation on '${activeItem.id}' with parameters: ${args+""}`);
-                    activeItem.remove(...args).then((result)=>{
-                        write(result.message);
-                        codeFollowEditor.resetCode();
-                    });
-                } catch (error) {
-                    write(error);    
-                }
-
-                break;
             case 'search':
-                if (activeItem === null)
-                    return write('There is no selected data structure to perform an operation on!');
-
-                // Copy operation code to editor
-                codeFollowEditor.setCode(activeItem.search);
-
-                try {
-                    write(`Performing search operation on '${activeItem.id}' with parameters: ${args+""}`);
-                    activeItem.search(...args).then((result) => {
-                        write(result.message);
-                        codeFollowEditor.resetCode();
-                    });
-                } catch (error) {
-                    write(error);    
-                }
-
-                break;
             case 'sort':
-                if (activeItem === null)
-                    return write('There is no selected data structure to perform an operation on!');
-
-                // Copy operation code to editor
-                codeFollowEditor.setCode(activeItem.sort);
-
-                try {
-                    write(`Performing sort operation on '${activeItem.id}' with parameters: ${args+""}`);
-                    activeItem.sort(...args).then((result) => {
-                        write(result.message);
-                        codeFollowEditor.resetCode();
-                    });
-                } catch (error) {
-                    write(error);    
-                }
-
+                    performItemOperation(cmd, args)
                 break;
             default:
                 if (cmd) {

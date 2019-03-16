@@ -1,12 +1,14 @@
-/*global visualisationCanvas, terminalInstance*/
-
-const CodeMirror = require('codemirror');
+/*global visualisationCanvas, terminalInstance, codeFollowEditor*/
 const Beautify   = require('js-beautify').js;
 const util       = require("../../structures/modules/utility");
 const p5         = require('p5');
  
-var _                 = require('codemirror/mode/jsx/jsx');
-var VisualisationItem = require('../../structures/classes/VisualisationItem.js');
+// Load codemiror mode for JavaScript
+require('codemirror/mode/jsx/jsx');
+
+// Load as Global now so we can extend without require later :)
+var VisualisationItem                    = require('../../structures/classes/VisualisationItem.js');
+var { PerformanceObserver, performance } = require('perf_hooks');
 
 /* Core Elements */
 let pageElement         = document.getElementById("page");
@@ -40,9 +42,43 @@ let speedSliderElement         = document.getElementById('step_speed');
 // Console (Quadrant) [mostly on console.js]
 
 /* Global Variables */
-var activeItem = null;
-var items      = null;
-var speed      = 1; // multiplier
+var activeItem      = null;
+var items           = null;
+var activeOperation = {       // Operation object literal to deal with the DS operation coroutines in a easy manner!
+    operation   : null,
+    shouldYield : false,
+    speed       : 1,
+    resume : function (input) {
+        if (this.operation === null)
+            throw "Operation is null!";
+
+        this.shouldYield = false;
+
+        this.operation.next(input).then((result)=>{
+            // If coroutine is not done that means it yeiled thus there was a pause!
+            if (result.done === false) { 
+                terminalInstance.write("[Operation paused succesfully]");
+            } else { // animation ended!
+                terminalInstance.write(result.value.message);
+                codeFollowEditor.resetCode();
+                activeItem.clearStorage();
+            }
+        }).catch((error)=>{
+            terminalInstance.write(`[CAUGHT ERROR] ${error}`);
+            throw error;
+        });
+    },
+    pause : function () {
+        if (this.operation === null)
+            throw "Operation is null!";
+
+        this.shouldYield = true;
+    },
+    assign : function (operation) {
+        console.log("Assigned new active operation coroutine: ", operation);
+        this.operation = operation;
+    }
+};
 
 /* Side bar items loader */
 (function () {
@@ -106,13 +142,7 @@ var speed      = 1; // multiplier
         itemContentElement.appendChild(spaceComplexityElement);
 
         // Code quadrant update
-        let code = Beautify(activeItem.__proto__.constructor.toString(), { indent_size: 3, space_in_empty_paren: true });
-        codeFollowEditor.setValue(code);
-        
-        setTimeout(() => {
-            codeFollowEditor.refresh();
-            console.log("Refreshed code follow editor.");
-        }, 1000);
+        codeFollowEditor.setCode(activeItem.__proto__.constructor);
         
         console.log(activeItem.id, "loaded successfully!");
     }
@@ -182,13 +212,13 @@ closesidebarElement.onclick = function() {
 }
 
 playButtonElement.onclick = function () {
-    visualisationCanvas.noLoop = false;
+    activeOperation.resume();
     terminalInstance.write("Canvas animation resumed!");
 }
 
 pauseButtonElement.onclick = function () {
-    visualisationCanvas.noLoop = true;
-    terminalInstance.write("Canvas animation paused!");
+    terminalInstance.write("Attempting to pause animation...");
+    activeOperation.pause();
 }
 
 backwardButtonElement.onclick = function () {
@@ -200,41 +230,11 @@ forwardButtonElement.onclick = function () {
 }
 
 speedSliderElement.onchange = function () {
-    speed = speedSliderElement.value;
-    terminalInstance.write(`Animation speed multiplier changed to: ${speed}`);
+    activeOperation.speed = speedSliderElement.value;
+    terminalInstance.write(`Animation speed multiplier changed to: ${activeOperation.speed}`);
 }
 
 overwriteButtonElement.onclick = function () {
     alert("Working on it!");
-}
-
-/* Code mirror initialisation */
-const DEFAULT_CODEFOLLOW_STRING = `/* No Data Structure selected! Please open the side bar for selection. */`;
-
-var codeFollowEditor = CodeMirror.fromTextArea(codeFollowElement, {
-    mode:                "jsx",
-    styleActiveLine:     true,
-    styleActiveSelected: true,
-    lineNumbers:         true,
-    lineWrapping:        true
-});
-
-codeFollowEditor.setSize("100%", "90%");
-codeFollowEditor.setValue(DEFAULT_CODEFOLLOW_STRING);
-
-codeFollowEditor.setCode = function (func, beautifyData={ indent_size: 3, space_in_empty_paren: true }) {
-    // Copy operation code to editor
-    var code = Beautify(func.toString(), beautifyData);
-    codeFollowEditor.setValue(code);
-}
-
-codeFollowEditor.resetCode = function (beautifyData={ indent_size: 3, space_in_empty_paren: true }) {
-    if (activeItem === null ) {
-        codeFollowEditor.setValue(DEFAULT_CODEFOLLOW_STRING);
-        return;
-    }
-
-    var code = Beautify(activeItem.__proto__.constructor.toString(), beautifyData); 
-    codeFollowEditor.setValue(code);
 }
 

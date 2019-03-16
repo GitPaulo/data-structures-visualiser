@@ -1,9 +1,4 @@
-/* global VisualisationItem, codeFollowEditor, util, speed */
-/*********
- * NOTES: 
- * 	- "value" comes from console and is a string! Because of JS we can usually ignore this if we use double equals operators.
- *  - Improve highlight for sorting?
- */
+/* global VisualisationItem, codeFollowEditor, util, activeOperation*/
 class StaticArray extends VisualisationItem {
 	constructor(itemData) {
 		super("Static Array", itemData);
@@ -11,56 +6,69 @@ class StaticArray extends VisualisationItem {
 		// Array DS
 		this.array = Array.from({length: 10}, (v, i) => new StaticArray.ElementGraphic(this, i, Math.floor((Math.random()*40)-20)));
 	}
-	
-	async insert(index, value) {
+
+	async* insert(index, value) {
+		// check params
 		let element   = this.array[index];
 		element.value = value;
+		
 		await element.highlight([30, 220, 30], 1500);
+
+		// Define a step
+		let yieldValue = activeOperation.shouldYield ? yield : this.storeState();
 
 		return { success:true, message:`Element ${value} inserted at index [${index}]` };
 	}
 
-	async remove(index) {
+	async* remove(index) {
 		let element   = this.array[index];
 		element.value = 0;
+		
 		await element.highlight([220, 30, 30], 1500);
+		
+		// Define a step
+		let yieldValue = activeOperation.shouldYield ? yield : this.storeState();
 
 		return { success:true, message:`Element removed from index [${index}]` };
 	}
 
-	async search(value) {
+	async* search(value) {
 		for (let element of this.array) {
+			// Define a step
+			let yieldValue = activeOperation.shouldYield ? yield : this.storeState();
+
 			await element.highlight([50, 40, 190], 500);
+
 			if (element.value == value){
 				await element.highlight([50, 290, 50], 1200);
-				return { found:true, message:`Element was found at position ${element.index}!` };
+				return { success:true, message:`Element was found at position ${element.index}!` };
 			} else {
 				await element.highlight([220, 60, 50], 700);
 			}
 		}
-		return { found:false, message:`Element was not found in the array!` };
+		return { success:false, message:`Element was not found in the array!` };
 	}
 
-	async sort(method, type) {
+	// Multi-operation support: This method will return approiate coroutine!
+	sort(method, type) {
         let sfunc = StaticArray.sortingMethods[method];
         
         if (typeof sfunc === "undefined")
             return { success: false, message: `Invalid sorting method! Check !instructions.` };
 		
 		type = StaticArray.sortingTypes[String(type).toLowerCase()];
-		if ( type === "undefined" )
+		if (typeof type === "undefined")
 			return { success: false, message: `Invalid type of sorting! Check !instructions.` }; 
 		
-		codeFollowEditor.setCode(sfunc);
-		
-		sfunc = sfunc.bind(this);
-		await sfunc(type); // start sorting
-		
-		codeFollowEditor.resetCode();
-
-        return { success: true, message: `Sorting method '${method}' was performed with type '${type}'!` };
+		return { success: true, coroutine: sfunc };
 	}
 	
+	storeState() {
+		let copy = { };
+		Object.assign(copy, this.array);
+		this.storage.push(copy);
+	}
+
 	draw(env) {
 		for (let element of this.array) {
 			element.draw(env);
@@ -68,28 +76,32 @@ class StaticArray extends VisualisationItem {
 	}
 }
 
-StaticArray.ASCENDING_TYPE = "Ascending Order";
-StaticArray.DESCEDING_TYPE = "Descending Order";
+StaticArray.ASCENDING_TYPE  = "Ascending Order";
+StaticArray.DESCENDING_TYPE = "Descending Order";
 
 StaticArray.sortingTypes = {
 	["asc"] 		: StaticArray.ASCENDING_TYPE,
 	["ascending"]	: StaticArray.ASCENDING_TYPE,
-	["desc"]		: StaticArray.DESCEDING_TYPE,
-	["descending"]	: StaticArray.DESCEDING_TYPE,
+	["desc"]		: StaticArray.DESCENDING_TYPE,
+	["descending"]	: StaticArray.DESCENDING_TYPE,
 }
 
 // Current object of 'activeItem' is bound to these methods! (this === activeItem)
 StaticArray.sortingMethods = {
-	bubble : async function(type) {
+	bubble : async function* (type) {	
 		let items  = this.array;
 		let length = items.length;
+		
 		for (let i = 0; i < length; i++) { 
+			// set color of sorted array part
+			for(let k = 0; k < i; k++)
+				items[k].setColor([90, 220, 90]);
+
 			// Notice that j < (length - i)
 			for (let j = 0; j < (length - i - 1); j++) { 
 				// highlight
-				await items[i].highlight([20,120,50], 700);
-				await items[j].highlight([120, 60, 50], 400);
-				await items[j+1].highlight([120, 60, 50], 400);
+				items[j].setColor([190, 90, 50]);
+				items[j+1].setColor([190, 90, 50]);
 
 				// Compare the adjacent positions
 				let comparisonBoolean = (type === StaticArray.ASCENDING_TYPE) ? (items[j].value > items[j+1].value) : (items[j].value < items[j+1].value);
@@ -100,10 +112,31 @@ StaticArray.sortingMethods = {
 					items[j].value   = items[j+1].value;
 					items[j+1].value = tmp;
 				}
+
+				let hcolor = comparisonBoolean ? [50, 250, 50] : [250, 50, 50];
+				await items[j].highlight(hcolor, 500);
+				await items[j+1].highlight(hcolor, 500);
+
+				// Define a step
+				let yieldValue = activeOperation.shouldYield ? yield : this.storeState();
+
+				// Reset pair color
+				items[j].resetColor();
+				items[j+1].resetColor();
 			}        
 		}
+
+		await util.sleep(500);
+		items[length-1].setColor([90, 220, 90]); // last one sorted!
+		await util.sleep(1000);
+		
+		// Clear color!
+		for(let i = 0; i < length; i++)
+			items[i].resetColor();
+
+		return { success:true, message:`Array finished sorting in ${type} order!` };
 	},
-	insertion : async function(type) {
+	insertion : async function* (type) {
 		let items  = this.array;
 		let length = items.length;
 		for (let i = 0; i < length; i++) {
@@ -119,10 +152,14 @@ StaticArray.sortingMethods = {
 				await items[j+1].highlight([120, 60, 50], 400);
 
 				items[j + 1].value = items[j].value;
+
+				// Define a step
+				let yieldValue = activeOperation.shouldYield ? yield : this.storeState();
 			}
 			// the last item we've reached should now hold the value of the currently sorted item
 			items[j + 1].value = value;
-		}		
+		}
+		return { success:true, message:`Array finished sorting in ${type} order!` };		
 	}
 }
 
@@ -148,8 +185,7 @@ StaticArray.ElementGraphic = class {
 	async highlight(color, ms){
 		let oldc = this.rectColor;
 		this.rectColor = color;
-		console.log("sleep", ms, "multi", speed);
-		await util.sleep(ms/speed); 
+		await util.sleep(ms/activeOperation.speed); 
 		this.rectColor = oldc;
 	}
 
