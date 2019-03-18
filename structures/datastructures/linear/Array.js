@@ -11,11 +11,14 @@ class StaticArray extends VisualisationItem {
 		// check params
 		let element   = this.array[index];
 		element.value = value;
-		
-		await element.highlight([30, 220, 30], 1500);
+		element.setColor([30, 220, 30]);
 
 		// Define a step
-		let yieldValue = activeOperation.shouldYield ? yield : this.storeState();
+		activeOperation.shouldYield ? yield : this.storeState();
+		await this.sleep();
+		
+		// Reset color
+		element.resetColor();
 
 		return { success:true, message:`Element ${value} inserted at index [${index}]` };
 	}
@@ -23,29 +26,43 @@ class StaticArray extends VisualisationItem {
 	async* remove(index) {
 		let element   = this.array[index];
 		element.value = 0;
-		
-		await element.highlight([220, 30, 30], 1500);
-		
+		element.setColor([220, 30, 30]);
+
 		// Define a step
-		let yieldValue = activeOperation.shouldYield ? yield : this.storeState();
+		activeOperation.shouldYield ? yield : this.storeState();
+		await this.sleep();
+
+		// Reset color
+		element.resetColor();
 
 		return { success:true, message:`Element removed from index [${index}]` };
 	}
 
 	async* search(value) {
 		for (let element of this.array) {
+			element.setColor([50, 40, 190]);
+
 			// Define a step
-			let yieldValue = activeOperation.shouldYield ? yield : this.storeState();
+			activeOperation.shouldYield ? yield : this.storeState();
+			await this.sleep();
 
-			await element.highlight([50, 40, 190], 500);
-
-			if (element.value == value){
-				await element.highlight([50, 290, 50], 1200);
-				return { success:true, message:`Element was found at position ${element.index}!` };
+			if (element.value == value) {
+				element.setColor([50, 290, 50]);
 			} else {
-				await element.highlight([220, 60, 50], 700);
+				element.setColor([220, 60, 50]);
 			}
+
+			// Define a step
+			activeOperation.shouldYield ? yield : this.storeState();
+			await this.sleep();
+
+			// Reset color
+			element.resetColor();
+
+			if (element.value == value)
+				return { success:true, message:`Element was found at position ${element.index}!` };
 		}
+
 		return { success:false, message:`Element was not found in the array!` };
 	}
 
@@ -57,14 +74,19 @@ class StaticArray extends VisualisationItem {
             return { success: false, message: `Invalid sorting method! Check !instructions.` };
 		
 		type = StaticArray.sortingTypes[String(type).toLowerCase()];
+		
 		if (typeof type === "undefined")
 			return { success: false, message: `Invalid type of sorting! Check !instructions.` }; 
 		
-		return { success: true, coroutine: sfunc };
+		return { success: true, coroutine: sfunc, args: [method,type] };
 	}
 	
+	resetState() {
+		
+	}
+
 	storeState() {
-		let copy = { };
+		let copy = {};
 		Object.assign(copy, this.array);
 		this.storage.push(copy);
 	}
@@ -87,21 +109,32 @@ StaticArray.sortingTypes = {
 }
 
 // Current object of 'activeItem' is bound to these methods! (this === activeItem)
+// Same arguments as the function that returns these!
 StaticArray.sortingMethods = {
-	bubble : async function* (type) {	
+	bubble : async function* (method, type) {	
 		let items  = this.array;
 		let length = items.length;
+
+		let orderedColor = [90, 220, 90];
 		
 		for (let i = 0; i < length; i++) { 
 			// set color of sorted array part
 			for(let k = 0; k < i; k++)
-				items[k].setColor([90, 220, 90]);
+				items[k].setBorderColor(orderedColor);
 
 			// Notice that j < (length - i)
 			for (let j = 0; j < (length - i - 1); j++) { 
 				// highlight
-				items[j].setColor([190, 90, 50]);
-				items[j+1].setColor([190, 90, 50]);
+				items[j].setColor([230, 90, 60]);
+				items[j+1].setColor([230, 90, 60]);
+
+				// Define a step
+				activeOperation.shouldYield ? yield : this.storeState();
+				await this.sleep();
+
+				// Reset pair color
+				items[j].setToLastColor();
+				items[j+1].setToLastColor();
 
 				// Compare the adjacent positions
 				let comparisonBoolean = (type === StaticArray.ASCENDING_TYPE) ? (items[j].value > items[j+1].value) : (items[j].value < items[j+1].value);
@@ -114,52 +147,84 @@ StaticArray.sortingMethods = {
 				}
 
 				let hcolor = comparisonBoolean ? [50, 250, 50] : [250, 50, 50];
-				await items[j].highlight(hcolor, 500);
-				await items[j+1].highlight(hcolor, 500);
+				items[j].setColor(hcolor, 500);
+				items[j+1].setColor(hcolor, 500);
 
 				// Define a step
-				let yieldValue = activeOperation.shouldYield ? yield : this.storeState();
+				activeOperation.shouldYield ? yield : this.storeState();
+				await this.sleep();
 
 				// Reset pair color
-				items[j].resetColor();
-				items[j+1].resetColor();
+				items[j].setToLastColor();
+				items[j+1].setToLastColor();
 			}        
 		}
 
-		await util.sleep(500);
-		items[length-1].setColor([90, 220, 90]); // last one sorted!
-		await util.sleep(1000);
+		items[length-1].setBorderColor(orderedColor); // last one sorted!
+		
+		// Define a step
+		activeOperation.shouldYield ? yield : this.storeState();
+		await this.sleep();
 		
 		// Clear color!
 		for(let i = 0; i < length; i++)
 			items[i].resetColor();
 
-		return { success:true, message:`Array finished sorting in ${type} order!` };
+		return { success:true, message:`Array finished sorting in ${type} order via ${method} sort!` };
 	},
-	insertion : async function* (type) {
+	insertion : async function* (method, type) {
 		let items  = this.array;
 		let length = items.length;
 		for (let i = 0; i < length; i++) {
 			let value = items[i].value;
+
+			// highlight
+			items[i].setColor([230, 90, 60]);
+
+			// Define a step
+			activeOperation.shouldYield ? yield : this.storeState();
+			await this.sleep();
+
 			// store the current item value so it can be placed right
 			let j;
 			for (j = i - 1; j > -1 && items[j].value > value; j--) {
 				// loop through the items in the sorted array (the items from the current to the beginning)
 				// copy each item to the next one
 				// highlight
-				await items[i].highlight([20,120,50], 700);
-				await items[j].highlight([120, 60, 50], 400);
-				await items[j+1].highlight([120, 60, 50], 400);
+				
+				items[j].setColor([170, 220, 50]);
+				items[j+1].setColor([170, 220, 50]);
+
+				// Define a step
+				activeOperation.shouldYield ? yield : this.storeState();
+				await this.sleep();
 
 				items[j + 1].value = items[j].value;
 
-				// Define a step
-				let yieldValue = activeOperation.shouldYield ? yield : this.storeState();
+				items[j].setToLastColor();
+				items[j+1].setToLastColor();
 			}
+
+			items[j+1].setColor([90, 250, 50]);
+
+			// Define a step
+			activeOperation.shouldYield ? yield : this.storeState();
+			await this.sleep();
+
 			// the last item we've reached should now hold the value of the currently sorted item
 			items[j + 1].value = value;
 		}
-		return { success:true, message:`Array finished sorting in ${type} order!` };		
+
+		
+		// Define a step
+		activeOperation.shouldYield ? yield : this.storeState();
+		await this.sleep();
+		
+		// Clear color!
+		for(let i = 0; i < length; i++)
+			items[i].resetColor();
+
+		return { success:true, message:`Array finished sorting in ${type} order via ${method} sort!` };		
 	}
 }
 
@@ -182,15 +247,20 @@ StaticArray.ElementGraphic = class {
 		this.resetColor();
 	}
 	
-	async highlight(color, ms){
-		let oldc = this.rectColor;
-		this.rectColor = color;
-		await util.sleep(ms/activeOperation.speed); 
-		this.rectColor = oldc;
+	setBorderColor(color) {
+		this.borderColor = color;
 	}
 
 	setColor(color) {
-		this.rectColor = color;
+		this.previousRectColor = this.rectColor;
+		this.rectColor 		   = color;
+	}
+
+	setToLastColor() {
+		if (this.previousRectColor) 
+			this.rectColor = this.previousRectColor;
+		else
+			this.resetColor();
 	}
 
 	resetColor() {

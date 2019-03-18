@@ -8,6 +8,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
         'clear', 'date', 'echo', 
         'help', 'instructions',
         'uname', 'showcontrols',
+        'resume', 'pause', 'speed',
         'insert', 'remove', 'search', 'sort'
     ];
 
@@ -121,6 +122,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
             console.log({rdata});
             if (rdata.success) {
                 originalFuncReference = rdata.coroutine;
+                args                  = [...rdata.args];
                 operationCoroutine    = originalFuncReference.bind(activeItem);
             } else {
                 return write(rdata.message);
@@ -187,14 +189,33 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 break;
             case 'showcontrols':
                 let controlsElement           = document.getElementById("visualisation_controls");
-                controlsElement.style.display = controlsElement.style.display === "block" ? "none" : "block";
-                write(`Set display property of the controls to: ${controlsElement.style.display}`);
+                controlsElement.style.disresume = controlsElement.style.disresume === "block" ? "none" : "block";
+                write(`Set disresume property of the controls to: ${controlsElement.style.disresume}`);
+                break;
+            case 'resume':
+                write("Resuming animation...");
+                activeOperation.resume();
+                break;
+            case 'pause':
+                write("Pausing animation...");
+                activeOperation.pause();
+                break;
+            case 'stop':
+                write("Stoping animation...");
+                activeOperation.stop();
+                break;
+            case 'speed':
+                write(`Setting animation speed to ${args[0]}...`);
+                break;
+            case 'forward':
+            case 'backward':
+                alert("Not implemented yet!");
                 break;
             case 'insert':
             case 'remove':
             case 'search':
             case 'sort':
-                    performItemOperation(cmd, args)
+                performItemOperation(cmd, args);
                 break;
             default:
                 if (cmd) {
@@ -205,7 +226,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
 
     return {
         init: function () {
-            write('<h2>Visualiser Console</h2><p id="date_console">' + new Date() + '</p><p>Enter "help" for more information.</p>');
+            write('<h2>Visualiser Console</h2><p id="date_console">' + new Date() + '</p><p>Enter "help" for more console command information.</p><p>Enter "instructions" for data structure specific operation help!</p>');
             let consoleTimeElement = document.getElementById("date_console")
             window.setInterval(function(){ // might cause problems!
                 consoleTimeElement.innerHTML = new Date();

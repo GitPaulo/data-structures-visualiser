@@ -48,9 +48,26 @@ var activeOperation = {       // Operation object literal to deal with the DS op
     operation   : null,
     shouldYield : false,
     speed       : 1,
+    terminate : function () {
+        if (this.operation === null)
+            return terminalInstance.write("There is no active operation!");
+
+        this.shouldYield = true;
+        this.operation.return().then(()=>{
+            codeFollowEditor.resetCode();
+
+            activeItem.resetState();
+            activeItem.clearStorage();
+            
+            this.operation   = null;
+            this.shouldYield = false;
+            
+            terminalInstance.write("Animation terminated successfully.");
+        });
+    },
     resume : function (input) {
         if (this.operation === null)
-            throw "Operation is null!";
+            return terminalInstance.write("There is no active operation!");
 
         this.shouldYield = false;
 
@@ -60,8 +77,7 @@ var activeOperation = {       // Operation object literal to deal with the DS op
                 terminalInstance.write("[Operation paused succesfully]");
             } else { // animation ended!
                 terminalInstance.write(result.value.message);
-                codeFollowEditor.resetCode();
-                activeItem.clearStorage();
+                this.terminate();
             }
         }).catch((error)=>{
             terminalInstance.write(`[CAUGHT ERROR] ${error}`);
@@ -70,9 +86,16 @@ var activeOperation = {       // Operation object literal to deal with the DS op
     },
     pause : function () {
         if (this.operation === null)
-            throw "Operation is null!";
+            return terminalInstance.write("There is no active operation!");
 
         this.shouldYield = true;
+    },
+    stop : function () {
+        if (this.operation === null)
+            return terminalInstance.write("There is no active operation!");
+
+        activeItem.resetState();
+        this.terminate();   
     },
     assign : function (operation) {
         console.log("Assigned new active operation coroutine: ", operation);
@@ -235,6 +258,27 @@ speedSliderElement.onchange = function () {
 }
 
 overwriteButtonElement.onclick = function () {
-    alert("Working on it!");
+    if (activeItem === null)
+        return alert("Select a data structure first!");
+
+    let newClassFunction = null;
+    
+    try {
+        newClassFunction = eval("(" + codeFollowEditor.getValue() + ")"); // parentehsis turn block into expression
+    } catch (error) {
+        terminalInstance.write(`[MEMORY OVERWRITE ERROR] ${error}`);
+        return;
+    }
+
+    if (newClassFunction.name !== activeItem.constructor.name)
+        return alert("Not allowed to edit non class specific code");
+
+    let protoKeys = Object.getOwnPropertyNames(newClassFunction.prototype);
+    for (let key of protoKeys) {
+        console.log(">>>", key);
+        activeItem[key] = newClassFunction.prototype[key];
+    }
+
+    alert("Code for the current data structure overwritten!");
 }
 

@@ -1,4 +1,5 @@
 
+/* global util, activeOperation*/
 /***
  * Rules of extending this class.
  * All operation methods are expected to be of type "AsyncGeneratorFunc"
@@ -42,9 +43,19 @@ class VisualisationItem {
         throw `Function not implemented.`;
     }
 
+    resetState() { 
+        throw `Function not implemented.`;
+    }
+    
     clearStorage() {
         this.storage = [];
         console.log(`Cleared step-state storage for ${this.constructor.name}.`);
+    }
+
+    async sleep(ms=1000) {
+        let t = ms/activeOperation.speed;
+        console.log(`Sleeping animation of ${this.constructor.name} for: ${t}ms.`);
+        await util.sleep(t);
     }
 }
 
