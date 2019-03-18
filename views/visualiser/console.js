@@ -1,4 +1,4 @@
-/*global activeItem, activeOperation, jQuery, util, codeFollowEditor*/
+/*global activeItem, activeOperation, jQuery, util, codeFollowEditor, metaTable*/
 
 var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     var cmdLine = document.querySelector(cmdLineContainer);
@@ -12,8 +12,8 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     ];
 
     const ANIMATION_CMDS = [
-        'resume', 'pause', 'stop'
-    ]
+        ...metaTable.operationControls
+    ];
 
     var history  = [];
     var histpos  = 0;
@@ -144,6 +144,9 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
         // Update code follow
         codeFollowEditor.setCode(originalFuncReference);
 
+        // Store pre operation state in activeItem.storage[0]
+        activeItem.storeState();
+
         // Data Structure Operation Call
         // eslint-disable-next-line no-global-assign
         activeOperation.assign(operationCoroutine(...args));
@@ -151,11 +154,10 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     }
 
     function execCMD(cmd, args) {
-        // to avoid checking in all commands :) [this functional console is starting to look like cancer]
-        if (ANIMATION_CMDS.indexOf(cmd) > -1) {
-            let cantCall = activeOperation.cantCall();
-            if (cantCall)
-                return write(cantCall);
+        // for operations with anim control
+        if (ANIMATION_CMDS.indexOf(cmd.toLowerCase()) > -1) {
+            activeOperation[cmd](...args);
+            return;
         }
 
         switch (cmd) {
@@ -203,27 +205,8 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 break;
             case 'showcontrols':
                 let controlsElement           = document.getElementById("visualisation_controls");
-                controlsElement.style.disresume = controlsElement.style.disresume === "block" ? "none" : "block";
-                write(`Set disresume property of the controls to: ${controlsElement.style.disresume}`);
-                break;
-            case 'resume':
-                write("Resuming animation...");
-                activeOperation.resume();
-                break;
-            case 'pause':
-                write("Pausing animation...");
-                activeOperation.pause();
-                break;
-            case 'stop':
-                write("Stoping animation...");
-                activeOperation.stop();
-                break;
-            case 'speed':
-                write(`Setting animation speed to ${args[0]}...`);
-                break;
-            case 'forward':
-            case 'backward':
-                alert("Not implemented yet!");
+                controlsElement.style.display = controlsElement.style.display === "block" ? "none" : "block";
+                write(`Set display property of the controls to: ${controlsElement.style.display}`);
                 break;
             case 'insert':
             case 'remove':

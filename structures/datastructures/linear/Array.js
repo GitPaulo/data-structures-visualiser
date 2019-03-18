@@ -1,15 +1,20 @@
 /* global VisualisationItem, codeFollowEditor, util, activeOperation*/
 class StaticArray extends VisualisationItem {
 	constructor(itemData) {
-		super("Static Array", itemData);
-		
-		// Array DS
-		this.array = Array.from({length: 10}, (v, i) => new StaticArray.ElementGraphic(this, i, Math.floor((Math.random()*40)-20)));
+		super(
+			"Static Array", 
+			itemData,
+			{},
+		);
+
+		// Because of circularity! (Cannot call this before super constructor)
+		let state  = Array.from({length: 10}, (v, i) => new StaticArray.ElementGraphic(this, i, Math.floor((Math.random()*40)-20)));
+		this.state = state;
 	}
 
 	async* insert(index, value) {
 		// check params
-		let element   = this.array[index];
+		let element   = this.state[index];
 		element.value = value;
 		element.setColor([30, 220, 30]);
 
@@ -24,7 +29,7 @@ class StaticArray extends VisualisationItem {
 	}
 
 	async* remove(index) {
-		let element   = this.array[index];
+		let element   = this.state[index];
 		element.value = 0;
 		element.setColor([220, 30, 30]);
 
@@ -39,7 +44,7 @@ class StaticArray extends VisualisationItem {
 	}
 
 	async* search(value) {
-		for (let element of this.array) {
+		for (let element of this.state) {
 			element.setColor([50, 40, 190]);
 
 			// Define a step
@@ -80,19 +85,9 @@ class StaticArray extends VisualisationItem {
 		
 		return { success: true, coroutine: sfunc, args: [method,type] };
 	}
-	
-	resetState() {
-		
-	}
-
-	storeState() {
-		let copy = {};
-		Object.assign(copy, this.array);
-		this.storage.push(copy);
-	}
 
 	draw(env) {
-		for (let element of this.array) {
+		for (let element of this.state) {
 			element.draw(env);
 		}
 	}
@@ -112,7 +107,7 @@ StaticArray.sortingTypes = {
 // Same arguments as the function that returns these!
 StaticArray.sortingMethods = {
 	bubble : async function* (method, type) {	
-		let items  = this.array;
+		let items  = this.state;
 		let length = items.length;
 
 		let orderedColor = [90, 220, 90];
@@ -146,7 +141,7 @@ StaticArray.sortingMethods = {
 					items[j+1].value = tmp;
 				}
 
-				let hcolor = comparisonBoolean ? [50, 250, 50] : [250, 50, 50];
+				let hcolor = comparisonBoolean ? [250, 50, 50] : [50, 250, 50];
 				items[j].setColor(hcolor, 500);
 				items[j+1].setColor(hcolor, 500);
 
@@ -170,17 +165,17 @@ StaticArray.sortingMethods = {
 		for(let i = 0; i < length; i++)
 			items[i].resetColor();
 
-		return { success:true, message:`Array finished sorting in ${type} order via ${method} sort!` };
+		return { success:true, message:`Array finished sorting in '${type}' order via '${method}' sort!` };
 	},
 	insertion : async function* (method, type) {
-		let items  = this.array;
+		let items  = this.state;
 		let length = items.length;
 		for (let i = 0; i < length; i++) {
 			let value = items[i].value;
 
 			// highlight
-			items[i].setColor([230, 90, 60]);
-
+			items[i].setBorderColor([20, 230, 60]);
+			
 			// Define a step
 			activeOperation.shouldYield ? yield : this.storeState();
 			await this.sleep();
@@ -192,8 +187,7 @@ StaticArray.sortingMethods = {
 				// copy each item to the next one
 				// highlight
 				
-				items[j].setColor([170, 220, 50]);
-				items[j+1].setColor([170, 220, 50]);
+				items[j+1].setColor([250, 70, 50]);
 
 				// Define a step
 				activeOperation.shouldYield ? yield : this.storeState();
@@ -201,11 +195,10 @@ StaticArray.sortingMethods = {
 
 				items[j + 1].value = items[j].value;
 
-				items[j].setToLastColor();
 				items[j+1].setToLastColor();
 			}
 
-			items[j+1].setColor([90, 250, 50]);
+			items[j+1].setColor([90, 220, 50]);
 
 			// Define a step
 			activeOperation.shouldYield ? yield : this.storeState();
@@ -213,9 +206,10 @@ StaticArray.sortingMethods = {
 
 			// the last item we've reached should now hold the value of the currently sorted item
 			items[j + 1].value = value;
+
+			items[j+1].setToLastColor();
 		}
 
-		
 		// Define a step
 		activeOperation.shouldYield ? yield : this.storeState();
 		await this.sleep();
@@ -224,7 +218,7 @@ StaticArray.sortingMethods = {
 		for(let i = 0; i < length; i++)
 			items[i].resetColor();
 
-		return { success:true, message:`Array finished sorting in ${type} order via ${method} sort!` };		
+		return { success:true, message:`Array finished sorting in '${type}' order via '${method}' sort!` };		
 	}
 }
 
@@ -270,7 +264,7 @@ StaticArray.ElementGraphic = class {
 	}
 
 	draw(env) {
-		let offset_x = (env.width - (this.parent.array.length * this.width))/2;
+		let offset_x = (env.width - (this.parent.state.length * this.width))/2;
 		let offset_y = env.height*.5;
 
 		// draw box

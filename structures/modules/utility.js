@@ -56,14 +56,14 @@ util.drawArrow = function (sx, sy, ang, offset, env) {
 
 util.curveBetween = function (x1, y1, x2, y2, d, h, flip, env) {
     //find two control points off this line
-    var original = p5.Vector.sub(p5.createVector(x2, y2), env.createVector(x1, y1));
+    var original = env.Vector.sub(env.createVector(x2, y2), env.createVector(x1, y1));
     var inline = original.copy().normalize().mult(original.mag() * d);
     var rotated = inline.copy().rotate(env.radians(90) + flip * env.radians(180)).normalize().mult(original.mag() * h);
-    var p1 = p5.Vector.add(p5.Vector.add(inline, rotated), env.createVector(x1, y1));
+    var p1 = env.Vector.add(env.Vector.add(inline, rotated), env.createVector(x1, y1));
 
     //line(x1, y1, p1.x, p1.y); //show control line
     rotated.mult(-1);
-    var p2 = p5.Vector.add(p5.Vector.add(inline, rotated).mult(-1), env.createVector(x2, y2));
+    var p2 = env.Vector.add(env.Vector.add(inline, rotated).mult(-1), env.createVector(x2, y2));
 
     //line(x2, y2, p2.x, p2.y); //show control line
     env.bezier(x1, y1, p1.x, p1.y, p2.x, p2.y, x2, y2)
@@ -87,6 +87,40 @@ util.getParamNames = function (func) {
     if (result === null)
         result = [];
     return result;
+}
+
+util.clamp = function (num, min, max) {
+    return num <= min ? min : num >= max ? max : num;
+}
+
+util.cloneCircular = function (obj, hash = new WeakMap()) {
+    // Do not try to clone primitives or functions
+    if (Object(obj) !== obj || obj instanceof Function) 
+        return obj;
+    
+    if (hash.has(obj)) 
+        return hash.get(obj); // Cyclic reference
+    
+    try { // Try to run constructor (without arguments, as we don't know them)
+        var result = new obj.constructor();
+    } catch (e) { // Constructor failed, create object without running the constructor
+        result = Object.create(Object.getPrototypeOf(obj));
+    }
+   
+    // Optional: support for some standard constructors (extend as desired)
+    if (obj instanceof Map)
+        Array.from(obj, ([key, val]) => result.set(util.cloneCircular(key, hash),util.cloneCircular(val, hash)));
+    else if (obj instanceof Set)
+        Array.from(obj, (key) => result.add(util.cloneCircular(key, hash)));
+    
+    // Register in hash    
+    hash.set(obj, result);
+    
+    // Clone and assign enumerable own properties recursively
+    return Object.assign(result, ...Object.keys(obj).map(
+    key => ({
+        [key]: util.cloneCircular(obj[key], hash)
+    })));
 }
 
 module.exports = util;

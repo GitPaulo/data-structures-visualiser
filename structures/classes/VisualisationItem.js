@@ -13,9 +13,10 @@
  *      - Else return message object
  */
 class VisualisationItem {
-    constructor(id, descriptiveData) {
+    constructor(id, descriptiveData, state) {
         this.id 			 = id;
         this.descriptiveData = descriptiveData; // from yaml object
+        this.state           = state;
         this.storage         = [];
     }
         
@@ -39,12 +40,18 @@ class VisualisationItem {
         throw `Draw function not implemented.`;
     }
 
-    storeState() {
-        throw `Function not implemented.`;
-    }
+	resetState() {
+		if (this.storage[0]) {
+            Object.assign(this.state, this.storage[0]);
+            console.log(`State reset for ${this.constructor.name}.`);
+		} else {
+			throw "No initial state to reset to!";
+		}
+	}
 
-    resetState() { 
-        throw `Function not implemented.`;
+	storeState() {
+		let copy = util.cloneCircular(this.state);
+		this.storage.push(copy);
     }
     
     clearStorage() {

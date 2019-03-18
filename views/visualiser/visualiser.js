@@ -41,66 +41,151 @@ let speedSliderElement         = document.getElementById('step_speed');
 
 // Console (Quadrant) [mostly on console.js]
 
-/* Global Variables */
+/**************** Active Item Definition ****************/
+// Represents the active data structure meta data!
+// (NOT THE DS ITSELF!)
 var activeItem      = null;
 var items           = null;
-var activeOperation = {       // Operation object literal to deal with the DS operation coroutines in a easy manner!
+
+// Operation object literal to deal with the DS operation coroutines in a easy manner!
+let controlObject = {       
     operation   : null,
     shouldYield : false,
     inProgress  : false,
+    isPaused    : false,
     speed       : 1,
-    cantCall    : function () {
-        if (this.operation === null)
-            return "There is no active operation!";
-
-        return false;
+    offset      : 0,
+    setSpeed : function (speed) {
+        this.speed = util.clamp(speed, 0, 10);
+        terminalInstance.write(`Set animation speed multiplier to: ${this.speed}`);
     },
     assign : function (operation) {
         this.operation  = operation;
-        this.inProgress = true;
-
         console.log("Assigned new active operation coroutine: ", operation);
     },
     terminate : function () {
         this.shouldYield = true;
-        this.operation.return().then(()=>{
-            codeFollowEditor.resetCode();
-
-            activeItem.resetState();
-            activeItem.clearStorage();
-            
+        this.operation.return().then(() => {          
             this.operation   = null;
             this.shouldYield = false;
             this.inProgress  = false;
+            this.isPaused    = false;
             
+            activeItem.resetState();
+            activeItem.clearStorage();
+
+            codeFollowEditor.resetCode();
             terminalInstance.write("Animation terminated successfully.");
         });
     },
     resume : function (input) {
-        this.shouldYield = false;
+        if (this.inProgress && !this.isPaused) {
+            terminalInstance.write("Animation already in progress!");
+            return;
+        }
+        
+        if (this.offset !== 0)
+            activeItem.resetState();
 
-        this.operation.next(input).then((result)=>{
+        this.inProgress  = true;
+        this.shouldYield = false;
+        this.isPaused    = false;
+        this.offset      = 0;
+
+        this.operation.next(input).then((result) => {
             // If coroutine is not done that means it yeiled thus there was a pause!
             if (result.done === false) { 
-                terminalInstance.write("[Operation paused succesfully]");
+                terminalInstance.write("Operation paused succesfully!");
             } else { // animation ended!
                 console.log(result)
                 terminalInstance.write(result.value.message);
                 this.terminate();
             }
-        }).catch((error)=>{
+        }).catch((error) => {
             terminalInstance.write(`[CAUGHT ERROR] ${error}`);
             throw error;
         });
+
+        terminalInstance.write("Animation started/resumed!");
     },
     pause : function () {
+        if (this.isPaused) {
+            terminalInstance.write("Animation is already paused!");
+            return;
+        }
+
         this.shouldYield = true;
+        this.isPaused    = true;
     },
     stop : function () {
-        activeItem.resetState();
-        this.terminate();   
-    }
+        if (!this.inProgress) {
+            terminalInstance.write("There is no operation animation to stop!");
+            return;
+        }
+
+        this.operation.return(); 
+        this.terminate();
+    },
+    back : function () {
+        if (!this.isPaused) {
+            terminalInstance.write("Animation needs to be paused before steping back/forward!");
+            return;
+        }
+
+        let n = activeItem.storage.length-1;
+
+        if (!activeItem.storage[n+this.offset-1]) {
+            terminalInstance.write("Cannot move to a backward state!");
+            return;
+        }
+
+        this.offset--;
+        let pointer = n + this.offset;
+        
+        Object.assign(activeItem.state, activeItem.storage[pointer]);
+        terminalInstance.write(`Moving to a backward state. Storage pointer: ${pointer}`);
+    },
+    forward : function () {
+        if (!this.isPaused) {
+            terminalInstance.write("Animation needs to be paused before steping back/forward!");
+            return;
+        }
+
+        let n = activeItem.storage.length-1;
+
+        if (!activeItem.storage[n+this.offset+1]) {
+            terminalInstance.write("Cannot move to a forward state!");
+            return;
+        }
+
+        this.offset++;
+        let pointer = n + this.offset;
+        
+        Object.assign(activeItem.state, activeItem.storage[pointer]);
+        terminalInstance.write(`Moving to a forward state. Storage pointer: ${pointer}`);
+    },
 };
+
+controlObject["animspeed"] = controlObject.setSpeed;
+
+// Just doing this because i miss meta-tables :)
+let metaTable = {
+    operationControls : [ "resume", "pause", "stop", "animspeed", "back", "forward" ],
+    get: function (target, name) {
+        // console.log("kek", name, target, target[name]);
+        if (typeof target[name] !== "undefined") {
+            if (this.operationControls.indexOf(name) > -1 && target.operation === null){
+                return () => terminalInstance.write("There is no active operation to control!");
+            }
+        } else {
+            throw `Invalid access to active operation object! target: ${target}, ${name}`;
+        }
+        return target[name];
+    }
+}
+
+// Our global boy :)
+var activeOperation = new Proxy(controlObject, metaTable);
 
 /* Side bar items loader */
 (function () {
@@ -233,27 +318,13 @@ closesidebarElement.onclick = function() {
     waitCanvasResize();
 }
 
-playButtonElement.onclick = function () {
-    activeOperation.resume();
-    terminalInstance.write("Canvas animation resumed!");
-}
-
-pauseButtonElement.onclick = function () {
-    terminalInstance.write("Attempting to pause animation...");
-    activeOperation.pause();
-}
-
-backwardButtonElement.onclick = function () {
-
-}
-
-forwardButtonElement.onclick = function () {
-
-}
+playButtonElement.onclick     = activeOperation.resume;
+pauseButtonElement.onclick    = activeOperation.pause;
+backwardButtonElement.onclick = activeOperation.back;
+forwardButtonElement.onclick  = activeOperation.forward;
 
 speedSliderElement.onchange = function () {
-    activeOperation.speed = speedSliderElement.value;
-    terminalInstance.write(`Animation speed multiplier changed to: ${activeOperation.speed}`);
+    activeOperation.setSpeed(speedSliderElement.value);
 }
 
 overwriteButtonElement.onclick = function () {
@@ -280,4 +351,3 @@ overwriteButtonElement.onclick = function () {
 
     alert("Code for the current data structure overwritten!");
 }
-
