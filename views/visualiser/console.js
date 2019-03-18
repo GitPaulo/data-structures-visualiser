@@ -8,9 +8,12 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
         'clear', 'date', 'echo', 
         'help', 'instructions',
         'uname', 'showcontrols',
-        'resume', 'pause', 'speed',
         'insert', 'remove', 'search', 'sort'
     ];
+
+    const ANIMATION_CMDS = [
+        'resume', 'pause', 'stop'
+    ]
 
     var history  = [];
     var histpos  = 0;
@@ -105,6 +108,9 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
         if (typeof activeItem[key] === "undefined")
             return write(`No operation function for ${key} found for this data structure!`);
 
+        if (activeOperation.inProgress)
+            return write("Currently there is an active operation in progress!");
+
         let argumentsList = util.getParamNames(activeItem[key]); // always the operator!
         let n1            = args.length; 
         let n2            = argumentsList.length;
@@ -145,6 +151,13 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     }
 
     function execCMD(cmd, args) {
+        // to avoid checking in all commands :) [this functional console is starting to look like cancer]
+        if (ANIMATION_CMDS.indexOf(cmd) > -1) {
+            let cantCall = activeOperation.cantCall();
+            if (cantCall)
+                return write(cantCall);
+        }
+
         switch (cmd) {
             case 'clear':
                 output.innerHTML = '';
@@ -157,7 +170,8 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 write(args.join(' '));
                 break;
             case 'help':
-                write('<div class="ls-files">' + CMDS.join('<br>') + '</div>');
+                let allCommands = CMDS.concat(ANIMATION_CMDS);
+                write('<div class="ls-files">' + allCommands.join('<br>') + '</div>');
                 break;
             case 'instructions':
                 if (activeItem === null){

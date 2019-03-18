@@ -47,11 +47,21 @@ var items           = null;
 var activeOperation = {       // Operation object literal to deal with the DS operation coroutines in a easy manner!
     operation   : null,
     shouldYield : false,
+    inProgress  : false,
     speed       : 1,
-    terminate : function () {
+    cantCall    : function () {
         if (this.operation === null)
-            return terminalInstance.write("There is no active operation!");
+            return "There is no active operation!";
 
+        return false;
+    },
+    assign : function (operation) {
+        this.operation  = operation;
+        this.inProgress = true;
+
+        console.log("Assigned new active operation coroutine: ", operation);
+    },
+    terminate : function () {
         this.shouldYield = true;
         this.operation.return().then(()=>{
             codeFollowEditor.resetCode();
@@ -61,14 +71,12 @@ var activeOperation = {       // Operation object literal to deal with the DS op
             
             this.operation   = null;
             this.shouldYield = false;
+            this.inProgress  = false;
             
             terminalInstance.write("Animation terminated successfully.");
         });
     },
     resume : function (input) {
-        if (this.operation === null)
-            return terminalInstance.write("There is no active operation!");
-
         this.shouldYield = false;
 
         this.operation.next(input).then((result)=>{
@@ -76,6 +84,7 @@ var activeOperation = {       // Operation object literal to deal with the DS op
             if (result.done === false) { 
                 terminalInstance.write("[Operation paused succesfully]");
             } else { // animation ended!
+                console.log(result)
                 terminalInstance.write(result.value.message);
                 this.terminate();
             }
@@ -85,21 +94,11 @@ var activeOperation = {       // Operation object literal to deal with the DS op
         });
     },
     pause : function () {
-        if (this.operation === null)
-            return terminalInstance.write("There is no active operation!");
-
         this.shouldYield = true;
     },
     stop : function () {
-        if (this.operation === null)
-            return terminalInstance.write("There is no active operation!");
-
         activeItem.resetState();
         this.terminate();   
-    },
-    assign : function (operation) {
-        console.log("Assigned new active operation coroutine: ", operation);
-        this.operation = operation;
     }
 };
 

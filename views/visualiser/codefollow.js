@@ -17,7 +17,7 @@ codeFollowEditor.setValue(DEFAULT_CODEFOLLOW_STRING);
 let waitRefresh = () => { // seems to fix the problem? Too lazy to figure out why.
     setTimeout(() => {
         codeFollowEditor.refresh();
-        codeFollowEditor.focus();
+        // codeFollowEditor.focus();
         codeFollowEditor.refresh();
         console.log("Refreshed code editor!");
     }, 1000);
