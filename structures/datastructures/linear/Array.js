@@ -6,10 +6,10 @@ class StaticArray extends VisualisationItem {
 			itemData,
 			{},
 		);
-
-		// Because of circularity! (Cannot call this before super constructor)
-		let state  = Array.from({length: 10}, (v, i) => new StaticArray.ElementGraphic(this, i, Math.floor((Math.random()*40)-20)));
-		this.state = state;
+		
+		// (Cannot call this before super constructor)
+		const length = 10;
+		this.state 	 = Array.from({length}, (v, i) => new StaticArray.ElementGraphic(length, i, Math.floor((Math.random()*40)-20)));
 	}
 
 	async* insert(index, value) {
@@ -228,8 +228,9 @@ StaticArray.prototype.search.help = `Preforms linear search on the array for a (
 StaticArray.prototype.sort.help   = `Sorts the array.\n (method): ${Object.keys(StaticArray.sortingMethods)+""} \n (type): 'ascending' or 'descending'`;
 
 StaticArray.ElementGraphic = class {
-	constructor(parent, index, value, structure={width:70,height:70,x:0,y:0}) {
-		this.parent = parent;
+	constructor(arrayLength, index, value, structure={width:70,height:70,x:0,y:0}) {
+		this.arrayLength = arrayLength;
+		
 		this.index  = index;
 		this.value  = value;
 		
@@ -264,7 +265,7 @@ StaticArray.ElementGraphic = class {
 	}
 
 	draw(env) {
-		let offset_x = (env.width - (this.parent.state.length * this.width))/2;
+		let offset_x = (env.width - (this.arrayLength * this.width))/2;
 		let offset_y = env.height*.5;
 
 		// draw box

@@ -50,6 +50,7 @@ class VisualisationItem {
 	}
 
 	storeState() {
+        // Currently there are no circular objects (but just in case) [AVOID THEM BTW]
 		let copy = util.cloneCircular(this.state);
 		this.storage.push(copy);
     }
