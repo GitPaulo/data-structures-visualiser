@@ -11,6 +11,9 @@ class StaticArray extends VisualisationItem {
 
 	async* insert(index, value) {
 		// check params
+		if (index >= this.state.length || index < 0)
+			return { success:false, message:`Index '${index}' was out of bounds! Bounds: (0 <= index < 10)`};
+		
 		let element   = this.state[index];
 		element.value = value;
 		element.setColor(StaticArray.COLORS.success);
@@ -26,6 +29,10 @@ class StaticArray extends VisualisationItem {
 	}
 
 	async* remove(index) {
+		// check params
+		if (index >= this.state.length || index < 0)
+			return { success:false, message:`Index '${index}' was out of bounds! Bounds: (0 <= index < 10)`};
+
 		let element   = this.state[index];
 		element.value = 0;
 		element.setColor(StaticArray.COLORS.fail);
@@ -82,12 +89,6 @@ class StaticArray extends VisualisationItem {
 		
 		return { success: true, coroutine: sfunc, args: [method,type] };
 	}
-
-	draw(env) {
-		for (let element of this.state) {
-			element.draw(env);
-		}
-	}
 }
 
 StaticArray.COLORS = {
@@ -117,7 +118,7 @@ StaticArray.sortingMethods = {
 		for (let i = 0; i < length; i++) { 
 			// set color of sorted array part
 			for(let k = 0; k < i; k++)
-				items[k].setBorderColor(StaticArray.COLORS.ordered);
+				items[length-1-k].setBorderColor(StaticArray.COLORS.ordered);
 
 			// Notice that j < (length - i)
 			for (let j = 0; j < (length - i - 1); j++) { 
@@ -157,7 +158,7 @@ StaticArray.sortingMethods = {
 			}        
 		}
 
-		items[length-1].setBorderColor(StaticArray.COLORS.ordered); // last one sorted!
+		items[0].setBorderColor(StaticArray.COLORS.ordered); // last one sorted!
 		
 		// Define a step
 		this.shouldYield() ? yield : this.storeState();
@@ -184,7 +185,9 @@ StaticArray.sortingMethods = {
 
 			// store the current item value so it can be placed right
 			let j;
-			for (j = i - 1; j > -1 && items[j].value > value; j--) {
+			let comparisonBoolean = (type === StaticArray.ASCENDING_TYPE) ? (items[j].value > value) : (items[j].value < value);
+
+			for (j = i - 1; j > -1 && comparisonBoolean; j--) {
 				// loop through the items in the sorted array (the items from the current to the beginning)
 				// copy each item to the next one
 				// highlight

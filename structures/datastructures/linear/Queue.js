@@ -4,7 +4,7 @@ class Queue extends VisualisationItem {
 		super(
 			"Queue", 
 			itemData,
-			{},
+			[],
 		);
 	}
 
@@ -29,10 +29,6 @@ class Queue extends VisualisationItem {
 	// Multi-operation support: This method will return approiate coroutine!
 	async *sort(method, type) {
         yield;
-	}
-
-	draw(env) {
-	
 	}
 }
 

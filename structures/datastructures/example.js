@@ -8,7 +8,7 @@ class ExampleDataStructure extends VisualisationItem {
 		super(
 			"Name", 
 			itemData,
-			{}, // state
+			[], // state (Array of Graphic Element - each element must implement draw(env))
 		);
 	}
 
@@ -47,9 +47,7 @@ class ExampleDataStructure extends VisualisationItem {
 		return { success:true, message:`` };
 	}
 
-	draw(env) {
-		// Draw stuff
-	}
+	// Extra methods: shouldYield(), resetState(), storeState(), clearStorage(), draw() (Override if extra functionality needed)
 }
 
 ExampleDataStructure.prototype.insert.help = ``;

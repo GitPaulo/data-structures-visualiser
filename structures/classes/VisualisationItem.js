@@ -24,10 +24,17 @@ class VisualisationItem {
         throw `Sort operation is not implemented for ${this.constructor.name}.`;
     }
 
-    draw() {
-        throw `Draw function not implemented.`;
+    async sleep(ms=600) {
+        let t = ms/activeOperation.speed;
+        console.log(`Sleeping animation of ${this.constructor.name} for: ${t}ms.`);
+        await util.sleep(t);
     }
 
+    /*******
+     * Below methods are encorouged to be overwritten if
+     * extra functionality is needed!
+    */
+   
     shouldYield() {
         return activeOperation.shouldYield;
     }
@@ -52,11 +59,11 @@ class VisualisationItem {
         console.log(`Cleared step-state storage for ${this.constructor.name}.`);
     }
 
-    async sleep(ms=600) {
-        let t = ms/activeOperation.speed;
-        console.log(`Sleeping animation of ${this.constructor.name} for: ${t}ms.`);
-        await util.sleep(t);
-    }
+    draw(env) {
+		for (let element of this.state) {
+			element.draw(env);
+		}
+	}
 }
 
 module.exports = VisualisationItem;

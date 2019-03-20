@@ -5,9 +5,9 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     var output  = document.querySelector(outputContainer);
 
     const CMDS = [
-        'clear', 'date', 'echo', 
+        'clear', 'echo', 
         'help', 'instructions',
-        'uname', 'showcontrols',
+        'showcontrols', "shouldreset", "resetosc",
         'insert', 'remove', 'search', 'sort'
     ];
 
@@ -165,9 +165,6 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 output.innerHTML = '';
                 this.value       = '';
                 break;
-            case 'date':
-                write(new Date());
-                break;
             case 'echo':
                 write(args.join(' '));
                 break;
@@ -199,14 +196,19 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 }
 
                 write(help);
-                break
-            case 'uname':
-                write(navigator.appVersion);
                 break;
             case 'showcontrols':
                 let controlsElement           = document.getElementById("visualisation_controls");
                 controlsElement.style.display = controlsElement.style.display === "block" ? "none" : "block";
                 write(`Set display property of the controls to: ${controlsElement.style.display}`);
+                break;
+            case 'shouldreset':
+                activeOperation.shouldReset = !activeOperation.shouldReset;
+                write(`Animation state reset post opreation set to: ${activeOperation.shouldReset}`);
+                break;
+            case 'resetosc':
+                activeOperation.resetOnSC = !activeOperation.resetOnSC;
+                write(`Animation state reset post opreation (only on success) set to: ${activeOperation.resetOnSC}`);
                 break;
             case 'insert':
             case 'remove':

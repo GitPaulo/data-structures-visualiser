@@ -51,6 +51,8 @@ var items           = null;
 let controlObject = {       
     operation   : null,
     shouldYield : false,
+    shouldReset : false,
+    resetOnSC   : false,
     inProgress  : false,
     isPaused    : false,
     speed       : 1,
@@ -63,19 +65,29 @@ let controlObject = {
         this.operation  = operation;
         console.log("Assigned new active operation coroutine: ", operation);
     },
-    terminate : function () {
+    terminate : function (fromStop, rvalue) {
         this.shouldYield = true;
         this.operation.return().then(() => {          
             this.operation   = null;
             this.shouldYield = false;
             this.inProgress  = false;
             this.isPaused    = false;
-            
-            activeItem.resetState();
-            activeItem.clearStorage();
 
+            if (fromStop || this.shouldReset) {
+                if (fromStop || this.resetOnSC && rvalue.success || !this.resetOnSC ) {
+                    activeItem.resetState();
+                }
+            }
+
+            activeItem.clearStorage();
             codeFollowEditor.resetCode();
-            terminalInstance.write("Animation terminated successfully.");
+            
+            if (!rvalue.success)
+                terminalInstance.write("[OPERATION UNSUCCESSFULL]");
+            else
+                terminalInstance.write("[OPERATION SUCCESSFULL]");
+
+            terminalInstance.write(rvalue.message);
         });
     },
     resume : function (input) {
@@ -86,6 +98,9 @@ let controlObject = {
         
         if (this.offset !== 0)
             activeItem.resetState();
+
+        if (this.isPaused)
+            terminalInstance.write("Animation resumed!");
 
         this.inProgress  = true;
         this.shouldYield = false;
@@ -98,15 +113,12 @@ let controlObject = {
                 terminalInstance.write("Operation paused successfully!");
             } else { // animation ended!
                 console.log(result)
-                terminalInstance.write(result.value.message);
-                this.terminate();
+                this.terminate(false, result.value);
             }
         }).catch((error) => {
             terminalInstance.write(`[CAUGHT ERROR] ${error}`);
             throw error;
         });
-
-        terminalInstance.write("Animation started/resumed!");
     },
     pause : function () {
         if (this.isPaused) {
@@ -123,8 +135,7 @@ let controlObject = {
             return;
         }
 
-        this.operation.return(); 
-        this.terminate();
+        this.terminate(true, {success:false, message:`Animation was forced to stop.`});
     },
     back : function () {
         if (!this.isPaused) {
