@@ -95,7 +95,7 @@ let controlObject = {
         this.operation.next(input).then((result) => {
             // If coroutine is not done that means it yeiled thus there was a pause!
             if (result.done === false) { 
-                terminalInstance.write("Operation paused succesfully!");
+                terminalInstance.write("Operation paused successfully!");
             } else { // animation ended!
                 console.log(result)
                 terminalInstance.write(result.value.message);

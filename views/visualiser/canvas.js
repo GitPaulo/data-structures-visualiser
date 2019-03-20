@@ -58,11 +58,6 @@ var visualisationCanvas = new p5((env) => {
             env.noItemScreen();
             return;
         }
-        
-        // makes the effect of 'insta pause' (not really true :b)
-        // (there is some computation left until coroutine yields)
-        if (activeItem.shouldYield) 
-            return;
 
         // clear 
         env.background(...env.BACKGROUND);

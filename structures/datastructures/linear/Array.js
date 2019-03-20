@@ -1,25 +1,22 @@
 /* global VisualisationItem, codeFollowEditor, util, activeOperation*/
 class StaticArray extends VisualisationItem {
 	constructor(itemData) {
+		const length = 10;
 		super(
 			"Static Array", 
 			itemData,
-			{},
+			Array.from({length}, (v, i) => new StaticArray.ElementGraphic(length, i, Math.floor((Math.random()*40)-20)))
 		);
-		
-		// (Cannot call this before super constructor)
-		const length = 10;
-		this.state 	 = Array.from({length}, (v, i) => new StaticArray.ElementGraphic(length, i, Math.floor((Math.random()*40)-20)));
 	}
 
 	async* insert(index, value) {
 		// check params
 		let element   = this.state[index];
 		element.value = value;
-		element.setColor([30, 220, 30]);
+		element.setColor(StaticArray.COLORS.success);
 
 		// Define a step
-		activeOperation.shouldYield ? yield : this.storeState();
+		this.shouldYield() ? yield : this.storeState();
 		await this.sleep();
 		
 		// Reset color
@@ -31,10 +28,10 @@ class StaticArray extends VisualisationItem {
 	async* remove(index) {
 		let element   = this.state[index];
 		element.value = 0;
-		element.setColor([220, 30, 30]);
+		element.setColor(StaticArray.COLORS.fail);
 
 		// Define a step
-		activeOperation.shouldYield ? yield : this.storeState();
+		this.shouldYield() ? yield : this.storeState();
 		await this.sleep();
 
 		// Reset color
@@ -45,20 +42,20 @@ class StaticArray extends VisualisationItem {
 
 	async* search(value) {
 		for (let element of this.state) {
-			element.setColor([50, 40, 190]);
+			element.setColor(StaticArray.COLORS.pointer);
 
 			// Define a step
-			activeOperation.shouldYield ? yield : this.storeState();
+			this.shouldYield() ? yield : this.storeState();
 			await this.sleep();
 
 			if (element.value == value) {
-				element.setColor([50, 290, 50]);
+				element.setColor(StaticArray.COLORS.success);
 			} else {
-				element.setColor([220, 60, 50]);
+				element.setColor(StaticArray.COLORS.fail);
 			}
 
 			// Define a step
-			activeOperation.shouldYield ? yield : this.storeState();
+			this.shouldYield() ? yield : this.storeState();
 			await this.sleep();
 
 			// Reset color
@@ -93,6 +90,13 @@ class StaticArray extends VisualisationItem {
 	}
 }
 
+StaticArray.COLORS = {
+	"success" : [50, 255, 50],
+	"fail"	  : [255, 60, 50],
+	"pointer" : [50, 80, 255],
+	"ordered" : [90, 220, 90],
+}
+
 StaticArray.ASCENDING_TYPE  = "Ascending Order";
 StaticArray.DESCENDING_TYPE = "Descending Order";
 
@@ -109,22 +113,20 @@ StaticArray.sortingMethods = {
 	bubble : async function* (method, type) {	
 		let items  = this.state;
 		let length = items.length;
-
-		let orderedColor = [90, 220, 90];
 		
 		for (let i = 0; i < length; i++) { 
 			// set color of sorted array part
 			for(let k = 0; k < i; k++)
-				items[k].setBorderColor(orderedColor);
+				items[k].setBorderColor(StaticArray.COLORS.ordered);
 
 			// Notice that j < (length - i)
 			for (let j = 0; j < (length - i - 1); j++) { 
 				// highlight
-				items[j].setColor([230, 90, 60]);
-				items[j+1].setColor([230, 90, 60]);
+				items[j].setColor(StaticArray.COLORS.pointer);
+				items[j+1].setColor(StaticArray.COLORS.pointer);
 
 				// Define a step
-				activeOperation.shouldYield ? yield : this.storeState();
+				this.shouldYield() ? yield : this.storeState();
 				await this.sleep();
 
 				// Reset pair color
@@ -141,12 +143,12 @@ StaticArray.sortingMethods = {
 					items[j+1].value = tmp;
 				}
 
-				let hcolor = comparisonBoolean ? [250, 50, 50] : [50, 250, 50];
+				let hcolor = comparisonBoolean ? StaticArray.COLORS.success : StaticArray.COLORS.fail;
 				items[j].setColor(hcolor, 500);
 				items[j+1].setColor(hcolor, 500);
 
 				// Define a step
-				activeOperation.shouldYield ? yield : this.storeState();
+				this.shouldYield() ? yield : this.storeState();
 				await this.sleep();
 
 				// Reset pair color
@@ -155,10 +157,10 @@ StaticArray.sortingMethods = {
 			}        
 		}
 
-		items[length-1].setBorderColor(orderedColor); // last one sorted!
+		items[length-1].setBorderColor(StaticArray.COLORS.ordered); // last one sorted!
 		
 		// Define a step
-		activeOperation.shouldYield ? yield : this.storeState();
+		this.shouldYield() ? yield : this.storeState();
 		await this.sleep();
 		
 		// Clear color!
@@ -174,10 +176,10 @@ StaticArray.sortingMethods = {
 			let value = items[i].value;
 
 			// highlight
-			items[i].setBorderColor([20, 230, 60]);
+			items[i].setBorderColor(StaticArray.COLORS.ordered);
 			
 			// Define a step
-			activeOperation.shouldYield ? yield : this.storeState();
+			this.shouldYield() ? yield : this.storeState();
 			await this.sleep();
 
 			// store the current item value so it can be placed right
@@ -187,10 +189,10 @@ StaticArray.sortingMethods = {
 				// copy each item to the next one
 				// highlight
 				
-				items[j+1].setColor([250, 70, 50]);
+				items[j+1].setColor(StaticArray.COLORS.pointer);
 
 				// Define a step
-				activeOperation.shouldYield ? yield : this.storeState();
+				this.shouldYield() ? yield : this.storeState();
 				await this.sleep();
 
 				items[j + 1].value = items[j].value;
@@ -198,10 +200,10 @@ StaticArray.sortingMethods = {
 				items[j+1].setToLastColor();
 			}
 
-			items[j+1].setColor([90, 220, 50]);
+			items[j+1].setColor(StaticArray.COLORS.success);
 
 			// Define a step
-			activeOperation.shouldYield ? yield : this.storeState();
+			this.shouldYield() ? yield : this.storeState();
 			await this.sleep();
 
 			// the last item we've reached should now hold the value of the currently sorted item
@@ -211,7 +213,7 @@ StaticArray.sortingMethods = {
 		}
 
 		// Define a step
-		activeOperation.shouldYield ? yield : this.storeState();
+		this.shouldYield() ? yield : this.storeState();
 		await this.sleep();
 		
 		// Clear color!
@@ -230,7 +232,7 @@ StaticArray.prototype.sort.help   = `Sorts the array.\n (method): ${Object.keys(
 StaticArray.ElementGraphic = class {
 	constructor(arrayLength, index, value, structure={width:70,height:70,x:0,y:0}) {
 		this.arrayLength = arrayLength;
-		
+
 		this.index  = index;
 		this.value  = value;
 		

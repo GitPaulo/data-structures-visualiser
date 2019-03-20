@@ -1,17 +1,5 @@
 
 /* global util, activeOperation*/
-/***
- * Rules of extending this class.
- * All operation methods are expected to be of type "AsyncGeneratorFunc"
- *  - Yield where a step should be.
- * 
- * IF you want there to be more than one algorithm for a certain operation:
- * (Multi operations are advised to be implemented this way)
- *  1. Operation function will be of regular "Func" type.
- *  2. Arguments will be parsed in operation function. 
- *      - If correct then return apropriate coroutine (stored anywhere)
- *      - Else return message object
- */
 class VisualisationItem {
     constructor(id, descriptiveData, state) {
         this.id 			 = id;
@@ -40,6 +28,10 @@ class VisualisationItem {
         throw `Draw function not implemented.`;
     }
 
+    shouldYield() {
+        return activeOperation.shouldYield;
+    }
+
 	resetState() {
 		if (this.storage[0]) {
             Object.assign(this.state, this.storage[0]);
@@ -60,7 +52,7 @@ class VisualisationItem {
         console.log(`Cleared step-state storage for ${this.constructor.name}.`);
     }
 
-    async sleep(ms=1000) {
+    async sleep(ms=600) {
         let t = ms/activeOperation.speed;
         console.log(`Sleeping animation of ${this.constructor.name} for: ${t}ms.`);
         await util.sleep(t);
