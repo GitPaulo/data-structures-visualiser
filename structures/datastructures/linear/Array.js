@@ -185,13 +185,9 @@ StaticArray.sortingMethods = {
 
 			// store the current item value so it can be placed right
 			let j;
-			let comparisonBoolean = (type === StaticArray.ASCENDING_TYPE) ? (items[j].value > value) : (items[j].value < value);
+			let itsTimeToDuel = (type === StaticArray.ASCENDING_TYPE) ? ">" : "<"; // DUDUDUDUUD
 
-			for (j = i - 1; j > -1 && comparisonBoolean; j--) {
-				// loop through the items in the sorted array (the items from the current to the beginning)
-				// copy each item to the next one
-				// highlight
-				
+			for (j = i - 1; j > -1 && eval(`items[j].value ${itsTimeToDuel} value`); j--) {
 				items[j+1].setColor(StaticArray.COLORS.pointer);
 
 				// Define a step
@@ -264,9 +260,9 @@ StaticArray.ElementGraphic = class {
 	}
 
 	resetColor() {
-		this.rectColor   = StaticArray.ElementGraphic.DEFAULT_COLOR;
-		this.borderColor = StaticArray.ElementGraphic.DEFAULT_BORDER_COLOR;
-		this.textColor   = StaticArray.ElementGraphic.DEFAULT_TEXT_COLOR;
+		this.rectColor   = [255, 255, 255];
+		this.borderColor = [70, 70, 70];
+		this.textColor   = [0, 0, 0];
 	}
 
 	draw(env) {
@@ -304,10 +300,6 @@ StaticArray.ElementGraphic = class {
 		env.text(index, this.x + this.width/2 - tw2/2, this.y + this.height + th2 + 10);
 	}
 }
-
-StaticArray.ElementGraphic.DEFAULT_COLOR 		= [255, 255, 255];
-StaticArray.ElementGraphic.DEFAULT_TEXT_COLOR 	= [70, 70, 70];
-StaticArray.ElementGraphic.DEFAULT_BORDER_COLOR = [0, 0, 0];
 
 // Export Class
 module.exports = StaticArray;

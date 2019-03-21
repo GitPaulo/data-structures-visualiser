@@ -9,6 +9,7 @@ class ExampleDataStructure extends VisualisationItem {
 			"Name", 
 			itemData,
 			[], // state (Array of Graphic Element - each element must implement draw(env))
+			// State can be an abject if we override how we handle it in the draw(); (could be anything actually)
 		);
 	}
 
