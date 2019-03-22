@@ -7,7 +7,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     const CMDS = [
         'clear', 'echo', 
         'help', 'instructions',
-        'showcontrols', "shouldreset", "resetosc",
+        'showcontrols', "shouldreset", "resetosc", "speed",
         'insert', 'remove', 'search', 'sort'
     ];
 
@@ -143,10 +143,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
         console.log( {argumentsList, operationCoroutine, originalFuncReference} );
         // Update code follow
         codeFollowEditor.setCode(originalFuncReference);
-
-        // Store pre operation state in activeItem.storage[0]
-        activeItem.storeState();
-
+        
         // Data Structure Operation Call
         // eslint-disable-next-line no-global-assign
         activeOperation.assign(operationCoroutine(...args));
@@ -209,6 +206,9 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
             case 'resetosc':
                 activeOperation.resetOnSC = !activeOperation.resetOnSC;
                 write(`Animation state reset post opreation (only on success) set to: ${activeOperation.resetOnSC}`);
+                break;
+            case 'speed':
+                activeOperation.setSpeed(...args);
                 break;
             case 'insert':
             case 'remove':

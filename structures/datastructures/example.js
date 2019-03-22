@@ -15,6 +15,13 @@ class ExampleDataStructure extends VisualisationItem {
 
 	// In detail example:
 	async* insert(index, value) {
+		// Check paramas (ALL PARAMETERS ARE STRINGS BECAUSE THEY ARE USER INPUT!)
+		index = Number(index);
+		value = Number(value);
+
+		if ( isNaN(index) || isNaN(value) )
+			return { success:false, message:`` };
+
 		// State changing code
 		// ........
 
@@ -29,26 +36,27 @@ class ExampleDataStructure extends VisualisationItem {
 		return { success:true, message:`` };
 	}
 
-	async* remove(index) {
+	async* remove() {
 		yield;
 
 		return { success:true, message:`` };
 	}
 
-	async* search(value) {
+	async* search() {
 		yield;
         
 		return { success:true, message:`` };
 	}
 
 	// Multi-operation support: This method will return approiate coroutine!
-	async *sort(method, type) {
+	async *sort() {
 		yield;
 
 		return { success:true, message:`` };
 	}
 
 	// Extra methods: shouldYield(), resetState(), storeState(), clearStorage(), draw() (Override if extra functionality needed)
+	// There are also constants we can override/use! (check VisualisationItem.js)
 }
 
 ExampleDataStructure.prototype.insert.help = ``;

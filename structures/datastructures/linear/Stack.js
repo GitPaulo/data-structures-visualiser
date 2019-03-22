@@ -14,6 +14,12 @@ class Stack extends VisualisationItem {
 
 	// In detail example:
 	async* insert(value) {
+		// check params
+		value = Number(value);
+
+		if (isNaN(value))
+			return { success:false, message:`Invalid parameter, must be of type 'Number'!` };
+
 		let pointer 	= this.state.pointer;
 		let nextElement = this.state.array[pointer.value + 1];
 
@@ -65,12 +71,51 @@ class Stack extends VisualisationItem {
 	}
 
 	async* search(value) {
-		yield;
+		// check params
+		value = Number(value);
+
+		if (isNaN(value))
+			return { success:false, message:`Invalid parameter, must be of type 'Number'!` };
+
+		let pointer = this.state.pointer;
+		let found   = false;
+
+		if (pointer.value <= -1)
+			return { success:false, message:`Stack is empty!` };
+
+		while (pointer.value > -1){
+			let currentElement = this.state.array[pointer.value];
+			pointer.value--;
+	
+			// Define a step
+			this.shouldYield() ? yield : this.storeState();
+			await this.sleep(400)
+			
+			let oldvalue = currentElement.value;
+			
+			found = (value === oldvalue);
+			let color = found ? Stack.COLORS.success : Stack.COLORS.fail;
+			currentElement.setColor(color);
+	
+			// Define a step
+			this.shouldYield() ? yield : this.storeState();
+			await this.sleep();
+			
+			currentElement.value = null;
+			currentElement.resetColor();
+
+			if (found)
+				break;
+		}
+
+		this.resetState();
         
-		return { success:true, message:`` };
+		let str = found ? "found" : "not found";
+		return { success:found, message:`Element ${value} was ${str} in the array!` };
 	}
 
 	async *sort(method, type) {
+		// two stacks? :C (impossible with one!)
 		yield;
 
 		return { success:true, message:`` };
@@ -86,17 +131,10 @@ class Stack extends VisualisationItem {
 	}
 }
 
-Stack.prototype.insert.help = ``;
-Stack.prototype.remove.help = ``;
-Stack.prototype.search.help = ``;
-Stack.prototype.sort.help   = ``;
-
-Stack.COLORS = {
-	"success" : [50, 255, 50],
-	"fail"	  : [255, 60, 50],
-	"pointer" : [50, 80, 255],
-	"ordered" : [90, 220, 90],
-}
+Stack.prototype.insert.help = `Push a (value) on to the Stack.`;
+Stack.prototype.remove.help = `Pop a value from the Stack.`;
+Stack.prototype.search.help = `Search a (value) in the Stack.`;
+Stack.prototype.sort.help;
 
 Stack.PointerGraphic = class {
 	constructor() {

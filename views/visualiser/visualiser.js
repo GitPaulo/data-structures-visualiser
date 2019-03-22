@@ -63,7 +63,12 @@ let controlObject = {
     },
     assign : function (operation) {
         this.operation  = operation;
+        
+        // Store pre operation state in activeItem.storage[0]
+        activeItem.storeState();
+        
         console.log("Assigned new active operation coroutine: ", operation);
+        console.log("Stored intial state in storage[0]", activeItem.storage[0]);
     },
     terminate : function (fromStop, rvalue) {
         this.shouldYield = true;
@@ -96,8 +101,10 @@ let controlObject = {
             return;
         }
         
-        if (this.offset !== 0)
-            activeItem.resetState();
+        if (this.offset !== 0) { // return to where we left!
+            Object.assign(activeItem.state, activeItem.storage[activeItem.storage.length-1]);
+            this.offset = 0;
+        }
 
         if (this.isPaused)
             terminalInstance.write("Animation resumed!");
@@ -177,11 +184,9 @@ let controlObject = {
     },
 };
 
-controlObject["animspeed"] = controlObject.setSpeed;
-
 // Just doing this because i miss meta-tables :)
 let metaTable = {
-    operationControls : [ "resume", "pause", "stop", "animspeed", "back", "forward" ],
+    operationControls : [ "resume", "pause", "stop", "back", "forward" ],
     get: function (target, name) {
         // console.log("kek", name, target, target[name]);
         if (typeof target[name] !== "undefined") {
@@ -356,6 +361,9 @@ overwriteButtonElement.onclick = function () {
 
     let protoKeys = Object.getOwnPropertyNames(newClassFunction.prototype);
     for (let key of protoKeys) {
+        if (key === "constructor")
+            continue;
+
         console.log(">>>", key);
         activeItem[key] = newClassFunction.prototype[key];
     }

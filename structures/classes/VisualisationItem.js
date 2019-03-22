@@ -26,7 +26,7 @@ class VisualisationItem {
 
     async sleep(ms=600) {
         let t = ms/activeOperation.speed;
-        console.log(`Sleeping animation of ${this.constructor.name} for: ${t}ms.`);
+        //console.log(`Sleeping animation of ${this.constructor.name} for: ${t}ms.`);
         await util.sleep(t);
     }
 
@@ -64,6 +64,30 @@ class VisualisationItem {
 			element.draw(env);
 		}
 	}
+}
+
+/***** Help Strings For Operations *****/
+VisualisationItem.prototype.insert.help = `Performs an insertion operation. [DEFAULT DOC]`;
+VisualisationItem.prototype.remove.help = `Performs a remove operation. [DEFAULT DOC]`;
+VisualisationItem.prototype.search.help = `Preforms a search operation. [DEFAULT DOC]`;
+VisualisationItem.prototype.sort.help   = `Performs a sort operation. [DEFAULT DOC]'`;
+
+/***** Constants *****/
+VisualisationItem.ASCENDING_SORTING_TYPE  = "Ascending Order";
+VisualisationItem.DESCENDING_SORTING_TYPE = "Descending Order";
+
+VisualisationItem.SORTING_TYPES = {
+	["asc"] 		: VisualisationItem.ASCENDING_SORTING_TYPE,
+	["ascending"]	: VisualisationItem.ASCENDING_SORTING_TYPE,
+	["desc"]		: VisualisationItem.DESCENDING_SORTING_TYPE,
+	["descending"]	: VisualisationItem.DESCENDING_SORTING_TYPE,
+}
+
+VisualisationItem.COLORS = {
+	"success" : [50, 255, 50],
+	"fail"	  : [255, 60, 50],
+	"pointer" : [50, 80, 255],
+	"ordered" : [90, 220, 90],
 }
 
 module.exports = VisualisationItem;

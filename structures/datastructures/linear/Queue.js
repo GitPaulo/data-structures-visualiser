@@ -14,6 +14,12 @@ class Queue extends VisualisationItem {
 	}
 
 	async* insert(value) {
+		// check params
+		value = Number(value);
+
+		if (isNaN(value))
+			return { success:false, message:`Invalid parameter, must be of type 'Number'!` };
+
 		let tailElement = this.state["tail_pointer"];
 		let headElement = this.state["head_pointer"];
 
@@ -63,6 +69,12 @@ class Queue extends VisualisationItem {
 	}
 
 	async* search(value) {
+		// check params
+		value = Number(value);
+
+		if (isNaN(value))
+			return { success:false, message:`Invalid parameter, must be of type 'Number'!` };
+
 		let tailElement = this.state["tail_pointer"];
 		let headElement = this.state["head_pointer"];
 
@@ -79,7 +91,7 @@ class Queue extends VisualisationItem {
 			let oldvalue  = element.value;
 
 			/***** Compare Value  *****/
-			if (oldvalue === value) {
+			if (oldvalue == value) {
 				element.setColor(Queue.COLORS.success);
 				found = true;
 			} else {
@@ -126,10 +138,98 @@ class Queue extends VisualisationItem {
 
 	// Multi-operation support: This method will return approiate coroutine!
 	async *sort(type) {
+		// param check
+		type = this.constructor.SORTING_TYPES[String(type).toLowerCase()];
+		
+		if (typeof type === "undefined")
+			return { success: false, message: `Invalid type of sorting! Check !instructions.` }; 
+
         let tailElement = this.state["tail_pointer"];
 		let headElement = this.state["head_pointer"];
 
-		yield;
+		const MAX = this.state.array.length;
+		let front = headElement.value 
+		let rear  = tailElement.value;
+
+		let numElements = front > rear ? (MAX - front + rear) : (rear - front); // inclusive
+		console.log("NUM ELEMENTS", numElements);
+		
+		for (let i = 0; i < numElements; i++) {
+			/***** Dequeue item *****/
+			let element1     = this.state.array[headElement.value];
+			let oldvalue1    = element1.value;
+			element1.value   = null;
+			element1.setColor(Queue.COLORS.pointer);
+
+			// Define a step
+			this.shouldYield() ? yield : this.storeState();
+			await this.sleep();
+			
+			// Reset color
+			element1.resetColor();
+
+			// Increment head (Circularity!)
+			headElement.value = headElement.value >= MAX-1 ? 0 : headElement.value + 1;
+
+			for (let j = 0; j < (numElements - 1); j++ ){
+				/***** Dequeue item *****/
+				let element2     = this.state.array[headElement.value];
+				let oldvalue2    = element2.value;
+				element2.value   = null;
+				element2.setColor(Queue.COLORS.pointer);
+
+				// Define a step
+				this.shouldYield() ? yield : this.storeState();
+				await this.sleep();
+				
+				// Reset color
+				element2.resetColor();
+
+				// Increment head (Circularity!)
+				headElement.value = headElement.value >= MAX-1 ? 0 : headElement.value + 1;
+
+				/***** Compare Element1 and Element2 and enqueue based on result *****/
+				let operator 		  = (type === this.constructor.ASCENDING_SORTING_TYPE) ? ">" : "<"; 
+				let comparisonBoolean = eval(`(${Number(oldvalue1)} ${operator} ${Number(oldvalue2)})`);
+				let enqueueValue 	  = comparisonBoolean ? oldvalue2 : oldvalue1;
+				
+				console.log({comparisonBoolean, enqueueValue, oldvalue1, oldvalue2})
+
+				let element3     = this.state.array[tailElement.value];
+				element3.value   = enqueueValue;
+				element3.setColor(Queue.COLORS.success);
+
+				// Define a step
+				this.shouldYield() ? yield : this.storeState();
+				await this.sleep();
+				
+				// Reset color
+				element3.resetColor();
+
+				// Increment tail (Circularity!)
+				tailElement.value = tailElement.value >= MAX-1 ? 0 : tailElement.value + 1;
+
+				if (!comparisonBoolean)
+					oldvalue1 = oldvalue2;
+			}
+
+			/***** enqueue oldvalue1 *****/
+			let element3     = this.state.array[tailElement.value];
+			element3.value   = oldvalue1;
+			element3.setColor(Queue.COLORS.pointer);
+
+			// Define a step
+			this.shouldYield() ? yield : this.storeState();
+			await this.sleep();
+			
+			// Reset color
+			element3.resetColor();
+
+			// Increment tail (Circularity!)
+			tailElement.value = tailElement.value >= MAX-1 ? 0 : tailElement.value + 1;
+		}
+
+		return { success:true, message:`Sort completed on Queue!` };
 	}
 
 	// We are having a more complex state so we override draw!
@@ -147,13 +247,6 @@ Queue.prototype.insert.help = `Enqueue a (value) to the queue.`;
 Queue.prototype.remove.help = `Dequeue a value from the queue.`;
 Queue.prototype.search.help = `Search a (value) in the queue.`;
 Queue.prototype.sort.help   = `Sort the queue in 'ascending' or 'descending' order.`;
-
-Queue.COLORS = {
-	"success" : [50, 255, 50],
-	"fail"	  : [255, 60, 50],
-	"pointer" : [50, 80, 255],
-	"ordered" : [90, 220, 90],
-}
 
 Queue.PointerGraphic = class {
 	constructor(name, x, y, width, height) {
