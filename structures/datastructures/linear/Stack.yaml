@@ -1,0 +1,16 @@
+Title: Stack
+Description: |- 
+ Description needs to be written!
+ etc...
+Image: assets/media/Stack.png
+Operations:
+ Insertion:
+  Description: (...).
+  Complexity: O(x)
+ Deletion:
+  Description: (...).
+  Complexity: O(x)
+ Search:
+  Description: (...).
+  Complexity: O(x)
+Space Complexity: O(x)

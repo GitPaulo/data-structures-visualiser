@@ -75,8 +75,8 @@ class Queue extends VisualisationItem {
 
         do {
 			/***** Dequeue Value *****/
-			let element     = this.state.array[headElement.value];
-			let oldvalue    = element.value;
+			let element   = this.state.array[headElement.value];
+			let oldvalue  = element.value;
 
 			/***** Compare Value  *****/
 			if (oldvalue === value) {
@@ -108,7 +108,7 @@ class Queue extends VisualisationItem {
 			// Define a step
 			this.shouldYield() ? yield : this.storeState();
 			await this.sleep();
-			
+
 			// Increment tail (Circularity!)
 			tailElement.value = tailElement.value >= this.state.array.length-1 ? 0 : tailElement.value + 1;
 
@@ -118,15 +118,18 @@ class Queue extends VisualisationItem {
 
 			// Increment search index
 			i = headElement.value;
-		} while (i !== stopi)
+		} while (i !== stopi);
         
 		let str = found ? "found" : "not found";
 		return { success:found, message:`Element ${value} was ${str} in the array!` };
 	}
 
 	// Multi-operation support: This method will return approiate coroutine!
-	async *sort(method, type) {
-        yield;
+	async *sort(type) {
+        let tailElement = this.state["tail_pointer"];
+		let headElement = this.state["head_pointer"];
+
+		yield;
 	}
 
 	// We are having a more complex state so we override draw!
@@ -140,10 +143,10 @@ class Queue extends VisualisationItem {
 	}
 }
 
-Queue.prototype.insert.help = ``;
-Queue.prototype.remove.help = ``;
-Queue.prototype.search.help = ``;
-Queue.prototype.sort.help   = ``;
+Queue.prototype.insert.help = `Enqueue a (value) to the queue.`;
+Queue.prototype.remove.help = `Dequeue a value from the queue.`;
+Queue.prototype.search.help = `Search a (value) in the queue.`;
+Queue.prototype.sort.help   = `Sort the queue in 'ascending' or 'descending' order.`;
 
 Queue.COLORS = {
 	"success" : [50, 255, 50],
