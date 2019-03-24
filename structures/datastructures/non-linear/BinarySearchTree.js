@@ -3,7 +3,7 @@
 class BinarySearchTree extends VisualisationItem {
 	constructor(itemData) {
 		super(
-			"Name", 
+			"Binary Search Tree", 
 			itemData,
 			[], // state
 		);

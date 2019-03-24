@@ -29,15 +29,13 @@ class Stack extends VisualisationItem {
 		pointer.value++;
 
 		// Define a step
-		this.shouldYield() ? yield : this.storeState();
-		await this.sleep(400);
+		await this.step(400) && (yield);
 
 		nextElement.value = value;
 		nextElement.setColor(Stack.COLORS.success);
 
 		// Define a step
-		this.shouldYield() ? yield : this.storeState();
-		await this.sleep();
+		await this.step() && (yield);
 
 		nextElement.resetColor();
 		
@@ -54,16 +52,14 @@ class Stack extends VisualisationItem {
 		pointer.value--;
 
 		// Define a step
-		this.shouldYield() ? yield : this.storeState();
-		await this.sleep(400)
+		await this.step(400) && (yield);
 
 		let oldvalue = currentElement.value;
 		currentElement.value = null;
 		currentElement.setColor(Stack.COLORS.fail);
 
 		// Define a step
-		this.shouldYield() ? yield : this.storeState();
-		await this.sleep();
+		await this.step() && (yield);
 
 		currentElement.resetColor();
 
@@ -88,8 +84,7 @@ class Stack extends VisualisationItem {
 			pointer.value--;
 	
 			// Define a step
-			this.shouldYield() ? yield : this.storeState();
-			await this.sleep(400)
+			await this.step(400) && (yield);
 			
 			let oldvalue = currentElement.value;
 			
@@ -98,8 +93,7 @@ class Stack extends VisualisationItem {
 			currentElement.setColor(color);
 	
 			// Define a step
-			this.shouldYield() ? yield : this.storeState();
-			await this.sleep();
+			await this.step() && (yield);
 			
 			currentElement.value = null;
 			currentElement.resetColor();

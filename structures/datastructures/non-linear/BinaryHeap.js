@@ -30,9 +30,8 @@ class BinaryHeap extends VisualisationItem {
         newElement.setValues(value);
         newElement.setColors(this.constructor.COLORS.success);
 		
-		// Define Step
-		this.shouldYield() ? yield : this.storeState();
-		await this.sleep();
+		// define Step
+		await this.step() && (yield);
 
         newElement.resetColors();
         
@@ -48,15 +47,13 @@ class BinaryHeap extends VisualisationItem {
             
             currentElement.setBorderColors(this.constructor.COLORS.success);
 
-            // Define Step
-            this.shouldYield() ? yield : this.storeState();
-            await this.sleep();
+            // define Step
+            await this.step() && (yield);
 
             parentElement.setBorderColors(this.constructor.COLORS.success);
 
-            // Define Step
-            this.shouldYield() ? yield : this.storeState();
-            await this.sleep();
+            // define Step
+            await this.step() && (yield);
 
             let completed = pvalue < nvalue;
             let color     = completed ? this.constructor.COLORS.success : this.constructor.COLORS.fail;
@@ -64,9 +61,8 @@ class BinaryHeap extends VisualisationItem {
             currentElement.setColors(color);
             parentElement.setColors(color);
     
-            // Define Step
-            this.shouldYield() ? yield : this.storeState();
-            await this.sleep();
+            // define Step
+            await this.step() && (yield);
 
             currentElement.resetColors();
             parentElement.resetColors();
@@ -85,7 +81,7 @@ class BinaryHeap extends VisualisationItem {
         this.state.num_elements++;
 
 		// Return result
-		return { success:true, message:`` };
+		return { success:true, message:`Inserted ${value} in the heap and mainted heap-property!` };
 	}
 
 	async* remove() {
@@ -103,37 +99,36 @@ class BinaryHeap extends VisualisationItem {
         if (nthElement == rootElement) {
             nthElement.setColors(this.constructor.COLORS.fail);
 
-            this.shouldYield() ? yield : this.storeState();
-            await this.sleep();
+            // define a step
+            await this.step() && (yield);
     
             nthElement.resetColors();
             nthElement.setValues(null);
             return { success:true, message:`Root node removed!` };
         }
 
-        let nthValue    = nthElement.resolveValue();
+        let nthValue = nthElement.resolveValue();
         nthElement.setColors(this.constructor.COLORS.pointer);
         
-        this.shouldYield() ? yield : this.storeState();
-        await this.sleep();
-        
+        // define a step
+        await this.step() && (yield);
+
         rootElement.setColors(this.constructor.COLORS.fail);
 
-        this.shouldYield() ? yield : this.storeState();
-        await this.sleep();
+        // define a step
+        await this.step() && (yield);
 
         nthElement.resetColors();
         nthElement.setValues(null);
 
-        this.shouldYield() ? yield : this.storeState();
-        await this.sleep();
+        // define a step
+        await this.step() && (yield);
         
         rootElement.setValues(nthValue);
         rootElement.setColors(this.constructor.COLORS.success);
 
-        // Define Step
-        this.shouldYield() ? yield : this.storeState();
-        await this.sleep();
+        // define Step
+        await this.step() && (yield);
 
         rootElement.resetColors();
 
@@ -174,21 +169,19 @@ class BinaryHeap extends VisualisationItem {
 
                 currentElement.setBorderColors(this.constructor.COLORS.success);
 
-                // Define Step
-                this.shouldYield() ? yield : this.storeState();
-                await this.sleep();
+                // define step
+                await this.step() && (yield);
     
                 jelement.setBorderColors(this.constructor.COLORS.success);
     
-                // Define Step
-                this.shouldYield() ? yield : this.storeState();
-                await this.sleep();
+                // define step
+                await this.step() && (yield);
 
                 jelement.setColors(this.constructor.COLORS.fail);
                 currentElement.setColors(this.constructor.COLORS.fail);
 
-                this.shouldYield() ? yield : this.storeState();
-                await this.sleep();
+                // define a step
+                await this.step() && (yield);
                 
                 jelement.resetColors();
                 currentElement.resetColors();
@@ -199,12 +192,12 @@ class BinaryHeap extends VisualisationItem {
 
             i = j;
 
-            this.shouldYield() ? yield : this.storeState();
-            await this.sleep();
+            // define a step
+            await this.step() && (yield);
 
         } while (i >= 0); 
 
-		return { success:true, message:`Removed element from heaped and maintained property!` };
+		return { success:true, message:`Removed element from heap and maintained heap-property!` };
 	}
     
     // Complex object and needs extra stuff - edges to be drawn!

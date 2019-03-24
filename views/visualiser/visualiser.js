@@ -44,7 +44,7 @@ let speedSliderElement         = document.getElementById('step_speed');
 /**************** Active Item Definition ****************/
 // Represents the active data structure meta data!
 // (NOT THE DS ITSELF!)
-var activeItem      = null;
+var activeItem      = null; var pogyield =false;
 var items           = null;
 
 // Operation object literal to deal with the DS operation coroutines in a easy manner!
@@ -101,10 +101,8 @@ let controlObject = {
             return;
         }
         
-        if (this.offset !== 0) { // return to where we left!
-            Object.assign(activeItem.state, activeItem.storage[activeItem.storage.length-1]);
-            this.offset = 0;
-        }
+        if (this.offset !== 0) // return to where we left!
+            activeItem.shiftStateToResume();
 
         if (this.isPaused)
             terminalInstance.write("Animation resumed!");
@@ -160,7 +158,7 @@ let controlObject = {
         this.offset--;
         let pointer = n + this.offset;
         
-        Object.assign(activeItem.state, activeItem.storage[pointer]);
+        activeItem.shiftState(pointer);
         terminalInstance.write(`Moving to a backward state. Storage pointer: ${pointer}`);
     },
     forward : function () {
@@ -179,7 +177,7 @@ let controlObject = {
         this.offset++;
         let pointer = n + this.offset;
         
-        Object.assign(activeItem.state, activeItem.storage[pointer]);
+        activeItem.shiftState(pointer);
         terminalInstance.write(`Moving to a forward state. Storage pointer: ${pointer}`);
     },
 };

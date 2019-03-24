@@ -31,8 +31,7 @@ class Queue extends VisualisationItem {
 		element.setColor(Queue.COLORS.success);
 
 		// Define a step
-		this.shouldYield() ? yield : this.storeState();
-		await this.sleep();
+		await this.step() && (yield);
 		
 		// Reset color
 		element.resetColor();
@@ -56,8 +55,7 @@ class Queue extends VisualisationItem {
 		element.setColor(Queue.COLORS.fail);
 
 		// Define a step
-		this.shouldYield() ? yield : this.storeState();
-		await this.sleep();
+		await this.step() && (yield);
 		
 		// Reset color
 		element.resetColor();
@@ -99,8 +97,7 @@ class Queue extends VisualisationItem {
 			}
 
 			// Define a step
-			this.shouldYield() ? yield : this.storeState();
-			await this.sleep();
+			await this.step() && (yield);
 
 			// Reset color
 			element.resetColor();
@@ -110,23 +107,20 @@ class Queue extends VisualisationItem {
 			headElement.value = headElement.value >= this.state.array.length-1 ? 0 : headElement.value + 1;
 
 			// Define a step
-			this.shouldYield() ? yield : this.storeState();
-			await this.sleep();
+			await this.step() && (yield);
 
 			/***** Queue value back! *****/
 			element     	= this.state.array[tailElement.value];
 			element.value   = oldvalue;
 
 			// Define a step
-			this.shouldYield() ? yield : this.storeState();
-			await this.sleep();
+			await this.step() && (yield);
 
 			// Increment tail (Circularity!)
 			tailElement.value = tailElement.value >= this.state.array.length-1 ? 0 : tailElement.value + 1;
 
 			// Define a step
-			this.shouldYield() ? yield : this.storeState();
-			await this.sleep();
+			await this.step() && (yield);
 
 			// Increment search index
 			i = headElement.value;
@@ -162,8 +156,7 @@ class Queue extends VisualisationItem {
 			element1.setColor(Queue.COLORS.pointer);
 
 			// Define a step
-			this.shouldYield() ? yield : this.storeState();
-			await this.sleep();
+			await this.step() && (yield);
 			
 			// Reset color
 			element1.resetColor();
@@ -179,8 +172,7 @@ class Queue extends VisualisationItem {
 				element2.setColor(Queue.COLORS.pointer);
 
 				// Define a step
-				this.shouldYield() ? yield : this.storeState();
-				await this.sleep();
+				await this.step() && (yield);
 				
 				// Reset color
 				element2.resetColor();
@@ -200,8 +192,7 @@ class Queue extends VisualisationItem {
 				element3.setColor(Queue.COLORS.success);
 
 				// Define a step
-				this.shouldYield() ? yield : this.storeState();
-				await this.sleep();
+				await this.step() && (yield);
 				
 				// Reset color
 				element3.resetColor();
@@ -219,8 +210,7 @@ class Queue extends VisualisationItem {
 			element3.setColor(Queue.COLORS.pointer);
 
 			// Define a step
-			this.shouldYield() ? yield : this.storeState();
-			await this.sleep();
+			await this.step() && (yield);
 			
 			// Reset color
 			element3.resetColor();

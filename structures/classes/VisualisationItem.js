@@ -2,10 +2,10 @@
 /* eslint-disable require-yield */
 class VisualisationItem {
     constructor(id, descriptiveData, state) {
-        this.id 			 = id;
-        this.descriptiveData = descriptiveData; // from yaml object
-        this.state           = state;
-        this.storage         = [];
+        this.id 			     = id;
+        this.descriptiveData     = descriptiveData; // from yaml object
+        this.state = this._state = state; // 007 double-agent mega secrative *bad dum ba dum*
+        this.storage             = [];
     }
         
     async* insert() {
@@ -23,13 +23,6 @@ class VisualisationItem {
     async* sort() {
         throw `Sort operation is not implemented for ${this.constructor.name}.`;
     }
-
-    async sleep(ms=600) {
-        let t = ms/activeOperation.speed;
-        //console.log(`Sleeping animation of ${this.constructor.name} for: ${t}ms.`);
-        await util.sleep(t);
-    }
-
     /*******
      * Below methods are encorouged to be overwritten if
      * extra functionality is needed!
@@ -37,6 +30,16 @@ class VisualisationItem {
    
     shouldYield() {
         return activeOperation.shouldYield;
+    }
+
+    shiftState(index) {
+        console.log("Shfiting state to: ", index);
+        this.state = (index >= this.storage.length-1) ? this._state : this.state = this.storage[index];
+    }
+
+    shiftStateToResume(){
+        console.log("Shfiting state to resume! (007 boi)");
+        this.state = this._state;
     }
 
 	resetState() {
@@ -63,7 +66,23 @@ class VisualisationItem {
 		for (let element of this.state) {
 			element.draw(env);
 		}
-	}
+    }
+
+    async step(ms) {
+        this.storeState();
+
+        if (this.shouldYield())
+            return true;
+
+        await this.sleep(ms);
+        return false;
+    }
+    
+    async sleep(ms=600) {
+        let t = ms/activeOperation.speed;
+        //console.log(`Sleeping animation of ${this.constructor.name} for: ${t}ms.`);
+        await util.sleep(t);
+    }
 }
 
 /***** Help Strings For Operations *****/
