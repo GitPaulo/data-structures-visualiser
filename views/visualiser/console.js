@@ -138,7 +138,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
             operationCoroutine    = originalFuncReference.bind(activeItem); // required because changing reference storage.
         }
         
-        write(`Performing '${key}' operation on '${activeItem.id}' with parameters: ${args+""}`);
+        write(`Performing '${key}' operation on '${activeItem.id}' with parameters: [${args+""}]`);
         
         console.log( {argumentsList, operationCoroutine, originalFuncReference} );
         // Update code follow
@@ -175,7 +175,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                     break;
                 }
 
-                let objectProperties = Object.getOwnPropertyNames(activeItem.__proto__);
+                let objectProperties = util.getPrototypeKeys(activeItem);
                 let help             = `${activeItem.id} - Command Operation Instructions<br>[<b>cmd arg1,...,argN</b> => "description"]<br><br>`;
                 
                 for (let property of objectProperties){

@@ -112,7 +112,12 @@ class BinaryHeap extends VisualisationItem {
         }
 
         let nthValue    = nthElement.resolveValue();
-        nthElement.setColors(this.constructor.COLORS.fail);
+        nthElement.setColors(this.constructor.COLORS.pointer);
+        
+        this.shouldYield() ? yield : this.storeState();
+        await this.sleep();
+        
+        rootElement.setColors(this.constructor.COLORS.fail);
 
         this.shouldYield() ? yield : this.storeState();
         await this.sleep();
@@ -202,19 +207,6 @@ class BinaryHeap extends VisualisationItem {
 		return { success:true, message:`Removed element from heaped and maintained property!` };
 	}
     
-	// Multi-operation support: This method will return approiate coroutine!
-	async* search() {
-		yield;
-        
-		return { success:true, message:`` };
-	}
-
-	async *sort() {
-		yield;
-
-		return { success:true, message:`` };
-    }
-    
     // Complex object and needs extra stuff - edges to be drawn!
     draw(env) {
 		for (let element of this.state.array) {
@@ -223,10 +215,8 @@ class BinaryHeap extends VisualisationItem {
 	}
 }
 
-BinaryHeap.prototype.insert.help;
-BinaryHeap.prototype.remove.help;
-BinaryHeap.prototype.search.help;
-BinaryHeap.prototype.sort.help;
+BinaryHeap.prototype.insert.help = `Inserts a (value) into the heap. (maintains heap property!)`;
+BinaryHeap.prototype.remove.help = `Removes the top element out of the heap. (mantains heap property!)`;
 
 BinaryHeap.WrapElement = class {
     constructor(arrayLength, index, value) {
@@ -244,7 +234,7 @@ BinaryHeap.WrapElement = class {
         this.cell.setColor(color);
     }
 
-    resetColors(color) {
+    resetColors() {
         this.node.resetColor();
         this.cell.resetColor();
     }
@@ -368,7 +358,7 @@ BinaryHeap.NodeGraphic = class {
         this.textColor = color;
     }
 
-    resetColor(color) {
+    resetColor() {
         this.borderColor = [20, 20, 20];
         this.innerColor  = [255, 255, 255];
         this.textColor   = [40, 40, 40];

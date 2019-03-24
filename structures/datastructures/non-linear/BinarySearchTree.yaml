@@ -1,0 +1,15 @@
+Title: Binary Search Tree
+Description: |- 
+ (...)
+Image: assets/media/BinarySearchTree.png
+Operations:
+ Insertion:
+  Description: Operation which inserts a new element into the BST.
+  Complexity: O(1)
+ Deletion:
+   Description: Operation which deletes an element indexed into the BST.
+   Complexity: O(1)
+ Search:
+  Description: Operation which searches the heap for a BST.
+  Complexity: O(n)
+Space Complexity: O(n) 

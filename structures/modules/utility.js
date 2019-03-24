@@ -93,34 +93,45 @@ util.clamp = function (num, min, max) {
     return num <= min ? min : num >= max ? max : num;
 }
 
+util.getPrototypeKeys = function (obj) {
+    var p = [];
+    for (; obj != null; obj = Object.getPrototypeOf(obj)) {
+        var op = Object.getOwnPropertyNames(obj);
+        for (var i = 0; i < op.length; i++)
+            if (p.indexOf(op[i]) == -1)
+                p.push(op[i]);
+    }
+    return p;
+}
+
 util.cloneCircular = function (obj, hash = new WeakMap()) {
     // Do not try to clone primitives or functions
-    if (Object(obj) !== obj || obj instanceof Function) 
+    if (Object(obj) !== obj || obj instanceof Function)
         return obj;
-    
-    if (hash.has(obj)) 
+
+    if (hash.has(obj))
         return hash.get(obj); // Cyclic reference
-    
+
     try { // Try to run constructor (without arguments, as we don't know them)
         var result = new obj.constructor();
     } catch (e) { // Constructor failed, create object without running the constructor
         result = Object.create(Object.getPrototypeOf(obj));
     }
-   
+
     // Optional: support for some standard constructors (extend as desired)
     if (obj instanceof Map)
-        Array.from(obj, ([key, val]) => result.set(util.cloneCircular(key, hash),util.cloneCircular(val, hash)));
+        Array.from(obj, ([key, val]) => result.set(util.cloneCircular(key, hash), util.cloneCircular(val, hash)));
     else if (obj instanceof Set)
         Array.from(obj, (key) => result.add(util.cloneCircular(key, hash)));
-    
+
     // Register in hash    
     hash.set(obj, result);
-    
+
     // Clone and assign enumerable own properties recursively
     return Object.assign(result, ...Object.keys(obj).map(
-    key => ({
-        [key]: util.cloneCircular(obj[key], hash)
-    })));
+        key => ({
+            [key]: util.cloneCircular(obj[key], hash)
+        })));
 }
 
 module.exports = util;

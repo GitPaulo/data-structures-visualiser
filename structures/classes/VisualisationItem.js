@@ -1,5 +1,5 @@
-
-/* global util, activeOperation*/
+/* global util, activeOperation */
+/* eslint-disable require-yield */
 class VisualisationItem {
     constructor(id, descriptiveData, state) {
         this.id 			 = id;
@@ -8,19 +8,19 @@ class VisualisationItem {
         this.storage         = [];
     }
         
-    insert() {
+    async* insert() {
         throw `Insert operation is not implemented for ${this.constructor.name}.`;
     }
 
-    remove() {
+    async* remove() {
         throw `Remove operation is not implemented for ${this.constructor.name}.`;
     }
 
-    search() {
+    async* search() {
         throw `Search operation is not implemented for ${this.constructor.name}.`;
     }
 
-    sort() {
+    async* sort() {
         throw `Sort operation is not implemented for ${this.constructor.name}.`;
     }
 
@@ -67,14 +67,13 @@ class VisualisationItem {
 }
 
 /***** Help Strings For Operations *****/
-VisualisationItem.prototype.insert.help = `Performs an insertion operation. [DEFAULT DOC]`;
-VisualisationItem.prototype.remove.help = `Performs a remove operation. [DEFAULT DOC]`;
-VisualisationItem.prototype.search.help = `Preforms a search operation. [DEFAULT DOC]`;
-VisualisationItem.prototype.sort.help   = `Performs a sort operation. [DEFAULT DOC]'`;
+VisualisationItem.prototype.insert.help =
+    VisualisationItem.prototype.remove.help = 
+        VisualisationItem.prototype.search.help = 
+            VisualisationItem.prototype.sort.help = `[OPERATION NOT AVAILABLE/IMPLMENETED]`;
 
 /***** Constants *****/
-VisualisationItem.ASCENDING_SORTING_TYPE  = "Ascending Order";
-VisualisationItem.DESCENDING_SORTING_TYPE = "Descending Order";
+VisualisationItem.ASCENDING_SORTING_TYPE = "Ascending Order";
 
 VisualisationItem.SORTING_TYPES = {
 	["asc"] 		: VisualisationItem.ASCENDING_SORTING_TYPE,
