@@ -1,4 +1,4 @@
-/* global VisualisationItem, codeFollowEditor, util, activeOperation, pogyield*/
+/* global VisualisationItem, codeFollowEditor, util, activeOperation*/
 class StaticArray extends VisualisationItem {
 	constructor(itemData) {
 		const length = 10;
@@ -78,9 +78,6 @@ class StaticArray extends VisualisationItem {
 			// Define a step
 			await this.step() && (yield);
 
-			if (pogyield) yield;
-
-			console.log("RESETING COLOR!!", element);
 			// Reset color
 			element.resetColor();
 

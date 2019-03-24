@@ -44,7 +44,7 @@ let speedSliderElement         = document.getElementById('step_speed');
 /**************** Active Item Definition ****************/
 // Represents the active data structure meta data!
 // (NOT THE DS ITSELF!)
-var activeItem      = null; var pogyield =false;
+var activeItem      = null;
 var items           = null;
 
 // Operation object literal to deal with the DS operation coroutines in a easy manner!
