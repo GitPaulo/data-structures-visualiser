@@ -1,0 +1,15 @@
+Title: Binary Heap
+Description: |- 
+ (...)
+Image: assets/media/BinaryHeap.png
+Operations:
+ Insertion:
+  Description: Operation which inserts a new element into the heap.
+  Complexity: O(1)
+ Deletion:
+   Description: Operation which deletes an element indexed into the heap.
+   Complexity: O(1)
+ Search:
+  Description: Operation which searches the heap for a value.
+  Complexity: O(n)
+Space Complexity: O(n) 
