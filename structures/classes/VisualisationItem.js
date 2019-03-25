@@ -92,7 +92,8 @@ VisualisationItem.prototype.insert.help =
             VisualisationItem.prototype.sort.help = `[OPERATION NOT AVAILABLE/IMPLMENETED]`;
 
 /***** Constants *****/
-VisualisationItem.ASCENDING_SORTING_TYPE = "Ascending Order";
+VisualisationItem.ASCENDING_SORTING_TYPE  = "[Ascending Order]";
+VisualisationItem.DESCENDING_SORTING_TYPE = "[Descending Order]";
 
 VisualisationItem.SORTING_TYPES = {
 	["asc"] 		: VisualisationItem.ASCENDING_SORTING_TYPE,

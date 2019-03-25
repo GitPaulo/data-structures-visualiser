@@ -108,13 +108,6 @@ class Stack extends VisualisationItem {
 		return { success:found, message:`Element ${value} was ${str} in the array!` };
 	}
 
-	async *sort(method, type) {
-		// two stacks? :C (impossible with one!)
-		yield;
-
-		return { success:true, message:`` };
-	}
-
 	// Complex state object requires draw override
 	draw(env) {
 		this.state["pointer"].draw(env);

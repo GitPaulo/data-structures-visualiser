@@ -35,8 +35,8 @@ let canvasID                   = 'visualisation_canvas'; // used in canvas.js
 let visualisationCanvasElement = document.getElementById(canvasID);
 let playButtonElement          = document.getElementById('play_button');
 let pauseButtonElement         = document.getElementById('pause_button');
-let forwardButtonElement       = document.getElementById('step_backward_button');
-let backwardButtonElement      = document.getElementById('step_forward_button');
+let forwardButtonElement       = document.getElementById('step_forward_button');
+let backwardButtonElement      = document.getElementById('step_backward_button');
 let speedSliderElement         = document.getElementById('step_speed');
 
 // Console (Quadrant) [mostly on console.js]
@@ -330,12 +330,23 @@ closesidebarElement.onclick = function() {
     opensidebarElement.innerHTML   = "&#9776; Open Sidebar";
     opensidebarElement.style.color = "white";
     waitCanvasResize();
+};
+
+playButtonElement.onclick = function () {
+    activeOperation.resume();
 }
 
-playButtonElement.onclick     = activeOperation.resume;
-pauseButtonElement.onclick    = activeOperation.pause;
-backwardButtonElement.onclick = activeOperation.back;
-forwardButtonElement.onclick  = activeOperation.forward;
+pauseButtonElement.onclick = function () {
+    activeOperation.pause();
+}
+
+backwardButtonElement.onclick = function () {
+    activeOperation.back();
+}
+
+forwardButtonElement.onclick = function () {
+    activeOperation.forward();
+}
 
 speedSliderElement.onchange = function () {
     activeOperation.setSpeed(speedSliderElement.value);
