@@ -187,7 +187,7 @@ BinaryTree.searchingMethods = {
             // Pop the relevant node!
             currentElement = stack.pop();
             cvalue = !currentElement ? null : currentElement.resolveValue();
-            cindex = !currentElement ? null : currentElement.resolveIndex();;
+            cindex = !currentElement ? null : currentElement.resolveIndex();
         
             currentElement.setBorderColors(this.constructor.COLORS.success);
             // define Step
