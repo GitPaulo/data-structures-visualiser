@@ -141,6 +141,9 @@ class Queue extends VisualisationItem {
         let tailElement = this.state["tail_pointer"];
 		let headElement = this.state["head_pointer"];
 
+		if (tailElement.value === headElement.value && this.state.array[headElement.value].value === null)
+			return { success:false, message:`The Queue is empty!` };
+
 		const MAX = this.state.array.length;
 		let front = headElement.value 
 		let rear  = tailElement.value;

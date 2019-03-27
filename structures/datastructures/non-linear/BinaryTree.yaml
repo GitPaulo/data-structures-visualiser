@@ -1,0 +1,18 @@
+Title: Binary Tree (Array Implementation)
+Description: |- 
+ (...)
+Image: assets/media/Example.png
+Operations:
+ Insertion:
+  Description: Operation which inserts a new element into the DS.
+  Complexity: "????"
+ Deletion:
+   Description: Operation which deletes an element indexed into the DS
+   Complexity: "????"
+ Search:
+  Description: Operation which searches the DS.
+  Complexity: "????"
+ Sort:
+  Description: Operation which sorts the DS.
+  Complexity: "????"
+Space Complexity: "????" 

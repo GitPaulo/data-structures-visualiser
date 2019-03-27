@@ -3,10 +3,13 @@ const fs   = require('fs');
 const path = require('path');
 const YAML = require('js-yaml');
 
+const ignorePrefix = "__";
+
 var getDirs = p => fs.readdirSync(p).filter(f => fs.statSync(path.join(p, f)).isDirectory());
 let dirs    = getDirs(__dirname);
 
 for (let dir of dirs) {
+    if (dir.startsWith(ignorePrefix)) continue;
     module.exports[dir] = [];
     let folderPath = path.join(__dirname, dir);
     fs.readdirSync(folderPath).forEach(function (file) {

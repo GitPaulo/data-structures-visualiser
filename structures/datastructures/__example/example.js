@@ -6,10 +6,10 @@
 class ExampleDataStructure extends VisualisationItem {
 	constructor(itemData) {
 		super(
-			"Name", 
+			"Example Name", 
 			itemData,
-			[], // state (Array of Graphic Element - each element must implement draw(env))
-			// State can be an abject if we override how we handle it in the draw(); (could be anything actually)
+			[], // State (Array of Graphic Element - each element must implement draw(env))
+				// State can be an abject if we override how we handle it in the draw(); (could be anything actually)
 		);
 	}
 
@@ -26,8 +26,7 @@ class ExampleDataStructure extends VisualisationItem {
 		// ........
 
 		// Define Step
-		this.shouldYield() ? yield : this.storeState();
-		await this.sleep();
+		await this.step() && (yield);
 
 		// State changing code
 		// ........
@@ -37,26 +36,46 @@ class ExampleDataStructure extends VisualisationItem {
 	}
 
 	async* remove() {
-		yield;
+		// Step
+		await this.step() && (yield);
 
 		return { success:true, message:`` };
 	}
 
 	async* search() {
-		yield;
+		// Step
+		await this.step() && (yield);
         
 		return { success:true, message:`` };
 	}
 
 	// Multi-operation support: This method will return approiate coroutine!
 	async *sort() {
-		yield;
+		// Step
+		await this.step() && (yield);
 
 		return { success:true, message:`` };
 	}
 
-	// Extra methods: shouldYield(), resetState(), storeState(), clearStorage(), draw() (Override if extra functionality needed)
-	// There are also constants we can override/use! (check VisualisationItem.js)
+	/*****
+	 * Extra methods: 
+	 * 		- shouldYield()
+	 * 		- resetState()
+	 * 		- storeState() 
+	 * 		- clearStorage()
+	 * 		- shiftState(index)
+	 * 		- shiftStateToResume()
+	 * 		- draw(env) 
+	 * (Override if extra functionality needed)
+	 */
+	
+	/***** 
+	 * Constants of Parent class:
+	 * 		- VisualisationItem.ASCENDING_SORTING_TYPE
+	 * 		- VisualisationItem.DESCENDING_SORTING_TYPE
+	 * 		- VisualisationItem.SORTING_TYPES
+	 * 		- VisualisationItem.COLORS
+	 */ 
 }
 
 ExampleDataStructure.prototype.insert.help = ``;

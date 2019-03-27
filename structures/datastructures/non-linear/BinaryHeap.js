@@ -14,14 +14,14 @@ class BinaryHeap extends VisualisationItem {
 	}
 
 	async* insert(value) {
-		// Check paramas
+        // Check paramas
+        if (this.state.num_elements >= this.state.array.length)
+            return { success:false, message:`The heap is full!` };
+
 		value = Number(value);
 
 		if (isNaN(value))
 			return { success:false, message:`Invalid paremeter! Parameter 'value' must be a number!` };
-
-        if (this.state.num_elements >= this.state.array.length)
-            return { success:false, message:`The heap is full!` };
 
         /***** Add new node at the end *****/
         let i          = this.state.num_elements;
@@ -39,7 +39,7 @@ class BinaryHeap extends VisualisationItem {
         let j = i;
         let currentElement = newElement;
         while (j > 0) {
-            let pi            = Math.floor((j-1)/2);
+            let pi            = this.parentOf(j);
             let parentElement = activeItem.state.array[pi];
             
             let pvalue = parentElement.resolveValue();
@@ -141,11 +141,11 @@ class BinaryHeap extends VisualisationItem {
             let currentElement = this.state.array[i];
             let cvalue         = currentElement.resolveValue();
 
-            let ri                = Math.floor(2*i + 2);
+            let ri                = this.rightChildOf(i);
             let rightChildElement = this.state.array[ri];
             let rvalue            = rightChildElement.resolveValue();
 
-            let li               = Math.floor(2*i + 1);
+            let li               = this.leftChildOf(2*i + 1);
             let leftChildElement = this.state.array[li];
             let lvalue           = leftChildElement.resolveValue();
 
@@ -199,6 +199,23 @@ class BinaryHeap extends VisualisationItem {
 
 		return { success:true, message:`Removed element from heap and maintained heap-property!` };
 	}
+    
+    // Extra functions - For Binary trees!
+    parentOf(index) {
+        return Math.floor((index-1)/2);
+    } 
+
+    rightChildOf(index) {
+		return Math.floor(2 * index + 2);
+	}
+
+	leftChildOf(index) {
+		return Math.floor(2 * index + 1);
+    }
+
+    depthOf(index) {
+        return Math.floor(Math.log2(index+1));
+    }
     
     // Complex object and needs extra stuff - edges to be drawn!
     draw(env) {
@@ -367,10 +384,10 @@ BinaryHeap.NodeGraphic = class {
             this.x = env.width/2;
             this.y = this.radius/1.8;
         } else { // based of parent!
-            let pi     = Math.floor((this.index-1)/2);
+            let pi     = activeItem.parentOf(this.index);
             let parent = activeItem.state.array[pi].node;
             
-            let d = Math.floor(Math.log2(this.index+1)); // Get depth of node by index
+            let d = activeItem.depthOf(this.index); // Get depth of node by index
             let offset = (this.radius*2 + 100) / Math.pow(2, d-1); // based on depth!
 
             // Even indices are right tree nodes! Odd are left!

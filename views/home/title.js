@@ -10,7 +10,7 @@ function Vehicle(env, x, y) {
     this.r 		  = 4;
     this.maxspeed = 7;
     this.maxforce = 1;
-    this.env        = env;
+    this.env      = env;
 }
 
 Vehicle.prototype.behaviors = function() {
@@ -78,7 +78,7 @@ Vehicle.prototype.flee = function(target) {
 /* P5 SKETCH */
 
 let sketch = function(env) {
-    const TITLE_TEXT = "Algorithm Visualiser"
+    const TITLE_TEXT = "DS/Alg Visualiser"
 
     let font;
     let vehicles;
@@ -93,9 +93,11 @@ let sketch = function(env) {
 
         env.createCanvas(w, h);
 
-        const FONT_SIZE = w/12;
-        let points = font.textToPoints(TITLE_TEXT, w/2 - FONT_SIZE*TITLE_TEXT.length/3.5, h/1.4, FONT_SIZE, {
-            sampleFactor: 0.15
+        const FONT_SIZE  = w/12;
+        const TEXT_WIDTH = env.textWidth(TITLE_TEXT);
+
+        let points = font.textToPoints(TITLE_TEXT, w/10, h/1.35, FONT_SIZE, {
+            sampleFactor: 0.14
         });
 
         vehicles = [];

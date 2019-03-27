@@ -1,7 +1,7 @@
 {
   "name": "Data-Structures-Visualiser",
   "version": "1.0.0",
-  "description": "Algorithms &amp; Data Structures Visualisation Tool",
+  "description": "A Data Structures Visualisation Tool",
   "main": "main.js",
   "scripts": {
     "start": "electron .",

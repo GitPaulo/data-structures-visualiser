@@ -11,6 +11,7 @@ var visualisationCanvas = new p5((env) => {
         env.TEXT_COLOR    = [255, 255, 255];
         env.TITLE         = "Animation Canvas";
         env.SUBTITLE      = "No Data Structure Selected";
+        env.PAUSE_TITLE   = `PAUSED [OFFSET: 0]`;
     }
 
     env.setup = function (w=visualisationCanvasElement.offsetWidth,  
@@ -20,15 +21,23 @@ var visualisationCanvas = new p5((env) => {
     }
 
     env.pausedScreen = function () {
-        let msg = "(Paused)";
-        env.textFont(env.NORMAL_FONT);
-        env.textSize(env.FONT_SIZE/2);
+        env.textFont(env.CAPS_FONT);
+        env.textSize(30);
 
-        let tw = env.textWidth(msg);
+        let tw = env.textWidth(env.PAUSE_TITLE);
         let th = env.textSize();
 
-        env.fill([200, 90, 100]);
-        env.text(msg, env.width/2 - tw/2, 10 + th/2);
+        env.fill(0, 0, 0);
+        env.rect(32, 32, tw + 58, 41);
+        env.fill(65, 40, 40);
+        env.rect(32+2, 32+2, tw+58-2, 40-2);
+
+        env.fill(255, 255, 255);
+        let sign = activeOperation.offset == 0 ? "+" : "";
+        env.text(`PAUSED [OFFSET: ${sign}${activeOperation.offset}]`, 70, 63);
+
+        env.fill(255, 50, 90);
+        env.ellipse(50, 53, 20);
     }
 
     env.noItemScreen = function () {
@@ -62,11 +71,11 @@ var visualisationCanvas = new p5((env) => {
         // clear 
         env.background(...env.BACKGROUND);
 
-        if (activeOperation.shouldYield)
-            env.pausedScreen();
-
         // draw active item
         activeItem.draw(env);
+
+        if (activeOperation.isPaused)
+            env.pausedScreen();
     }
 
 
