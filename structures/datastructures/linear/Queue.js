@@ -31,7 +31,7 @@ class Queue extends VisualisationItem {
 		element.setColor(Queue.COLORS.success);
 
 		// Define a step
-		await this.step() && (yield);
+		await this.step(`Enqueuing ${value} at the the tail (index=${tailElement.value}).`) && (yield);
 		
 		// Reset color
 		element.resetColor();
@@ -55,7 +55,7 @@ class Queue extends VisualisationItem {
 		element.setColor(Queue.COLORS.fail);
 
 		// Define a step
-		await this.step() && (yield);
+		await this.step(`Dequeueing value ${oldvalue} from head (index=${headElement.value})`) && (yield);
 		
 		// Reset color
 		element.resetColor();
@@ -97,7 +97,7 @@ class Queue extends VisualisationItem {
 			}
 
 			// Define a step
-			await this.step() && (yield);
+			await this.step(`Comparsion: (${oldvalue} == ${value}) = ${oldvalue == value}`) && (yield);
 
 			// Reset color
 			element.resetColor();
@@ -107,31 +107,30 @@ class Queue extends VisualisationItem {
 			headElement.value = headElement.value >= this.state.array.length-1 ? 0 : headElement.value + 1;
 
 			// Define a step
-			await this.step() && (yield);
+			await this.step(`Incremented head pointer. (index=${headElement.value})`) && (yield);
 
 			/***** Queue value back! *****/
 			element     	= this.state.array[tailElement.value];
 			element.value   = oldvalue;
 
 			// Define a step
-			await this.step() && (yield);
+			await this.step(`Enqueued value ${oldvalue} back in the queue.`) && (yield);
 
 			// Increment tail (Circularity!)
 			tailElement.value = tailElement.value >= this.state.array.length-1 ? 0 : tailElement.value + 1;
 
 			// Define a step
-			await this.step() && (yield);
+			await this.step(`Incremented tail pointer. (index=${tailElement.value})`) && (yield);
 
 			// Increment search index
 			i = headElement.value;
 		} while (i !== stopi);
         
 		let str = found ? "found" : "not found";
-		return { success:found, message:`Element ${value} was ${str} in the array!` };
+		return { success:found, message:`Element ${value} was ${str} in the Queue!` };
 	}
 
-	// Multi-operation support: This method will return approiate coroutine!
-	async *sort(type) {
+	async* sort(type) {
 		// param check
 		type = this.constructor.SORTING_TYPES[String(type).toLowerCase()];
 		
@@ -149,7 +148,6 @@ class Queue extends VisualisationItem {
 		let rear  = tailElement.value;
 
 		let numElements = front > rear ? (MAX - front + rear) : (rear - front); // inclusive
-		console.log("NUM ELEMENTS", numElements);
 		
 		for (let i = 0; i < numElements; i++) {
 			/***** Dequeue item *****/
@@ -159,7 +157,7 @@ class Queue extends VisualisationItem {
 			element1.setColor(Queue.COLORS.pointer);
 
 			// Define a step
-			await this.step() && (yield);
+			await this.step(`Dequeue: ${oldvalue1}`) && (yield);
 			
 			// Reset color
 			element1.resetColor();
@@ -175,7 +173,7 @@ class Queue extends VisualisationItem {
 				element2.setColor(Queue.COLORS.pointer);
 
 				// Define a step
-				await this.step() && (yield);
+				await this.step(`Dequeue: ${oldvalue2}`) && (yield);
 				
 				// Reset color
 				element2.resetColor();
@@ -195,7 +193,7 @@ class Queue extends VisualisationItem {
 				element3.setColor(Queue.COLORS.success);
 
 				// Define a step
-				await this.step() && (yield);
+				await this.step(`Comparison: (${oldvalue1} ${operator} ${oldvalue2}) == ${comparisonBoolean}`) && (yield);
 				
 				// Reset color
 				element3.resetColor();
@@ -213,7 +211,7 @@ class Queue extends VisualisationItem {
 			element3.setColor(Queue.COLORS.pointer);
 
 			// Define a step
-			await this.step() && (yield);
+			await this.step(`Enqueue: ${oldvalue1}`) && (yield);
 			
 			// Reset color
 			element3.resetColor();

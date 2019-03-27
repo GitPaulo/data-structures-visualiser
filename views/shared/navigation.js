@@ -10,7 +10,7 @@ jQuery( "#"+DIV_ID ).load("../shared/navigation.html", function(html, err) {
     // Set navbar title
     let name = __dirname.substring(__dirname.lastIndexOf("\\")+1);
     name     = name.replace(/^\w/, c => c.toUpperCase())
-    name     = `Data Structure Visualiser &#8594; ${name}`;
+    name     = `Data Structures Visualiser &#8594; ${name}`;
 
     document.getElementById("title_nav").innerHTML         = name;
     document.getElementById("navbar_title_path").innerHTML = name;

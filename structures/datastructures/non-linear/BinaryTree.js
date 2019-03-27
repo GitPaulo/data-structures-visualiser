@@ -32,7 +32,7 @@ class BinaryTree extends VisualisationItem {
         newElement.setColors(this.constructor.COLORS.success);
             
         // define Step
-        await this.step() && (yield);
+        await this.step(`Set value at [${pointer}] to ${value}`) && (yield);
     
         newElement.resetColors();
 
@@ -46,13 +46,13 @@ class BinaryTree extends VisualisationItem {
 		if (this.state.num_elements <= 0)
 			return { success:false, message:`The Binary Tree is empty!` };
 
-        let pointer    = this.state.num_elements;
-        let newElement = this.state.array[pointer-1];
+        let pointer    = this.state.num_elements-1;
+        let newElement = this.state.array[pointer];
         newElement.setValues(null);
         newElement.setColors(this.constructor.COLORS.fail);
             
         // define Step
-        await this.step() && (yield);
+        await this.step(`Set value at [${pointer}] to null`) && (yield);
     
         newElement.resetColors();
 

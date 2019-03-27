@@ -78,13 +78,13 @@ Vehicle.prototype.flee = function(target) {
 /* P5 SKETCH */
 
 let sketch = function(env) {
-    const TITLE_TEXT = "DS/Alg Visualiser"
+    const TITLE_TEXT = "Data Structures Visualiser"
 
     let font;
     let vehicles;
 
     env.preload = function () {
-        font = env.loadFont('../../assets/fonts/Meteora.ttf');
+        font = env.loadFont('../../assets/fonts/Bebas-Regular.ttf');
     }
 
     env.setup = function () {
@@ -93,11 +93,11 @@ let sketch = function(env) {
 
         env.createCanvas(w, h);
 
-        const FONT_SIZE  = w/12;
+        const FONT_SIZE  = w/11;
         const TEXT_WIDTH = env.textWidth(TITLE_TEXT);
 
-        let points = font.textToPoints(TITLE_TEXT, w/10, h/1.35, FONT_SIZE, {
-            sampleFactor: 0.14
+        let points = font.textToPoints(TITLE_TEXT, w/25, h/1.25, FONT_SIZE, {
+            sampleFactor: 0.13
         });
 
         vehicles = [];

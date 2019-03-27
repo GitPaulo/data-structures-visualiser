@@ -31,7 +31,7 @@ class BinaryHeap extends VisualisationItem {
         newElement.setColors(this.constructor.COLORS.success);
 		
 		// define Step
-		await this.step() && (yield);
+		await this.step(`Inserted ${value} at [${i}]`) && (yield);
 
         newElement.resetColors();
         
@@ -48,12 +48,12 @@ class BinaryHeap extends VisualisationItem {
             currentElement.setBorderColors(this.constructor.COLORS.success);
 
             // define Step
-            await this.step() && (yield);
+            await this.step(`Highlighting child (${nvalue})`) && (yield);
 
             parentElement.setBorderColors(this.constructor.COLORS.success);
 
             // define Step
-            await this.step() && (yield);
+            await this.step(`Highlighting parent (${pvalue}).`) && (yield);
 
             let completed = pvalue < nvalue;
             let color     = completed ? this.constructor.COLORS.success : this.constructor.COLORS.fail;
@@ -62,7 +62,7 @@ class BinaryHeap extends VisualisationItem {
             parentElement.setColors(color);
     
             // define Step
-            await this.step() && (yield);
+            await this.step(`Comparison: ${pvalue} < ${nvalue}`) && (yield);
 
             currentElement.resetColors();
             parentElement.resetColors();
@@ -72,6 +72,9 @@ class BinaryHeap extends VisualisationItem {
             
             parentElement.setValues(nvalue);
             currentElement.setValues(pvalue);
+
+            // define Step
+            await this.step(`Bubbling up!`) && (yield);
 
             j = pi;
             currentElement = parentElement;
@@ -100,7 +103,7 @@ class BinaryHeap extends VisualisationItem {
             nthElement.setColors(this.constructor.COLORS.fail);
 
             // define a step
-            await this.step() && (yield);
+            await this.step(`Set value of root to null`) && (yield);
     
             nthElement.resetColors();
             nthElement.setValues(null);
@@ -111,24 +114,24 @@ class BinaryHeap extends VisualisationItem {
         nthElement.setColors(this.constructor.COLORS.pointer);
         
         // define a step
-        await this.step() && (yield);
+        await this.step(`Highlighting last element`) && (yield);
 
         rootElement.setColors(this.constructor.COLORS.fail);
 
         // define a step
-        await this.step() && (yield);
+        await this.step(`Removing ${nthValue} from leaf node`) && (yield);
 
         nthElement.resetColors();
         nthElement.setValues(null);
 
         // define a step
-        await this.step() && (yield);
+        await this.step(`Placing ${nthValue} value at root.`) && (yield);
         
         rootElement.setValues(nthValue);
         rootElement.setColors(this.constructor.COLORS.success);
 
         // define Step
-        await this.step() && (yield);
+        await this.step(`Checking for trickling down...`) && (yield);
 
         rootElement.resetColors();
 
@@ -170,18 +173,18 @@ class BinaryHeap extends VisualisationItem {
                 currentElement.setBorderColors(this.constructor.COLORS.success);
 
                 // define step
-                await this.step() && (yield);
+                await this.step(`Highlighting ${cvalue} node`) && (yield);
     
                 jelement.setBorderColors(this.constructor.COLORS.success);
     
                 // define step
-                await this.step() && (yield);
+                await this.step(`Highlighting ${jvalue} node`) && (yield);
 
                 jelement.setColors(this.constructor.COLORS.fail);
                 currentElement.setColors(this.constructor.COLORS.fail);
 
                 // define a step
-                await this.step() && (yield);
+                await this.step(`Swap needed! Swaping ${cvalue} and ${jvalue}`) && (yield);
                 
                 jelement.resetColors();
                 currentElement.resetColors();
@@ -193,7 +196,7 @@ class BinaryHeap extends VisualisationItem {
             i = j;
 
             // define a step
-            await this.step() && (yield);
+            await this.step(`Next iteration...`) && (yield);
 
         } while (i >= 0); 
 

@@ -44,7 +44,7 @@ nav h1 {
     color: white;
     font: 500;
     font-size: 3.3vh;
-    padding-top: 22px;
+    padding-top: 1%;
 }
 
 /***** The sticky class ******/
@@ -291,11 +291,6 @@ input[type="range"] {
     font-size: 2.5vh;
 }
 
-#visualiser_button {}
-
-#playground_button {}
-
-
 /***********************
      visualiser.html
 ************************/
@@ -374,6 +369,7 @@ input[type="range"] {
     background-color: #111;
     color: white;
     border: none;
+    margin-top: 0%;
     margin-bottom: 0rem;
     border-radius: 0%;
 }

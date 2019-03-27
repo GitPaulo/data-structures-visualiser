@@ -1,13 +1,12 @@
-/*global activeItem, activeOperation, jQuery, util, codeFollowEditor, metaTable*/
+/*global activeItem, activeOperation, jQuery, util, codeFollowEditor, metaTable, visualisationCanvas*/
 
 var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     var cmdLine = document.querySelector(cmdLineContainer);
     var output  = document.querySelector(outputContainer);
 
     const CMDS = [
-        'clear', 'echo', 
-        'help', 'instructions',
-        'showcontrols', "shouldreset", "resetosc", "speed",
+        'clear', 'echo', 'help', 'instructions', 'scale',
+        'showcontrols', "shouldreset", "resetosc", "speed", "showlogs",
         'insert', 'remove', 'search', 'sort'
     ];
 
@@ -51,7 +50,9 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
 
             if (e.keyCode == 38 || e.keyCode == 40) {
                 this.value = history[histpos] ? history[histpos] : histtemp;
-                this.value = this.value; // Sets cursor to end of input.
+                let that = this;
+                // sets focus on end of string
+                setTimeout(function(){ that.selectionStart = that.selectionEnd = 10000; }, 0);
             }
         }
     }
@@ -145,7 +146,6 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
         codeFollowEditor.setCode(originalFuncReference);
         
         // Data Structure Operation Call
-        // eslint-disable-next-line no-global-assign
         activeOperation.assign(operationCoroutine(...args));
         activeOperation.resume();
     }
@@ -194,18 +194,26 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
 
                 write(help);
                 break;
+            case 'scale':
+                visualisationCanvas.SCALE_MLT = args[0];
+                write(`Setting canvas scale multiplier to: ${args[0]}`);
+                break;
+            case 'showlogs':
+                activeItem.showlogs = !activeItem.showlogs;
+                write(`Informative logs for '${activeItem.constructor.name}' set to: <b>${activeItem.showlogs}</b>`);
+                break;
             case 'showcontrols':
                 let controlsElement           = document.getElementById("visualisation_controls");
                 controlsElement.style.display = controlsElement.style.display === "block" ? "none" : "block";
-                write(`Set display property of the controls to: ${controlsElement.style.display}`);
+                write(`Set display property of the controls to: <b>${controlsElement.style.display}</b>`);
                 break;
             case 'shouldreset':
                 activeOperation.shouldReset = !activeOperation.shouldReset;
-                write(`Animation state reset post opreation set to: ${activeOperation.shouldReset}`);
+                write(`Animation state reset post opreation set to: <b>${activeOperation.shouldReset}</b>`);
                 break;
             case 'resetosc':
                 activeOperation.resetOnSC = !activeOperation.resetOnSC;
-                write(`Animation state reset post opreation (only on success) set to: ${activeOperation.resetOnSC}`);
+                write(`Animation state reset post opreation (only on success) set to: <b>${activeOperation.resetOnSC}</b>`);
                 break;
             case 'speed':
                 activeOperation.setSpeed(...args);

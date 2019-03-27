@@ -36,7 +36,7 @@ class BinarySearchTree extends VisualisationItem {
 			currentElement.setBorderColors(this.constructor.COLORS.success);
 
 			// Define Step
-			await this.step() && (yield);
+			await this.step(`Highlighting ${cvalue}`) && (yield);
 
 			currentElement.resetColors();
 
@@ -64,7 +64,7 @@ class BinarySearchTree extends VisualisationItem {
         newElement.setColors(this.constructor.COLORS.success);
 		
 		// define Step
-		await this.step() && (yield);
+		await this.step(`Inserting ${value} at [${cindex}]`) && (yield);
 
 		newElement.resetColors();
 
@@ -95,7 +95,7 @@ class BinarySearchTree extends VisualisationItem {
 			currentElement.setBorderColors(this.constructor.COLORS.success);
 
 			// Define Step
-			await this.step() && (yield);
+			await this.step(`Highlighting ${cvalue}`) && (yield);
 
 			currentElement.resetColors();
 
@@ -127,13 +127,13 @@ class BinarySearchTree extends VisualisationItem {
 		newElement.setColors(this.constructor.COLORS.fail);
 		
 		// define Step
-		await this.step() && (yield);
+		await this.step(`Removing ${cvalue}...`) && (yield);
 
 		newElement.resetColors();
 		newElement.setValues(null);
 		
 		// define step
-		await this.step() && (yield);
+		await this.step(`Set value at [${cindex}] to null`) && (yield);
 
 		this.state.num_elements--;
 
@@ -162,7 +162,7 @@ class BinarySearchTree extends VisualisationItem {
 			currentElement.setBorderColors(this.constructor.COLORS.success);
 
 			// Define Step
-			await this.step() && (yield);
+			await this.step(`Highlighting ${cvalue}`) && (yield);
 
 			currentElement.resetColors();
 
@@ -181,7 +181,7 @@ class BinarySearchTree extends VisualisationItem {
 			currentElement.setColors(fcolor);
 
 			// Define Step
-			await this.step() && (yield);
+			await this.step(`Comparison: (${cvalue} == ${value}) = ${found}`) && (yield);
 
 			currentElement.resetColors();
 

@@ -29,13 +29,13 @@ class Stack extends VisualisationItem {
 		pointer.value++;
 
 		// Define a step
-		await this.step(400) && (yield);
+		await this.step(`Incremented stack pointer. (index=${pointer.value})`, 400) && (yield);
 
 		nextElement.value = value;
 		nextElement.setColor(Stack.COLORS.success);
 
 		// Define a step
-		await this.step() && (yield);
+		await this.step(`Value ${value} placed at [${pointer.value}]`) && (yield);
 
 		nextElement.resetColor();
 		
@@ -52,14 +52,14 @@ class Stack extends VisualisationItem {
 		pointer.value--;
 
 		// Define a step
-		await this.step(400) && (yield);
+		await this.step(`Decremented stack pointer. (index=${pointer.value})`, 400) && (yield);
 
 		let oldvalue = currentElement.value;
 		currentElement.value = null;
 		currentElement.setColor(Stack.COLORS.fail);
 
 		// Define a step
-		await this.step() && (yield);
+		await this.step(`Set value at [${pointer.value}] to null`) && (yield);
 
 		currentElement.resetColor();
 
@@ -84,7 +84,7 @@ class Stack extends VisualisationItem {
 			pointer.value--;
 	
 			// Define a step
-			await this.step(400) && (yield);
+			await this.step(`Decremented stack pointer. (index=${pointer.value})`) && (yield);
 			
 			let oldvalue = currentElement.value;
 			
@@ -93,7 +93,7 @@ class Stack extends VisualisationItem {
 			currentElement.setColor(color);
 	
 			// Define a step
-			await this.step() && (yield);
+			await this.step(`Comparison: ${value} == ${oldvalue} = ${found}`) && (yield);
 			
 			currentElement.value = null;
 			currentElement.resetColor();

@@ -3,6 +3,7 @@
 var visualisationCanvas = new p5((env) => {
     env.preload = function () {
         // is loaded before setup() and draw() are called
+        env.SCALE_MLT     = 1;
         env.TITLE_SIZE    = 80;
         env.SUBTITLE_SIZE = 30;
         env.CAPS_FONT     = env.loadFont('../../assets/fonts/BebasNeue-Bold.otf');
@@ -63,6 +64,8 @@ var visualisationCanvas = new p5((env) => {
     }
 
     env.draw = function () {
+        env.scale(env.SCALE_MLT);
+
         if (activeItem === null) {
             env.noItemScreen();
             return;

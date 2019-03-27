@@ -1,4 +1,4 @@
-/* global util, activeOperation */
+/* global util, activeOperation, terminalInstance */
 /* eslint-disable require-yield */
 class VisualisationItem {
     constructor(id, descriptiveData, state) {
@@ -6,6 +6,7 @@ class VisualisationItem {
         this.descriptiveData     = descriptiveData; // from yaml object
         this.state = this._state = state; // 007 double-agent mega secrative *bad dum ba dum*
         this.storage             = [];
+        this.showlogs            = false; // if step logs should be written to console.
     }
         
     async* insert() {
@@ -68,17 +69,23 @@ class VisualisationItem {
 		}
     }
 
-    async step(ms) {
+    async step(msg="[LOG NOT FOUND]", ms=600) {
         this.storeState();
 
         if (this.shouldYield())
             return true;
 
+        if (this.showlogs)
+            terminalInstance.write(`[LOG] ${msg}`);
+        
+        
+        // sleep
         await this.sleep(ms);
+        
         return false;
     }
     
-    async sleep(ms=600) {
+    async sleep(ms) {
         let t = ms/activeOperation.speed;
         //console.log(`Sleeping animation of ${this.constructor.name} for: ${t}ms.`);
         await util.sleep(t);

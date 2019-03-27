@@ -9,9 +9,9 @@ var codeFollowEditor = CodeMirror.fromTextArea(codeFollowElement, {
     styleActiveSelected: true,
     lineNumbers:         true,
     lineWrapping:        true
-});
+}); 
 
-codeFollowEditor.setSize("100%", "90%");
+codeFollowEditor.setSize("100%", "100%");
 codeFollowEditor.setValue(DEFAULT_CODEFOLLOW_STRING);
 
 let waitRefresh = () => { // seems to fix the problem? Too lazy to figure out why.

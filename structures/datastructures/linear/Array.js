@@ -25,7 +25,7 @@ class StaticArray extends VisualisationItem {
 		element.setColor(this.constructor.COLORS.success);
 
 		// Define a step
-		await this.step() && (yield);
+		await this.step(`Overwriting value at index ${index} to ${value}`) && (yield);
 		
 		// Reset color
 		element.resetColor();
@@ -48,7 +48,7 @@ class StaticArray extends VisualisationItem {
 		element.setColor(this.constructor.COLORS.fail);
 
 		// Define a step
-		await this.step() && (yield);
+		await this.step(`Overwriting value at index ${index} to 0`) && (yield);
 
 		// Reset color
 		element.resetColor();
@@ -63,29 +63,34 @@ class StaticArray extends VisualisationItem {
 		if (isNaN(value))
 			return { success:false, message:`Invalid parameter, must be of type 'Number'!` };
 
+		let found = false;
+
 		for (let element of this.state) {
 			element.setColor(this.constructor.COLORS.pointer);
 
 			// Define a step
-			await this.step() && (yield);
+			await this.step(`Comparing: ${element.value} == ${value}`) && (yield);
 
-			if (element.value == value) {
+			found = element.value == value;
+
+			if (found) {
 				element.setColor(this.constructor.COLORS.success);
 			} else {
 				element.setColor(this.constructor.COLORS.fail);
 			}
 
 			// Define a step
-			await this.step() && (yield);
+			await this.step(`Result: ${found}`) && (yield);
 
 			// Reset color
 			element.resetColor();
 
-			if (element.value == value)
-				return { success:true, message:`Element was found at position ${element.index}!` };
+			if (found)
+				break;
 		}
 
-		return { success:false, message:`Element was not found in the array!` };
+		let str = found ? "found" : "not found";
+		return { success:found, message:`Element ${value} was ${str} in the array!` };
 	}
 
 	// Multi-operation support: This method will return approiate coroutine!
@@ -123,7 +128,7 @@ StaticArray.sortingMethods = {
 				items[j+1].setColor(this.constructor.COLORS.pointer);
 
 				// Define a step
-				await this.step() && (yield);
+				await this.step(`Comparing ${items[j].value} and ${items[j+1].value}`) && (yield);
 
 				// Reset pair color
 				items[j].setToLastColor();
@@ -139,12 +144,12 @@ StaticArray.sortingMethods = {
 					items[j+1].value = tmp;
 				}
 
-				let hcolor = comparisonBoolean ? this.constructor.COLORS.success : this.constructor.COLORS.fail;
+				let hcolor = comparisonBoolean ? this.constructor.COLORS.fail : this.constructor.COLORS.success;
 				items[j].setColor(hcolor, 500);
 				items[j+1].setColor(hcolor, 500);
 
 				// Define a step
-				await this.step() && (yield);
+				await this.step(comparisonBoolean ? "Values out of order" : "Values in order") && (yield);
 
 				// Reset pair color
 				items[j].setToLastColor();
@@ -155,7 +160,7 @@ StaticArray.sortingMethods = {
 		items[0].setBorderColor(this.constructor.COLORS.ordered); // last one sorted!
 		
 		// Define a step
-		await this.step() && (yield);
+		await this.step("Marking last element as ordered!") && (yield);
 		
 		// Clear color!
 		for(let i = 0; i < length; i++)
@@ -166,14 +171,15 @@ StaticArray.sortingMethods = {
 	insertion : async function* (method, type) {
 		let items  = this.state;
 		let length = items.length;
+
 		for (let i = 0; i < length; i++) {
 			let value = items[i].value;
 
 			// highlight
-			items[i].setBorderColor(this.constructor.COLORS.ordered);
+			items[i].setBorderColor([200, 90, 175]);
 			
 			// Define a step
-			await this.step() && (yield);
+			await this.step(`Highlighting outer loop index: ${i}`) && (yield);
 
 			// store the current item value so it can be placed right
 			let j;
@@ -183,7 +189,7 @@ StaticArray.sortingMethods = {
 				items[j+1].setColor(this.constructor.COLORS.pointer);
 
 				// Define a step
-				await this.step() && (yield);
+				await this.step(`Comparison was true for: ${items[j].value} ${itsTimeToDuel} ${value}`) && (yield);
 
 				items[j + 1].value = items[j].value;
 
@@ -193,7 +199,7 @@ StaticArray.sortingMethods = {
 			items[j+1].setColor(this.constructor.COLORS.success);
 
 			// Define a step
-			await this.step() && (yield);
+			await this.step(`Swapped values`) && (yield);
 
 			// the last item we've reached should now hold the value of the currently sorted item
 			items[j + 1].value = value;
@@ -202,7 +208,7 @@ StaticArray.sortingMethods = {
 		}
 
 		// Define a step
-		await this.step() && (yield);
+		await this.step(`Last element sorted by default.`) && (yield);
 		
 		// Clear color!
 		for(let i = 0; i < length; i++)
