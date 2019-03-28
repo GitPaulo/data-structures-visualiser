@@ -2,7 +2,7 @@
 
 var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     var cmdLine = document.querySelector(cmdLineContainer);
-    var output  = document.querySelector(outputContainer);
+    var output = document.querySelector(outputContainer);
 
     const CMDS = [
         'clear', 'echo', 'help', 'instructions', 'scale',
@@ -14,8 +14,8 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
         ...metaTable.operationControls
     ];
 
-    var history  = [];
-    var histpos  = 0;
+    var history = [];
+    var histpos = 0;
     var histtemp = 0;
 
     cmdLine.addEventListener('click', inputTextClick, false);
@@ -52,7 +52,9 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 this.value = history[histpos] ? history[histpos] : histtemp;
                 let that = this;
                 // sets focus on end of string
-                setTimeout(function(){ that.selectionStart = that.selectionEnd = 10000; }, 0);
+                setTimeout(function () {
+                    that.selectionStart = that.selectionEnd = 10000;
+                }, 0);
             }
         }
     }
@@ -73,9 +75,9 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
             line.removeAttribute('id')
             line.classList.add('line');
 
-            var input       = line.querySelector('input.cmdline');
+            var input = line.querySelector('input.cmdline');
             input.autofocus = false;
-            input.readOnly  = true;
+            input.readOnly = true;
 
             output.appendChild(line);
 
@@ -84,7 +86,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                     return val;
                 });
                 var cmd = args[0].toLowerCase();
-                args    = args.splice(1); // Remove cmd from arg list.
+                args = args.splice(1); // Remove cmd from arg list.
             }
 
             execCMD(cmd, args);
@@ -105,7 +107,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     function performItemOperation(key, args) {
         if (activeItem === null)
             return write('There is no selected data structure to perform an operation on!');
-        
+
         if (typeof activeItem[key] === "undefined")
             return write(`No operation function for ${key} found for this data structure!`);
 
@@ -113,8 +115,8 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
             return write("Currently there is an active operation in progress!");
 
         let argumentsList = util.getParamNames(activeItem[key]); // always the operator!
-        let n1            = args.length; 
-        let n2            = argumentsList.length;
+        let n1 = args.length;
+        let n2 = argumentsList.length;
 
         if (n1 < n2)
             return write(`Invalid number of arguments - Expected ${n2} got ${n1}!`);
@@ -124,27 +126,33 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
 
         // Multi operations support: 
         // Operation methods with multiple functions (Sort: bubble,insertion,...) will return the coroutine object of the appropiate method!
-        if (activeItem[key].constructor.name !== "AsyncGeneratorFunction"){
+        if (activeItem[key].constructor.name !== "AsyncGeneratorFunction") {
             let rdata = activeItem[key](...args);
-            console.log({rdata});
+            console.log({
+                rdata
+            });
             if (rdata.success) {
                 originalFuncReference = rdata.coroutine;
-                args                  = [...rdata.args];
-                operationCoroutine    = originalFuncReference.bind(activeItem);
+                args = [...rdata.args];
+                operationCoroutine = originalFuncReference.bind(activeItem);
             } else {
                 return write(rdata.message);
             }
         } else {
             originalFuncReference = activeItem[key];
-            operationCoroutine    = originalFuncReference.bind(activeItem); // required because changing reference storage.
+            operationCoroutine = originalFuncReference.bind(activeItem); // required because changing reference storage.
         }
-        
+
         write(`Performing '${key}' operation on '${activeItem.id}' with parameters: [${args+""}]`);
-        
-        console.log( {argumentsList, operationCoroutine, originalFuncReference} );
+
+        console.log({
+            argumentsList,
+            operationCoroutine,
+            originalFuncReference
+        });
         // Update code follow
         codeFollowEditor.setCode(originalFuncReference);
-        
+
         // Data Structure Operation Call
         activeOperation.assign(operationCoroutine(...args));
         activeOperation.resume();
@@ -160,7 +168,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
         switch (cmd) {
             case 'clear':
                 output.innerHTML = '';
-                this.value       = '';
+                this.value = '';
                 break;
             case 'echo':
                 write(args.join(' '));
@@ -170,21 +178,21 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 write('<div class="ls-files">' + allCommands.join('<br>') + '</div>');
                 break;
             case 'instructions':
-                if (activeItem === null){
+                if (activeItem === null) {
                     write("No active item! Please select a DS from the side bar.");
                     break;
                 }
 
                 let objectProperties = util.getPrototypeKeys(activeItem);
-                let help             = `${activeItem.id} - Command Operation Instructions<br>[<b>cmd arg1,...,argN</b> => "description"]<br><br>`;
-                
-                for (let property of objectProperties){
+                let help = `${activeItem.id} - Command Operation Instructions<br>[<b>cmd arg1,...,argN</b> => "description"]<br><br>`;
+
+                for (let property of objectProperties) {
                     let hax = activeItem.__proto__[property];
                     if (typeof hax === "undefined")
                         continue;
 
-                    let params  = util.getParamNames(hax) + "";
-                    params      = params === "" ? "(none)" : params;
+                    let params = util.getParamNames(hax) + "";
+                    params = params === "" ? "(none)" : params;
 
                     let helpStr = hax.help;
                     if (helpStr) {
@@ -203,7 +211,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 write(`Informative logs for '${activeItem.constructor.name}' set to: <b>${activeItem.showlogs}</b>`);
                 break;
             case 'showcontrols':
-                let controlsElement           = document.getElementById("visualisation_controls");
+                let controlsElement = document.getElementById("visualisation_controls");
                 controlsElement.style.display = controlsElement.style.display === "block" ? "none" : "block";
                 write(`Set display property of the controls to: <b>${controlsElement.style.display}</b>`);
                 break;
@@ -235,7 +243,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
         init: function () {
             write('<h2>Visualiser Console</h2><p id="date_console">' + new Date() + '</p><p>Enter "help" for more console command information.</p><p>Enter "instructions" for data structure specific operation help!</p>');
             let consoleTimeElement = document.getElementById("date_console")
-            window.setInterval(function(){ // might cause problems!
+            window.setInterval(function () { // might cause problems!
                 consoleTimeElement.innerHTML = new Date();
             }, 1000);
         },
@@ -244,7 +252,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
 };
 
 var terminalInstance;
-jQuery(function() {
+jQuery(function () {
     jQuery('.prompt').html('> ');
 
     // Initialize a new terminal object

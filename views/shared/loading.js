@@ -1,4 +1,5 @@
 const INTERVAL = 1300;
+
 function onReady(callback) {
     var intervalID = window.setInterval(checkReady, INTERVAL);
 
@@ -11,7 +12,7 @@ function onReady(callback) {
 }
 
 onReady(function () {
-    let pageElement    = document.getElementById("page");
+    let pageElement = document.getElementById("page");
     let loadingElement = document.getElementById("loading");
 
     pageElement.style.visibility = "visible";

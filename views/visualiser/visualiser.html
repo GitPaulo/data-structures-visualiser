@@ -1,76 +1,89 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="../../css/normalize.css">
-        <link rel="stylesheet" href="../../css/skeleton.css">
-        <link rel="stylesheet" href="../../css/hover-min.css">
-        <link rel="stylesheet" href="../../css/style.css">
-        <link rel="stylesheet" href="../../css/codemirror.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <script src="../shared/loading.js"></script>
-    </head>
-    <body>
-        <!-- Nav bar -->
-        <nav id="navbar">
-            <script src="../shared/navigation.js"></script>
-        </nav>
-        <!-- Loading -->
-        <loading id="loading"></loading>
-        <!-- Page -->
-        <page class="visualiser" id="page">
-            <!-- Menu bar -->
-            <aside id="sidebar" class="sidebar">
-                <h1 href="javascript:void(0)" id="close_sidebar" class="close-button hvr-grow-shadow">&#9776; Visualiser</h1>
-            </aside>
-            <button id="open_sidebar" class="open-button">&#9776; Open Sidebar</button>
-            <!-- Dependent Frame-->
-            <!-- Had to use to outer divs because position fixed breaks floating-->
-            <loading-visualiser id="loading_visualiser">
-                <div style="position: relative; top: 30%"">
-                    <h1 id="loading_visualiser_title" style="text-align: center;  color: white; font-size: 8vh;">Loading...</h1>
-                </div>
-            </loading-visualiser>
-            <!-- Quadrants (Item dependent) -->
-            <div class="quadrants" id="quadrants">
-                <div class="quadrant-top">
-                    <div class="quadrant visualiser">
-                        <div id='visualisation_canvas'></div>
-                        <div id='visualisation_controls'>
-                            <button class="button-primary animation-button" id="step_backward_button"><i class="material-icons">arrow_back</i></button>
-                            <button class="button-primary animation-button" id="play_button"><i class="material-icons">play_circle_filled</i></button>
-                            <button class="button-primary animation-button" id="pause_button"><i class="material-icons">pause_circle_filled</i></button>
-                            <button class="button-primary animation-button" id="step_forward_button"><i class="material-icons">arrow_forward</i></button>
-                            <input type="range" min="0" max="2" value="1" step="0.25" class="slider" id="step_speed">
-                        </div>
-                    </div>
-                    <div class="quadrant information">
-                        <div id="noitem_content" style="text-align: center;">
-                            <h1 style="margin-top: 1.4%;">Informational Panel</h1>
-                            <img src="../../assets/media/info.png" style="height:40%; width:40%;">
-                        </div>
-                        <div id="item_content"><!-- content auto generated from yaml file --></div>
-                    </div>
-                </div>
-                <div class="quadrant-bottom">
-                    <div class="quadrant console" id="wrapper">
-                        <output></output>
-                        <div id="input-line" class="input-line">
-                            <div class="prompt"></div><div><input class="cmdline" autofocus/></div>
-                        </div>
-                    </div>
-                    <div class="quadrant codefollow">
-                        <textarea id="visualiser_text_area"></textarea>
-                        <button class="button-primary control-button" id="overwrite_button" style="width: 100%; border-color:white;">Overwrite Memory</button>
+
+<head>
+    <link rel="stylesheet" href="../../css/normalize.css">
+    <link rel="stylesheet" href="../../css/skeleton.css">
+    <link rel="stylesheet" href="../../css/hover-min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/codemirror.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="../shared/loading.js"></script>
+</head>
+
+<body>
+    <!-- Nav bar -->
+    <nav id="navbar">
+        <script src="../shared/navigation.js"></script>
+    </nav>
+    <!-- Loading -->
+    <loading id="loading"></loading>
+    <!-- Page -->
+    <page class="visualiser" id="page">
+        <!-- Menu bar -->
+        <aside id="sidebar" class="sidebar">
+            <h1 href="javascript:void(0)" id="close_sidebar" class="close-button hvr-grow-shadow">&#9776; Visualiser
+            </h1>
+        </aside>
+        <button id="open_sidebar" class="open-button">&#9776; Open Sidebar</button>
+        <!-- Dependent Frame-->
+        <!-- Had to use to outer divs because position fixed breaks floating-->
+        <loading-visualiser id="loading_visualiser">
+            <div style="position: relative; top: 30%"">
+                    <h1 id=" loading_visualiser_title" style="text-align: center;  color: white; font-size: 8vh;">
+                Loading...</h1>
+            </div>
+        </loading-visualiser>
+        <!-- Quadrants (Item dependent) -->
+        <div class="quadrants" id="quadrants">
+            <div class="quadrant-top">
+                <div class="quadrant visualiser">
+                    <div id='visualisation_canvas'></div>
+                    <div id='visualisation_controls'>
+                        <button class="button-primary animation-button" id="step_backward_button"><i
+                                class="material-icons">arrow_back</i></button>
+                        <button class="button-primary animation-button" id="play_button"><i
+                                class="material-icons">play_circle_filled</i></button>
+                        <button class="button-primary animation-button" id="pause_button"><i
+                                class="material-icons">pause_circle_filled</i></button>
+                        <button class="button-primary animation-button" id="step_forward_button"><i
+                                class="material-icons">arrow_forward</i></button>
+                        <input type="range" min="0" max="2" value="1" step="0.25" class="slider" id="step_speed">
                     </div>
                 </div>
-                <div>
-                    <p style="color: white;margin: 0%;">This is an easter egg :)</p>
+                <div class="quadrant information">
+                    <div id="noitem_content" style="text-align: center;">
+                        <h1 style="margin-top: 1.4%;">Informational Panel</h1>
+                        <img src="../../assets/media/info.png" style="height:40%; width:40%;">
+                    </div>
+                    <div id="item_content">
+                        <!-- content auto generated from yaml file -->
+                    </div>
                 </div>
             </div>
-        </page>
-    </body>
-    <script src="./visualiser.js"></script>
-    <script src="./codefollow.js"></script>
-    <script src="./canvas.js"></script>
-    <script src="./console.js"></script> <!-- Console loads last. It needs canvas object and other visualiser objects. -->
+            <div class="quadrant-bottom">
+                <div class="quadrant console" id="wrapper">
+                    <output></output>
+                    <div id="input-line" class="input-line">
+                        <div class="prompt"></div>
+                        <div><input class="cmdline" autofocus /></div>
+                    </div>
+                </div>
+                <div class="quadrant codefollow">
+                    <textarea id="visualiser_text_area"></textarea>
+                    <button class="button-primary control-button" id="overwrite_button"
+                        style="width: 100%; border-color:white;">Overwrite Memory</button>
+                </div>
+            </div>
+            <div>
+                <p style="color: white;margin: 0%;">This is an easter egg :)</p>
+            </div>
+        </div>
+    </page>
+</body>
+<script src="./visualiser.js"></script>
+<script src="./codefollow.js"></script>
+<script src="./canvas.js"></script>
+<script src="./console.js"></script> <!-- Console loads last. It needs canvas object and other visualiser objects. -->
+
 </html>

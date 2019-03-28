@@ -3,22 +3,22 @@
 var visualisationCanvas = new p5((env) => {
     env.preload = function () {
         // is loaded before setup() and draw() are called
-        env.SCALE_MLT     = 1;
-        env.TITLE_SIZE    = 80;
+        env.SCALE_MLT = 1;
+        env.TITLE_SIZE = 80;
         env.SUBTITLE_SIZE = 30;
-        env.CAPS_FONT     = env.loadFont('../../assets/fonts/BebasNeue-Bold.otf');
-        env.NORMAL_FONT   = env.loadFont('../../assets/fonts/Montserrat-Light.otf');
-        env.BACKGROUND    = [40, 40, 40];
-        env.TEXT_COLOR    = [255, 255, 255];
-        env.TITLE         = "Animation Canvas";
-        env.SUBTITLE      = "No Data Structure Selected";
-        env.PAUSE_TITLE   = `PAUSED [OFFSET: 0]`;
+        env.CAPS_FONT = env.loadFont('../../assets/fonts/BebasNeue-Bold.otf');
+        env.NORMAL_FONT = env.loadFont('../../assets/fonts/Montserrat-Light.otf');
+        env.BACKGROUND = [40, 40, 40];
+        env.TEXT_COLOR = [255, 255, 255];
+        env.TITLE = "Animation Canvas";
+        env.SUBTITLE = "No Data Structure Selected";
+        env.PAUSE_TITLE = `PAUSED [OFFSET: 0]`;
     }
 
-    env.setup = function (w=visualisationCanvasElement.offsetWidth,  
-                          h=visualisationCanvasElement.offsetHeight) {
+    env.setup = function (w = visualisationCanvasElement.offsetWidth,
+        h = visualisationCanvasElement.offsetHeight) {
         env.createCanvas(w, h);
-        env.stroke(0,0,0)
+        env.stroke(0, 0, 0)
     }
 
     env.pausedScreen = function () {
@@ -34,14 +34,14 @@ var visualisationCanvas = new p5((env) => {
         env.fill(0, 0, 0);
         env.rect(sx, sy, tw + 58, 41);
         env.fill(65, 40, 40);
-        env.rect(sx+2, sy+2, tw+58-2, 40-2);
+        env.rect(sx + 2, sy + 2, tw + 58 - 2, 40 - 2);
 
         env.fill(255, 255, 255);
         let sign = activeOperation.offset == 0 ? "+" : "";
-        env.text(`PAUSED [OFFSET: ${sign}${activeOperation.offset}]`, sx+36, sy+30+1);
+        env.text(`PAUSED [OFFSET: ${sign}${activeOperation.offset}]`, sx + 36, sy + 30 + 1);
 
         env.fill(255, 50, 90);
-        env.ellipse(sx+22, sy+22, 20);
+        env.ellipse(sx + 22, sy + 22, 20);
     }
 
     env.noItemScreen = function () {
@@ -54,7 +54,7 @@ var visualisationCanvas = new p5((env) => {
         let th = env.textSize();
 
         env.fill(...env.TEXT_COLOR);
-        env.text(env.TITLE, env.width/2 - tw/2, env.height/2 + th/2);
+        env.text(env.TITLE, env.width / 2 - tw / 2, env.height / 2 + th / 2);
 
         // Subtitle
         env.textFont(env.NORMAL_FONT);
@@ -63,7 +63,7 @@ var visualisationCanvas = new p5((env) => {
         let tw2 = env.textWidth(env.SUBTITLE);
         let th2 = env.textSize();
 
-        env.text(env.SUBTITLE, env.width/2 - tw2/2, env.height/1.5 + th2/2);
+        env.text(env.SUBTITLE, env.width / 2 - tw2 / 2, env.height / 1.5 + th2 / 2);
     }
 
     env.draw = function () {

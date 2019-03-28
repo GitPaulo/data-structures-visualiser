@@ -3,37 +3,40 @@
 // goodbye this app needs no security lol
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
-const { app, BrowserWindow } = require('electron');
-const path                   = require('path');
-const url                    = require('url');
+const {
+    app,
+    BrowserWindow
+} = require('electron');
+const path = require('path');
+const url = require('url');
 
 const INDEX_FOLDER_PATH = path.join(__dirname, 'views', 'home');
 // Most common resolution :)
-const WINDOW_WIDTH      = 1366;
-const WINDOW_HEIGHT     = 768;
+const WINDOW_WIDTH = 1366;
+const WINDOW_HEIGHT = 768;
 
 let mainWindow;
 
 function createWindow() {
     mainWindow = new BrowserWindow({
-        width:          WINDOW_WIDTH,
-        height:         WINDOW_HEIGHT,
-        center:         true,
-        alwaysOnTop:    false,
+        width: WINDOW_WIDTH,
+        height: WINDOW_HEIGHT,
+        center: true,
+        alwaysOnTop: false,
         useContentSize: true // when false, width/height will set the size of the whole app, including frames. If true, innerWindow will be set instead, resulting in a bigger app window
     });
 
     // Load the index.html of the app
     mainWindow.loadURL(url.format({
-        pathname:  path.join(INDEX_FOLDER_PATH, 'home.html'),
+        pathname: path.join(INDEX_FOLDER_PATH, 'home.html'),
         protocol: 'file:',
-        slashes:   true
+        slashes: true
     }));
 
     //mainWindow.webContents.openDevTools("undock")
 
     // Emitted when the window is closed
-    mainWindow.on('closed', function() {
+    mainWindow.on('closed', function () {
         mainWindow = null
     });
 }
@@ -42,13 +45,13 @@ function createWindow() {
 app.on('ready', createWindow);
 
 // Quit when all windows are closed.
-app.on('window-all-closed', function() {
+app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') {
         app.quit();
     }
 });
 
-app.on('activate', function() {
+app.on('activate', function () {
     if (mainWindow === null) {
         createWindow();
     }

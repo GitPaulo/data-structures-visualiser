@@ -16,7 +16,7 @@
     },
     "rules": {
         "no-console": "off",
-        "no-case-declarations" : "off",
-        "no-unused-vars" : "off"
+        "no-case-declarations": "off",
+        "no-unused-vars": "off"
     }
 }

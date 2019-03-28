@@ -1,50 +1,57 @@
 /* global util, VisualisationItem, activeItem*/
 class BinaryHeap extends VisualisationItem {
-	constructor(itemData) {
+    constructor(itemData) {
         const length = 15;
-		super(
-			"Binary Heap", 
-			itemData,
-			{
+        super(
+            "Binary Heap",
+            itemData, {
                 // Children(A[i]) = A[2i+1], A[2i+2]
-                "num_elements" : 0,
-                "array"        : Array.from({length}, (v, i) => new BinaryHeap.WrapElement(length, i)), // Array of Array nodes
-            } 
-		);
-	}
+                "num_elements": 0,
+                "array": Array.from({
+                    length
+                }, (v, i) => new BinaryHeap.WrapElement(length, i)), // Array of Array nodes
+            }
+        );
+    }
 
-	async* insert(value) {
+    async *insert(value) {
         // Check paramas
         if (this.state.num_elements >= this.state.array.length)
-            return { success:false, message:`The heap is full!` };
+            return {
+                success: false,
+                message: `The heap is full!`
+            };
 
-		value = Number(value);
+        value = Number(value);
 
-		if (isNaN(value))
-			return { success:false, message:`Invalid paremeter! Parameter 'value' must be a number!` };
+        if (isNaN(value))
+            return {
+                success: false,
+                message: `Invalid paremeter! Parameter 'value' must be a number!`
+            };
 
         /***** Add new node at the end *****/
-        let i          = this.state.num_elements;
+        let i = this.state.num_elements;
         let newElement = this.state.array[i];
 
         newElement.setValues(value);
         newElement.setColors(this.constructor.COLORS.success);
-		
-		// define Step
-		await this.step(`Inserted ${value} at [${i}]`) && (yield);
+
+        // define Step
+        await this.step(`Inserted ${value} at [${i}]`) && (yield);
 
         newElement.resetColors();
-        
+
         /***** Bubble up! *****/
         let j = i;
         let currentElement = newElement;
         while (j > 0) {
-            let pi            = this.parentOf(j);
+            let pi = this.parentOf(j);
             let parentElement = activeItem.state.array[pi];
-            
+
             let pvalue = parentElement.resolveValue();
             let nvalue = currentElement.resolveValue();
-            
+
             currentElement.setBorderColors(this.constructor.COLORS.success);
 
             // define Step
@@ -56,11 +63,11 @@ class BinaryHeap extends VisualisationItem {
             await this.step(`Highlighting parent (${pvalue}).`) && (yield);
 
             let completed = pvalue < nvalue;
-            let color     = completed ? this.constructor.COLORS.success : this.constructor.COLORS.fail;
+            let color = completed ? this.constructor.COLORS.success : this.constructor.COLORS.fail;
 
             currentElement.setColors(color);
             parentElement.setColors(color);
-    
+
             // define Step
             await this.step(`Comparison: ${pvalue} < ${nvalue}`) && (yield);
 
@@ -69,7 +76,7 @@ class BinaryHeap extends VisualisationItem {
 
             if (completed)
                 break;
-            
+
             parentElement.setValues(nvalue);
             currentElement.setValues(pvalue);
 
@@ -79,23 +86,29 @@ class BinaryHeap extends VisualisationItem {
             j = pi;
             currentElement = parentElement;
         }
-        
+
         // Increment num elements
         this.state.num_elements++;
 
-		// Return result
-		return { success:true, message:`Inserted ${value} in the heap and mainted heap-property!` };
-	}
+        // Return result
+        return {
+            success: true,
+            message: `Inserted ${value} in the heap and mainted heap-property!`
+        };
+    }
 
-	async* remove() {
+    async *remove() {
         // check state
         if (this.state.num_elements <= 0)
-            return { success:false, message:`The heap is empty!` };
+            return {
+                success: false,
+                message: `The heap is empty!`
+            };
 
         /***** Remove top element *****/
-        let nthElement  = this.state.array[this.state.num_elements-1];
+        let nthElement = this.state.array[this.state.num_elements - 1];
         let rootElement = this.state.array[0];
-        
+
         // Decrement num elements!
         this.state.num_elements--;
 
@@ -104,15 +117,18 @@ class BinaryHeap extends VisualisationItem {
 
             // define a step
             await this.step(`Set value of root to null`) && (yield);
-    
+
             nthElement.resetColors();
             nthElement.setValues(null);
-            return { success:true, message:`Root node removed!` };
+            return {
+                success: true,
+                message: `Root node removed!`
+            };
         }
 
         let nthValue = nthElement.resolveValue();
         nthElement.setColors(this.constructor.COLORS.pointer);
-        
+
         // define a step
         await this.step(`Highlighting last element`) && (yield);
 
@@ -126,7 +142,7 @@ class BinaryHeap extends VisualisationItem {
 
         // define a step
         await this.step(`Placing ${nthValue} value at root.`) && (yield);
-        
+
         rootElement.setValues(nthValue);
         rootElement.setColors(this.constructor.COLORS.success);
 
@@ -142,17 +158,21 @@ class BinaryHeap extends VisualisationItem {
             let j = -1;
 
             let currentElement = this.state.array[i];
-            let cvalue         = currentElement.resolveValue();
+            let cvalue = currentElement.resolveValue();
 
-            let ri                = this.rightChildOf(i);
+            let ri = this.rightChildOf(i);
             let rightChildElement = this.state.array[ri];
-            let rvalue            = rightChildElement.resolveValue();
+            let rvalue = rightChildElement.resolveValue();
 
-            let li               = this.leftChildOf(2*i + 1);
+            let li = this.leftChildOf(2 * i + 1);
             let leftChildElement = this.state.array[li];
-            let lvalue           = leftChildElement.resolveValue();
+            let lvalue = leftChildElement.resolveValue();
 
-            console.log({cvalue, rvalue, lvalue})
+            console.log({
+                cvalue,
+                rvalue,
+                lvalue
+            })
 
             if (rvalue !== null && rvalue < cvalue) {
                 if (lvalue < rvalue) {
@@ -165,18 +185,18 @@ class BinaryHeap extends VisualisationItem {
                     j = li;
                 }
             }
-            
+
             if (j >= 0) {
                 let jelement = this.state.array[j];
-                let jvalue   = jelement.resolveValue();
+                let jvalue = jelement.resolveValue();
 
                 currentElement.setBorderColors(this.constructor.COLORS.success);
 
                 // define step
                 await this.step(`Highlighting ${cvalue} node`) && (yield);
-    
+
                 jelement.setBorderColors(this.constructor.COLORS.success);
-    
+
                 // define step
                 await this.step(`Highlighting ${jvalue} node`) && (yield);
 
@@ -185,7 +205,7 @@ class BinaryHeap extends VisualisationItem {
 
                 // define a step
                 await this.step(`Swap needed! Swaping ${cvalue} and ${jvalue}`) && (yield);
-                
+
                 jelement.resetColors();
                 currentElement.resetColors();
 
@@ -198,34 +218,37 @@ class BinaryHeap extends VisualisationItem {
             // define a step
             await this.step(`Next iteration...`) && (yield);
 
-        } while (i >= 0); 
+        } while (i >= 0);
 
-		return { success:true, message:`Removed element from heap and maintained heap-property!` };
-	}
-    
+        return {
+            success: true,
+            message: `Removed element from heap and maintained heap-property!`
+        };
+    }
+
     // Extra functions - For Binary trees!
     parentOf(index) {
-        return Math.floor((index-1)/2);
-    } 
+        return Math.floor((index - 1) / 2);
+    }
 
     rightChildOf(index) {
-		return Math.floor(2 * index + 2);
-	}
+        return Math.floor(2 * index + 2);
+    }
 
-	leftChildOf(index) {
-		return Math.floor(2 * index + 1);
+    leftChildOf(index) {
+        return Math.floor(2 * index + 1);
     }
 
     depthOf(index) {
-        return Math.floor(Math.log2(index+1));
+        return Math.floor(Math.log2(index + 1));
     }
-    
+
     // Complex object and needs extra stuff - edges to be drawn!
     draw(env) {
-		for (let element of this.state.array) {
-			element.draw(env);
+        for (let element of this.state.array) {
+            element.draw(env);
         }
-	}
+    }
 }
 
 BinaryHeap.prototype.insert.help = `Inserts a (value) into the heap. (maintains heap property!)`;
@@ -234,7 +257,7 @@ BinaryHeap.prototype.remove.help = `Removes the top element out of the heap. (ma
 BinaryHeap.WrapElement = class {
     constructor(arrayLength, index, value) {
         this.node = new BinaryHeap.NodeGraphic(index);
-        this.cell = new BinaryHeap.CellGraphic(arrayLength, index); 
+        this.cell = new BinaryHeap.CellGraphic(arrayLength, index);
     }
 
     setBorderColors(color) {
@@ -252,12 +275,12 @@ BinaryHeap.WrapElement = class {
         this.cell.resetColor();
     }
 
-    setValues(value){
+    setValues(value) {
         this.node.value = value;
         this.cell.value = value;
     }
 
-    resolveValue(){
+    resolveValue() {
         if (this.node.value !== this.cell.value)
             throw "Uh oh cell and node dont match?";
 
@@ -271,54 +294,54 @@ BinaryHeap.WrapElement = class {
 }
 
 BinaryHeap.CellGraphic = class {
-	constructor(arrayLength, index) {
-		this.arrayLength = arrayLength;
+    constructor(arrayLength, index) {
+        this.arrayLength = arrayLength;
 
-		this.index  = index;
-		this.value  = null;
-		
-		this.width  = 48;
-		this.height = 48;
-		this.x      = null;
-		this.y 		= null;
+        this.index = index;
+        this.value = null;
 
-		this.resetColor();
-	}
-	
-	setBorderColor(color) {
-		this.borderColor = color;
-	}
+        this.width = 48;
+        this.height = 48;
+        this.x = null;
+        this.y = null;
 
-	setColor(color) {
-		this.previousRectColor = this.rectColor;
-		this.rectColor 		   = color;
-	}
+        this.resetColor();
+    }
 
-	setToLastColor() {
-		if (this.previousRectColor) 
-			this.rectColor = this.previousRectColor;
-		else
-			this.resetColor();
-	}
+    setBorderColor(color) {
+        this.borderColor = color;
+    }
 
-	resetColor() {
-		this.rectColor   = [255, 255, 255];
-		this.borderColor = [70, 70, 70];
-		this.textColor   = [0, 0, 0];
-	}
+    setColor(color) {
+        this.previousRectColor = this.rectColor;
+        this.rectColor = color;
+    }
 
-	draw(env) {
-		let offset_x = (env.width - (this.arrayLength * this.width))/2;
-		let offset_y = env.height*.8;
+    setToLastColor() {
+        if (this.previousRectColor)
+            this.rectColor = this.previousRectColor;
+        else
+            this.resetColor();
+    }
 
-		// draw box
-		this.x = offset_x + this.width*this.index;
-		this.y = offset_y - this.height/2;
-		
-		env.fill(...this.borderColor);
-		env.rect(this.x, this.y, this.width, this.height);
-		env.fill(...this.rectColor);
-		env.rect(this.x+4, this.y+4, this.width-8, this.height-8);
+    resetColor() {
+        this.rectColor = [255, 255, 255];
+        this.borderColor = [70, 70, 70];
+        this.textColor = [0, 0, 0];
+    }
+
+    draw(env) {
+        let offset_x = (env.width - (this.arrayLength * this.width)) / 2;
+        let offset_y = env.height * .8;
+
+        // draw box
+        this.x = offset_x + this.width * this.index;
+        this.y = offset_y - this.height / 2;
+
+        env.fill(...this.borderColor);
+        env.rect(this.x, this.y, this.width, this.height);
+        env.fill(...this.rectColor);
+        env.rect(this.x + 4, this.y + 4, this.width - 8, this.height - 8);
 
         // draw value
         if (this.value !== null) {
@@ -330,26 +353,26 @@ BinaryHeap.CellGraphic = class {
             let th = env.textSize();
 
             env.fill(...this.textColor);
-            env.text(value, this.x + this.width/2 - tw/2, this.y + this.height/2 + th/2.5);
+            env.text(value, this.x + this.width / 2 - tw / 2, this.y + this.height / 2 + th / 2.5);
         }
 
-		// draw index
-		env.textSize(20);
+        // draw index
+        env.textSize(20);
 
-		let index = "[" + String(this.index) + "]";
+        let index = "[" + String(this.index) + "]";
         let tw2 = env.textWidth(index);
         let th2 = env.textSize();
 
-		env.fill(...this.rectColor);
-		env.text(index, this.x + this.width/2 - tw2/2, this.y + this.height + th2 + 10);
-	}
+        env.fill(...this.rectColor);
+        env.text(index, this.x + this.width / 2 - tw2 / 2, this.y + this.height + th2 + 10);
+    }
 }
 
 BinaryHeap.NodeGraphic = class {
     constructor(index) {
         this.value = null;
         this.index = index;
-        
+
         this.x = null;
         this.y = null;
 
@@ -373,8 +396,8 @@ BinaryHeap.NodeGraphic = class {
 
     resetColor() {
         this.borderColor = [20, 20, 20];
-        this.innerColor  = [255, 255, 255];
-        this.textColor   = [40, 40, 40];
+        this.innerColor = [255, 255, 255];
+        this.textColor = [40, 40, 40];
     }
 
     draw(env) {
@@ -384,25 +407,25 @@ BinaryHeap.NodeGraphic = class {
 
         // Specific to root and others
         if (this.index === 0) { // root
-            this.x = env.width/2;
-            this.y = this.radius/1.8;
+            this.x = env.width / 2;
+            this.y = this.radius / 1.8;
         } else { // based of parent!
-            let pi     = activeItem.parentOf(this.index);
+            let pi = activeItem.parentOf(this.index);
             let parent = activeItem.state.array[pi].node;
-            
+
             let d = activeItem.depthOf(this.index); // Get depth of node by index
-            let offset = (this.radius*2 + 100) / Math.pow(2, d-1); // based on depth!
+            let offset = (this.radius * 2 + 100) / Math.pow(2, d - 1); // based on depth!
 
             // Even indices are right tree nodes! Odd are left!
             this.x = (this.index % 2) === 0 ? parent.x + offset : parent.x - offset;
-            this.y = parent.y + this.radius*1.5;
-           
+            this.y = parent.y + this.radius * 1.5;
+
             // line to parent
             env.strokeWeight(6);
             env.stroke(255, 255, 255);
-            env.line(parent.x, parent.y + this.radius/2, this.x, this.y);
-            env.stroke(0,0,0)
-            env.strokeWeight(1); 
+            env.line(parent.x, parent.y + this.radius / 2, this.x, this.y);
+            env.stroke(0, 0, 0)
+            env.strokeWeight(1);
         }
 
         // border
@@ -411,18 +434,18 @@ BinaryHeap.NodeGraphic = class {
 
         // inner
         env.fill(this.innerColor);
-        env.ellipse(this.x, this.y, this.radius-this.borderThickness);
+        env.ellipse(this.x, this.y, this.radius - this.borderThickness);
 
         // draw value
-		env.textFont(env.NORMAL_FONT);
-		env.textSize(26);
+        env.textFont(env.NORMAL_FONT);
+        env.textSize(26);
 
-		let value = String(this.value);
+        let value = String(this.value);
         let tw = env.textWidth(value);
         let th = env.textSize();
 
-		env.fill(...this.textColor);
-        env.text(value, this.x - tw/2, this.y + th/2.5);
+        env.fill(...this.textColor);
+        env.text(value, this.x - tw / 2, this.y + th / 2.5);
     }
 }
 

@@ -1,18 +1,18 @@
 const jQuery = require("jquery");
-const DIV_ID = "navbar"; 
+const DIV_ID = "navbar";
 
-jQuery( "#"+DIV_ID ).load("../shared/navigation.html", function(html, err) {
-    if ( err === "error" ){
+jQuery("#" + DIV_ID).load("../shared/navigation.html", function (html, err) {
+    if (err === "error") {
         console.log("Error with loading navigation file!");
         return;
     }
-    
-    // Set navbar title
-    let name = __dirname.substring(__dirname.lastIndexOf("\\")+1);
-    name     = name.replace(/^\w/, c => c.toUpperCase())
-    name     = `Data Structures Visualiser &#8594; ${name}`;
 
-    document.getElementById("title_nav").innerHTML         = name;
+    // Set navbar title
+    let name = __dirname.substring(__dirname.lastIndexOf("\\") + 1);
+    name = name.replace(/^\w/, c => c.toUpperCase())
+    name = `Data Structures Visualiser &#8594; ${name}`;
+
+    document.getElementById("title_nav").innerHTML = name;
     document.getElementById("navbar_title_path").innerHTML = name;
 
     var navbar = document.getElementById("navbar");

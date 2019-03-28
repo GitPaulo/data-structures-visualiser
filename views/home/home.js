@@ -1,17 +1,16 @@
-let nextPage = function(pageName) {
+let nextPage = function (pageName) {
     document.location.href = `../${pageName}/${pageName}.html`;
 }
 
 /* event functions */
-document.getElementById('visualiser_button').onclick = function() {
+document.getElementById('visualiser_button').onclick = function () {
     nextPage('visualiser');
 }
 
-document.getElementById('playground_button').onclick = function() {
+document.getElementById('playground_button').onclick = function () {
     nextPage('playground');
 }
 
-document.getElementById('about_button').onclick = function() {
+document.getElementById('about_button').onclick = function () {
     nextPage('about');
 }
-

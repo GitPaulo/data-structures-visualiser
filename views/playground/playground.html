@@ -1,64 +1,67 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <script src="../shared/loading.js"></script>
-        <link rel="stylesheet" href="../../css/normalize.css">
-        <link rel="stylesheet" href="../../css/skeleton.css">
-        <link rel="stylesheet" href="../../css/style.css">
-        <link rel="stylesheet" href="../../css/codemirror.css">
-    </head>
-    <body>
-        <!-- Nav bar -->
-        <nav id="navbar">
-            <script src="../shared/navigation.js"></script>
-        </nav>
-        <!-- Loading -->
-        <loading id="loading"></loading>
-        <!-- Page -->
-        <page class="playground" id="page">
-            <!-- Text Editor -->
-            <div class="editor-container">
-                <textarea id="editor_text_area"></textarea>
+
+<head>
+    <script src="../shared/loading.js"></script>
+    <link rel="stylesheet" href="../../css/normalize.css">
+    <link rel="stylesheet" href="../../css/skeleton.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/codemirror.css">
+</head>
+
+<body>
+    <!-- Nav bar -->
+    <nav id="navbar">
+        <script src="../shared/navigation.js"></script>
+    </nav>
+    <!-- Loading -->
+    <loading id="loading"></loading>
+    <!-- Page -->
+    <page class="playground" id="page">
+        <!-- Text Editor -->
+        <div class="editor-container">
+            <textarea id="editor_text_area"></textarea>
+        </div>
+        <!-- Editor Buttons -->
+        <div class="editor-controls">
+            <button class="button-primary control-button" id="run_button">Run Code</button>
+            <button class="button-primary control-button" id="beautify_button">Beautify</button>
+            <button class="button-primary control-button" id="import_button">Import DS/Alg</button>
+            <button class="button-primary control-button" id="export_button">Export Code</button>
+        </div>
+        <!-- Console Output -->
+        <div style="height: 19%;">
+            <fieldset id="console-log-div" style="height: 100%; width: 100%"></fieldset>
+            <script src="../../node_modules/console-log-div/console-log-div.js"></script>
+        </div>
+    </page>
+    <!-- Pop Up (for import button) -->
+    <div class="popup" id="import_frame">
+        <!-- popup content -->
+        <div class="popup-content popout" id="import_content">
+            <!-- Header of Popup -->
+            <div class="popup-header">
+                <span class="popup-close-button" id="import_close">&times;</span>
+                <h3>Import Algorithm/Data Structure</h3>
+                <hr>
             </div>
-            <!-- Editor Buttons -->
-            <div class="editor-controls">
-                <button class="button-primary control-button" id="run_button">Run Code</button>
-                <button class="button-primary control-button" id="beautify_button">Beautify</button>
-                <button class="button-primary control-button" id="import_button">Import DS/Alg</button>
-                <button class="button-primary control-button" id="export_button">Export Code</button>
-            </div>
-            <!-- Console Output -->
-            <div style="height: 19%;">
-                <fieldset id="console-log-div" style="height: 100%; width: 100%"></fieldset>
-                <script src="../../node_modules/console-log-div/console-log-div.js"></script>
-            </div>
-        </page>
-        <!-- Pop Up (for import button) -->
-        <div class="popup" id="import_frame">
-            <!-- popup content -->
-            <div class="popup-content popout" id="import_content">
-                <!-- Header of Popup -->
-                <div class="popup-header">
-                    <span class="popup-close-button" id="import_close">&times;</span>
-                    <h3>Import Algorithm/Data Structure</h3>
-                    <hr>
+            <!-- Body of Popup (form) -->
+            <div class="popup-form">
+                <div>
+                    <select id="import_select" style="width: 49%;">
+                        <option value="algx">Alg X</option>
+                        <option value="dsy">DS Y</option>
+                        <option value="%external%">External Import</option>
+                    </select>
+                    <button class="button-primary control-button" id="import_import" style="width: 50%;">import</button>
                 </div>
-                <!-- Body of Popup (form) -->
-                <div class="popup-form">
-                    <div>
-                        <select id="import_select" style="width: 49%;">
-                            <option value="algx">Alg X</option>
-                            <option value="dsy">DS Y</option>
-                            <option value="%external%">External Import</option>
-                        </select>
-                        <button class="button-primary control-button" id="import_import" style="width: 50%;">import</button>
-                    </div>
-                    <div id="import_external" style="display: none;">
-                        <label>[External Import]</label>
-                    </div>
+                <div id="import_external" style="display: none;">
+                    <label>[External Import]</label>
                 </div>
             </div>
         </div>
-    </body>
-    <script src="./playground.js"></script>
+    </div>
+</body>
+<script src="./playground.js"></script>
+
 </html>
