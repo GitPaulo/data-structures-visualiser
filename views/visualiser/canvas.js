@@ -28,17 +28,20 @@ var visualisationCanvas = new p5((env) => {
         let tw = env.textWidth(env.PAUSE_TITLE);
         let th = env.textSize();
 
+        let sx = 22;
+        let sy = 26;
+
         env.fill(0, 0, 0);
-        env.rect(32, 32, tw + 58, 41);
+        env.rect(sx, sy, tw + 58, 41);
         env.fill(65, 40, 40);
-        env.rect(32+2, 32+2, tw+58-2, 40-2);
+        env.rect(sx+2, sy+2, tw+58-2, 40-2);
 
         env.fill(255, 255, 255);
         let sign = activeOperation.offset == 0 ? "+" : "";
-        env.text(`PAUSED [OFFSET: ${sign}${activeOperation.offset}]`, 70, 63);
+        env.text(`PAUSED [OFFSET: ${sign}${activeOperation.offset}]`, sx+36, sy+30+1);
 
         env.fill(255, 50, 90);
-        env.ellipse(50, 53, 20);
+        env.ellipse(sx+22, sy+22, 20);
     }
 
     env.noItemScreen = function () {
