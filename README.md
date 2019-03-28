@@ -1,5 +1,5 @@
 # Algorithms &amp; Datastructures Visualiser Tool
-This is an applicaiton made with electron. It's goal is to display visualisations of data structures and their algorithms involved with manipulating the data stored.
+This is an application made with electron. It's goal is to display visualisations of data structures and their algorithms involved with manipulating the data stored.
 
 **Implemented Data Structures Visualisations:***
 - Static Array
