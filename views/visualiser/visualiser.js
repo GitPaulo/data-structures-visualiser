@@ -1,5 +1,6 @@
 /*global visualisationCanvas, terminalInstance, codeFollowEditor*/
 const Beautify   = require('js-beautify').js;
+const Logger     = require("../../structures/modules/logger");
 const util       = require("../../structures/modules/utility");
 const p5         = require('p5');
  
@@ -9,6 +10,7 @@ require('codemirror/mode/jsx/jsx');
 // Load as Global now so we can extend without require later :)
 var VisualisationItem                    = require('../../structures/classes/VisualisationItem.js');
 var { PerformanceObserver, performance } = require('perf_hooks');
+var logger                               = Logger.getInstance();
 
 /* Core Elements */
 let pageElement         = document.getElementById("page");
@@ -67,8 +69,8 @@ let controlObject = {
         // Store pre operation state in activeItem.storage[0]
         activeItem.storeState();
         
-        console.log("Assigned new active operation coroutine: ", operation);
-        console.log("Stored intial state in storage[0]", activeItem.storage[0]);
+        logger.print("Assigned new active operation coroutine: ", operation);
+        logger.print("Stored intial state in storage[0]", activeItem.storage[0]);
     },
     terminate : function (fromStop, rvalue) {
         this.shouldYield = true;
@@ -117,7 +119,7 @@ let controlObject = {
             if (result.done === false) { 
                 terminalInstance.write("Operation paused successfully!");
             } else { // animation ended!
-                console.log(result)
+                logger.print(result)
                 this.terminate(false, result.value);
             }
         }).catch((error) => {
@@ -186,7 +188,7 @@ let controlObject = {
 let metaTable = {
     operationControls : [ "resume", "pause", "stop", "back", "forward" ],
     get: function (target, name) {
-        // console.log("kek", name, target, target[name]);
+        // logger.print("kek", name, target, target[name]);
         if (typeof target[name] !== "undefined") {
             if (this.operationControls.indexOf(name) > -1 && target.operation === null){
                 return () => terminalInstance.write("There is no active operation to control!");
@@ -265,7 +267,7 @@ var activeOperation = new Proxy(controlObject, metaTable);
         // Code quadrant update
         codeFollowEditor.setCode(activeItem.__proto__.constructor);
         
-        console.log(activeItem.id, "loaded successfully!");
+        logger.print(activeItem.id, "loaded successfully!");
     }
 
     let addSideBarCategory = function (cname) {
@@ -373,7 +375,7 @@ overwriteButtonElement.onclick = function () {
         if (key === "constructor")
             continue;
 
-        console.log(">>>", key);
+        logger.print(">>>", key);
         activeItem[key] = newClassFunction.prototype[key];
     }
 

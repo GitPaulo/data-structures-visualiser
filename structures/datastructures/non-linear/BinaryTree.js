@@ -1,4 +1,4 @@
-/* global VisualisationItem, activeItem, util */
+/* global VisualisationItem, activeItem, util, logger */
 
 class BinaryTree extends VisualisationItem {
     constructor(itemData) {
@@ -269,9 +269,9 @@ BinaryTree.searchingMethods = {
 
         while (cvalue !== null && stack.length > 0) {
             // Pop the relevant node!
-            console.log(stack);
+            logger.print(stack);
             currentElement = stack.pop();
-            console.log("=====>", currentElement);
+            logger.print("=====>", currentElement);
             cvalue = currentElement.resolveValue();
             cindex = currentElement.resolveIndex();
 

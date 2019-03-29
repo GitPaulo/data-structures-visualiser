@@ -1,4 +1,4 @@
-/* global codeFollowElement, activeItem, Beautify */
+/* global codeFollowElement, activeItem, Beautify, logger */
 const CodeMirror = require('codemirror');
 
 const DEFAULT_CODEFOLLOW_STRING = `/* No Data Structure selected! Please open the side bar for selection. */`;
@@ -19,7 +19,7 @@ let waitRefresh = () => { // seems to fix the problem? Too lazy to figure out wh
         codeFollowEditor.refresh();
         // codeFollowEditor.focus();
         codeFollowEditor.refresh();
-        console.log("Refreshed code editor!");
+        logger.print("Refreshed code editor!");
     }, 1000);
 }
 

@@ -1,4 +1,4 @@
-/* global util, activeOperation, terminalInstance */
+/* global util, activeOperation, terminalInstance, logger */
 /* eslint-disable require-yield */
 class VisualisationItem {
     constructor(id, descriptiveData, state) {
@@ -34,19 +34,19 @@ class VisualisationItem {
     }
 
     shiftState(index) {
-        console.log("Shfiting state to: ", index);
+        logger.print("Shfiting state to: ", index);
         this.state = (index >= this.storage.length - 1) ? this._state : this.state = this.storage[index];
     }
 
     shiftStateToResume() {
-        console.log("Shfiting state to resume! (007 boi)");
+        logger.print("Shfiting state to resume! (007 boi)");
         this.state = this._state;
     }
 
     resetState() {
         if (this.storage[0]) {
             Object.assign(this.state, this.storage[0]);
-            console.log(`State reset for ${this.constructor.name}.`);
+            logger.print(`State reset for ${this.constructor.name}.`);
         } else {
             throw "No initial state to reset to!";
         }
@@ -60,7 +60,7 @@ class VisualisationItem {
 
     clearStorage() {
         this.storage = [];
-        console.log(`Cleared step-state storage for ${this.constructor.name}.`);
+        logger.print(`Cleared step-state storage for ${this.constructor.name}.`);
     }
 
     draw(env) {
@@ -87,7 +87,7 @@ class VisualisationItem {
 
     async sleep(ms) {
         let t = ms / activeOperation.speed;
-        //console.log(`Sleeping animation of ${this.constructor.name} for: ${t}ms.`);
+        //logger.print(`Sleeping animation of ${this.constructor.name} for: ${t}ms.`);
         await util.sleep(t);
     }
 }

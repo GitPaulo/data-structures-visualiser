@@ -1,4 +1,4 @@
-/* global activeOperation, visualisationCanvasElement, p5, activeItem, canvasID, util */
+/* global activeOperation, visualisationCanvasElement, p5, activeItem, canvasID, util, logger */
 
 var visualisationCanvas = new p5((env) => {
     env.preload = function () {
@@ -93,7 +93,7 @@ let canvasResize = () => {
     let h = visualisationCanvasElement.offsetHeight;
 
     visualisationCanvas.setup(w, h);
-    console.log("Visualisation canvas resized!")
+    logger.print("Visualisation canvas resized!")
 }
 
 util.addEvent(window, "resize", canvasResize);

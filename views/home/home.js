@@ -11,6 +11,6 @@ document.getElementById('playground_button').onclick = function () {
     nextPage('playground');
 }
 
-document.getElementById('about_button').onclick = function () {
-    nextPage('about');
+document.getElementById('logs_button').onclick = function () {
+    nextPage('logs');
 }

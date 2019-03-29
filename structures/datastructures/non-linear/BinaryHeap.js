@@ -1,4 +1,4 @@
-/* global util, VisualisationItem, activeItem*/
+/* global util, VisualisationItem, activeItem, logger*/
 class BinaryHeap extends VisualisationItem {
     constructor(itemData) {
         const length = 15;
@@ -168,7 +168,7 @@ class BinaryHeap extends VisualisationItem {
             let leftChildElement = this.state.array[li];
             let lvalue = leftChildElement.resolveValue();
 
-            console.log({
+            logger.print({
                 cvalue,
                 rvalue,
                 lvalue

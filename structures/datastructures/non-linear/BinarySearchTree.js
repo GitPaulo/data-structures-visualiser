@@ -1,4 +1,4 @@
-/* global VisualisationItem, activeItem, util */
+/* global VisualisationItem, activeItem, util, logger */
 
 class BinarySearchTree extends VisualisationItem {
     constructor(itemData) {
@@ -67,7 +67,7 @@ class BinarySearchTree extends VisualisationItem {
         }
 
         /***** Insert the Value  *****/
-        console.log({
+        logger.print({
             currentElement,
             cindex,
             cvalue

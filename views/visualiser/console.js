@@ -1,4 +1,4 @@
-/*global activeItem, activeOperation, jQuery, util, codeFollowEditor, metaTable, visualisationCanvas*/
+/* global activeItem, activeOperation, jQuery, util, codeFollowEditor, metaTable, visualisationCanvas, logger */
 
 var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     var cmdLine = document.querySelector(cmdLineContainer);
@@ -98,6 +98,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
 
     function write(html) {
         output.insertAdjacentHTML('beforeEnd', '<p>' + html + '</p>');
+        logger.logln(html);
     }
 
     function getDocHeight() {
@@ -128,7 +129,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
         // Operation methods with multiple functions (Sort: bubble,insertion,...) will return the coroutine object of the appropiate method!
         if (activeItem[key].constructor.name !== "AsyncGeneratorFunction") {
             let rdata = activeItem[key](...args);
-            console.log({
+            logger.print({
                 rdata
             });
             if (rdata.success) {
@@ -145,7 +146,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
 
         write(`Performing '${key}' operation on '${activeItem.id}' with parameters: [${args+""}]`);
 
-        console.log({
+        logger.print({
             argumentsList,
             operationCoroutine,
             originalFuncReference

@@ -3,7 +3,7 @@ const DIV_ID = "navbar";
 
 jQuery("#" + DIV_ID).load("../shared/navigation.html", function (html, err) {
     if (err === "error") {
-        console.log("Error with loading navigation file!");
+        console.error("Error with loading navigation file!");
         return;
     }
 

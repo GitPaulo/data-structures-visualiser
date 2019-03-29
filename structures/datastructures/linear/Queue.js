@@ -1,4 +1,4 @@
-/* global util, VisualisationItem, activeItem*/
+/* global util, VisualisationItem, activeItem, logger*/
 class Queue extends VisualisationItem {
     constructor(itemData) {
         const length = 10;
@@ -217,7 +217,7 @@ class Queue extends VisualisationItem {
                 let comparisonBoolean = eval(`(${Number(oldvalue1)} ${operator} ${Number(oldvalue2)})`);
                 let enqueueValue = comparisonBoolean ? oldvalue2 : oldvalue1;
 
-                console.log({
+                logger.print({
                     comparisonBoolean,
                     enqueueValue,
                     oldvalue1,
