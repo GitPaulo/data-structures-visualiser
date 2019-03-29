@@ -96,9 +96,10 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
         }
     }
 
-    function write(html) {
+    function write(html, log=true) {
         output.insertAdjacentHTML('beforeEnd', '<p>' + html + '</p>');
-        logger.logln(html);
+        if(log)
+            logger.logln(html);
     }
 
     function getDocHeight() {
@@ -242,7 +243,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
 
     return {
         init: function () {
-            write('<h2>Visualiser Console</h2><p id="date_console">' + new Date() + '</p><p>Enter "help" for more console command information.</p><p>Enter "instructions" for data structure specific operation help!</p>');
+            write('<h2>Visualiser Console</h2><p id="date_console">' + new Date() + '</p><p>Enter "help" for more console command information.</p><p>Enter "instructions" for data structure specific operation help!</p>', false);
             let consoleTimeElement = document.getElementById("date_console")
             window.setInterval(function () { // might cause problems!
                 consoleTimeElement.innerHTML = new Date();

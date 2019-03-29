@@ -1,10 +1,15 @@
 const path = require('path');
+const Logger = require("../../structures/modules/logger");
 const fs = require('fs');
 const CodeMirror = require('codemirror');
+
+// Logger instance
+var logger = Logger.getInstance();
 
 // Page Elements
 let editorElement = document.getElementById("logs-editor_text_area");
 let exportButton  = document.getElementById("export_logs_button");
+let clearButton   = document.getElementById("clear_logs_button");
 
 // Create folder for logs exports (same as playground - im lazy)
 let folder_name = "../../data";
@@ -21,6 +26,12 @@ exportButton.onclick = function () {
     fs.writeFile(filepath, editor.getValue(), () => {
         alert(`Saved logs to ${filepath}`);
     });
+}
+
+clearButton.onclick = function () {
+    localStorage[logger.STORAGE_KEY] = "";
+    editor.setValue("");
+    alert("Cleared logs in local storage!");
 }
 
 // Code mirror setup
