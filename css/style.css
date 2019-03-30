@@ -591,29 +591,26 @@ output p {
 }
 
 /***********************
-       about.html
+       logs.html
 ************************/
-#about_title {
-    color: white;
-    text-align: center;
-    margin: 1%;
-    font-size: 4vh;
+.logs-editor-container {
+    height: 95.6%;
 }
 
-#about_subtitle {
-    color: white;
-    text-align: center;
-    font-size: 2.5vh;
+.logs-editor-controls {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
 }
 
-.text-container {
-    border: 10px inset #02B9FF;
-    border-radius: 30px 30px 30px 30px;
-    height: 77%;
-    margin: 2%;
-}
-
-.text-container p {
-    margin: 2%;
-    color: white;
+.button-primary.logs-control-button {
+    margin: 0%;
+    padding: 0%;
+    display: table-cell;
+    /* nothing to see here - move along */
+    border-radius: 0%;
+    border: 1.5px solid rgb(40, 40, 40);
+    font-size: 1.8vh;
+    width: calc(100% / 2);
+    margin-bottom: 0%;
 }

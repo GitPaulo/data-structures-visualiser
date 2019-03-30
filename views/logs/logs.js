@@ -1,6 +1,6 @@
-const path = require('path');
-const Logger = require("../../structures/modules/logger");
-const fs = require('fs');
+const path       = require('path');
+const Logger     = require("../../structures/modules/logger");
+const fs         = require('fs');
 const CodeMirror = require('codemirror');
 
 // Logger instance
@@ -29,7 +29,7 @@ exportButton.onclick = function () {
 }
 
 clearButton.onclick = function () {
-    localStorage[logger.STORAGE_KEY] = "";
+    //localStorage[logger.STORAGE_KEY] = "";
     editor.setValue("");
     alert("Cleared logs in local storage!");
 }
@@ -40,7 +40,7 @@ const editor = CodeMirror.fromTextArea(editorElement, {
     lineNumbers: true
 });
 
-let logString = localStorage["logs"] || "[NO LOGS FOUND!]";
+let logString = localStorage[logger.STORAGE_KEY] || "[NO LOGS FOUND!]";
 editor.setValue(logString);
 
 editor.setSize('100%', '100%');

@@ -3,7 +3,7 @@ let LoggerFactory = (function () {
         this.STORAGE_KEY = "logs";
         this.PREFIX      = "[LOGS]";
 
-        localStorage[this.STORAGE_KEY] = "";
+        localStorage[this.STORAGE_KEY] = localStorage[this.STORAGE_KEY] || "";
 
         this.generateStamp = function () {
             return '(' + new Date().toLocaleString() + ')';

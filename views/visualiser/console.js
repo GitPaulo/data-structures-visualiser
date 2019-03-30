@@ -96,10 +96,9 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
         }
     }
 
-    function write(html, log=true) {
+    function write(html, shouldLog=true) {
         output.insertAdjacentHTML('beforeEnd', '<p>' + html + '</p>');
-        if(log)
-            logger.logln(html);
+        if(shouldLog) logger.logln(html);
     }
 
     function getDocHeight() {
@@ -209,6 +208,11 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 write(`Setting canvas scale multiplier to: ${args[0]}`);
                 break;
             case 'showlogs':
+                if (activeItem === null) {
+                    write("No active item! Please select one from the sidebar before setting it's flags.");
+                    break;
+                }
+
                 activeItem.showlogs = !activeItem.showlogs;
                 write(`Informative logs for '${activeItem.constructor.name}' set to: <b>${activeItem.showlogs}</b>`);
                 break;

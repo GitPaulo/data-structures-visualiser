@@ -19,10 +19,12 @@
     <!-- Page -->
     <page id="page">
          <!-- Text Editor -->
-         <div class="logs-editor-container" style="height: 95%;">
+         <div class="logs-editor-container">
             <textarea id="logs-editor_text_area"></textarea>
-            <button class="button-primary main-button" id="export_logs_button" style="height:5%; width:49.7%; border-radius: 0%; margin-bottom: 0%;">Export Logs</button>
-            <button class="button-primary main-button" id="clear_logs_button" style="height:5%; width:50%; border-radius: 0%; margin-bottom: 0%;">Clear Logs</button>
+            <div class="logs-editor-controls">
+                <button class="button-primary logs-control-button" id="export_logs_button">Export Logs</button>
+                <button class="button-primary logs-control-button" id="clear_logs_button">Clear Logs</button>
+            </div>
         </div>
     </page>
 </body>
