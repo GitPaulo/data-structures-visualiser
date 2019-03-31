@@ -1,10 +1,14 @@
 # Data Structures Visualiser Tool
 This is an application made with electron. It's goal is to display visualisations of data structures and their algorithms involved with manipulating the data stored. The structure of the app has been made to easily allow the addition of visualisation items. (read below)
 
-**Implemented Data Structures Visualisations:**
+### Implemented Data Structures Visualisations:
+**(Linear)**
 - Static Array
 - Queue
 - Stack
+- Linked List
+
+**(Non Linear)**
 - Binary Tree
 - Min-Heap
 - Binary Search Tree
@@ -14,5 +18,5 @@ This is an application made with electron. It's goal is to display visualisation
 Visit [structures/datastructures/__example](structures/datastructures/__example)
 
 ## Media
-![](https://media.giphy.com/media/4PUgT8uWuGTfCftrW6/giphy.gif)
-![](https://media.giphy.com/media/622L7ZPgnVX2ENDHLL/giphy.gif)
+![](assets/repo-media/r1.gif)
+![](assets/repo-media/r2.gif)
