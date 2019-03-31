@@ -46,3 +46,16 @@ codeFollowEditor.resetCode = function (beautifyData = {
     codeFollowEditor.setValue(code);
     waitRefresh();
 }
+
+/*
+Change line css:
+editor.getDoc().markText({
+    line: 5,
+    ch: 10
+  }, {
+    line: 5,
+    ch: 39
+  }, {
+    css: "color : red"
+  });
+*/
