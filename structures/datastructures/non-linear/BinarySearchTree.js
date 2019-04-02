@@ -157,7 +157,9 @@ class BinarySearchTree extends VisualisationItem {
 
         newElement.resetColors();
         newElement.setValues(null);
-
+        
+        // TO DO: MOVE SUBTREE UP IF WE REMOVE NON LEAF NODE!!
+        
         // define step
         await this.step(`Set value at [${cindex}] to null`) && (yield);
 
@@ -165,7 +167,7 @@ class BinarySearchTree extends VisualisationItem {
 
         return {
             success: true,
-            message: `Found and removed ${value} fro the Binary Search Tree!`
+            message: `Found and removed ${value} from the Binary Search Tree!`
         };
     }
 

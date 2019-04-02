@@ -6,7 +6,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
 
     const CMDS = [
         'clear', 'echo', 'help', 'instructions', 'scale',
-        'showcontrols', "shouldreset", "resetosc", "speed", "showlogs",
+        'showcontrols', "shouldreset", "resetosc", "speed", "extralogs",
         'insert', 'remove', 'search', 'sort'
     ];
 
@@ -207,14 +207,14 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 visualisationCanvas.SCALE_MLT = args[0];
                 write(`Setting canvas scale multiplier to: ${args[0]}`);
                 break;
-            case 'showlogs':
+            case 'extralogs':
                 if (activeItem === null) {
                     write("No active item! Please select one from the sidebar before setting it's flags.");
                     break;
                 }
 
-                activeItem.showlogs = !activeItem.showlogs;
-                write(`Informative logs for '${activeItem.constructor.name}' set to: <b>${activeItem.showlogs}</b>`);
+                activeItem.extralogs = !activeItem.extralogs;
+                write(`Informative logs for '${activeItem.constructor.name}' set to: <b>${activeItem.extralogs}</b>`);
                 break;
             case 'showcontrols':
                 let controlsElement = document.getElementById("visualisation_controls");

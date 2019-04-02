@@ -3,6 +3,7 @@ const Beautify   = require('js-beautify').js;
 const Logger     = require("../../structures/modules/logger");
 const util       = require("../../structures/modules/utility");
 const p5         = require('p5');
+const fs         = require('fs');
  
 // Load codemiror mode for JavaScript
 require('codemirror/mode/jsx/jsx');
@@ -234,9 +235,16 @@ var activeOperation = new Proxy(controlObject, metaTable);
         itemContentElement.appendChild(descriptionElement);
 
         if (item.descriptiveData.Image !== "") {
-            let imageElement = document.createElement("img");
-            imageElement.src = "../../" + item.descriptiveData.Image;
-            itemContentElement.appendChild(imageElement);
+            let imageFilePath = "../../" + item.descriptiveData.Image;
+            try {
+                if (fs.existsSync(imageFilePath)) {
+                    let imageElement = document.createElement("img");
+                    imageElement.src = imageFilePath;
+                    itemContentElement.appendChild(imageElement);
+                }
+            } catch(err) {
+                console.error(err)
+            }
         }
 
         itemContentElement.appendChild((() => {let x=document.createElement("h1"); x.innerHTML="Operations"; return x })()); // ay lmao

@@ -6,7 +6,7 @@ class VisualisationItem {
         this.descriptiveData = descriptiveData; // from yaml object
         this.state = this._state = state; // 007 double-agent mega secrative *bad dum ba dum*
         this.storage = [];
-        this.showlogs = false; // if step logs should be written to console.
+        this.extralogs = false; // if step logs should be written to console.
     }
 
     async *insert() {
@@ -79,7 +79,7 @@ class VisualisationItem {
         if (this.shouldYield())
             return true;
 
-        if (this.showlogs)
+        if (this.extralogs)
             terminalInstance.write(`[LOG] ${msg}`);
 
 

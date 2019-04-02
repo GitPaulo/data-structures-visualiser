@@ -181,7 +181,7 @@ class Graph extends VisualisationItem {
 
 Graph.prototype.insert.help   = `Insert an element into the graph. Use <b>"v1|v2|v3|...|vn"</b> to denote that the new element has an edge to 'vx'`;
 Graph.prototype.remove.help   = `Remove a (value) from the graph. Value = node id.`;
-Graph.prototype.remove.search = `Search.`;
+Graph.prototype.search.help   = `Search.`;
 
 Graph.NodeGraphic = class {
     constructor(value) {
