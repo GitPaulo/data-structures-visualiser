@@ -29,7 +29,7 @@ class ExampleDataStructure extends VisualisationItem {
         // ........
 
         // Define Step
-        await this.step() && (yield);
+        await this.step("optional log") && (yield);
 
         // State changing code
         // ........
@@ -99,9 +99,9 @@ class ExampleDataStructure extends VisualisationItem {
      */
 }
 
-ExampleDataStructure.prototype.insert.help = ``;
-ExampleDataStructure.prototype.remove.help = ``;
-ExampleDataStructure.prototype.search.help = ``;
-ExampleDataStructure.prototype.sort.help = ``;
+ExampleDataStructure.prototype.insert.help = `(Help string for 'insert')`;
+ExampleDataStructure.prototype.remove.help = `(Help string for 'help')`;
+ExampleDataStructure.prototype.search.help = `(Help string for 'search')`;
+ExampleDataStructure.prototype.sort.help = `(Help string for 'sort')`;
 
 module.exports = ExampleDataStructure;
