@@ -162,11 +162,11 @@ class BinaryHeap extends VisualisationItem {
 
             let ri = this.rightChildOf(i);
             let rightChildElement = this.state.array[ri];
-            let rvalue = rightChildElement.resolveValue();
+            let rvalue = rightChildElement && rightChildElement.resolveValue() || null;
 
             let li = this.leftChildOf(i);
             let leftChildElement = this.state.array[li];
-            let lvalue = leftChildElement.resolveValue();
+            let lvalue = leftChildElement && leftChildElement.resolveValue() || null;
 
             logger.print({
                 cvalue,

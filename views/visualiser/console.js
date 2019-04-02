@@ -161,6 +161,8 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
 
     function execCMD(cmd, args) {
         // for operations with anim control
+        cmd = cmd || "";
+        
         if (ANIMATION_CMDS.indexOf(cmd.toLowerCase()) > -1) {
             activeOperation[cmd](...args);
             return;
