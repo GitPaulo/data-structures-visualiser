@@ -6,13 +6,12 @@ This is an application made with electron. It's goal is to display visualisation
 - Static Array
 - Queue
 - Stack
-- Linked List
 
 **(Non Linear)**
 - Binary Tree
 - Min-Heap
 - Binary Search Tree
-- Undirected Graph
+- Directed Graph
 
 ## How to add new visualisation items?
 Visit [structures/datastructures/__example](structures/datastructures/__example)

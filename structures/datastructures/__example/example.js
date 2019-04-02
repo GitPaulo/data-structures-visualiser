@@ -84,6 +84,12 @@ class ExampleDataStructure extends VisualisationItem {
      * (Override if extra functionality needed)
      */
 
+    /*****
+     * Event methods
+     *      - mousePressed(env)
+     *      - mouseReleased(env)
+     */
+    
     /***** 
      * Constants of Parent class:
      * 		- VisualisationItem.ASCENDING_SORTING_TYPE

@@ -84,6 +84,13 @@ var visualisationCanvas = new p5((env) => {
             env.pausedScreen();
     }
 
+    // Extend some p5 event functions
+    let extend = (id) => {
+        return (mx, my) => activeItem && activeItem[id](env, mx, my);
+    }
+
+    env.mouseReleased = extend('mouseReleased');
+    env.mousePressed  = extend('mousePressed');
 
 }, canvasID); // attach it to div id: `titleCanvas` on index.html
 

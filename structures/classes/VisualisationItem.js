@@ -69,6 +69,10 @@ class VisualisationItem {
         }
     }
 
+    // Event methods from p5.js (no default behaviour)
+    mousePressed(env) {}
+    mouseReleased(env) {}
+
     async step(msg = "[LOG NOT FOUND]", ms = 600) {
         this.storeState();
 
