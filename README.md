@@ -1,5 +1,5 @@
-# Data Structures Visualiser Tool
-This is an application made with ![electron](https://github.com/electron/electron). It's goal is to display visualisations of data structures and their algorithms involved with manipulating the data stored. The structure of the app has been made to easily allow the addition of visualisation items. (read below)
+# Data Structures Visualisation Tool
+An application made with ![electron](https://github.com/electron/electron). It's goal is to display visualisations of data structures and their algorithms involved with manipulating the data stored. The structure of the app has been designed to easily allow the addition of visualisation items. (read below)
 
 ## Implemented Visualisations:
 **(Linear)**
