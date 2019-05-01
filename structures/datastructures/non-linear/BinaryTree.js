@@ -17,14 +17,6 @@ class BinaryTree extends VisualisationItem {
 
     async *insert(value) {
         // check params
-        const MAX_SIZE = this.state.array.length;
-
-        if (this.state.num_elements >= MAX_SIZE)
-            return {
-                success: false,
-                message: `The Binary Tree is full!`
-            };
-
         value = Number(value);
 
         if (isNaN(value))
@@ -33,8 +25,19 @@ class BinaryTree extends VisualisationItem {
                 message: `Invalid paremeter! Parameter 'value' must be a number!`
             };
 
-        let pointer = this.state.num_elements;
-        let newElement = this.state.array[pointer];
+        const MAX_SIZE = btArray.length;
+
+        let btArray = this.state.array;
+        let n = this.state.num_elements;
+        
+        if (n >= MAX_SIZE)
+            return {
+                success: false,
+                message: `The Binary Tree is full!`
+            };
+
+        let pointer = n;
+        let newElement = btArray[pointer];
         newElement.setValues(value);
         newElement.setColors(this.constructor.COLORS.success);
 
@@ -59,8 +62,9 @@ class BinaryTree extends VisualisationItem {
                 message: `The Binary Tree is empty!`
             };
 
+        let btArray = this.state.array;
         let pointer = this.state.num_elements - 1;
-        let newElement = this.state.array[pointer];
+        let newElement = btArray[pointer];
         newElement.setValues(null);
         newElement.setColors(this.constructor.COLORS.fail);
 
@@ -137,8 +141,9 @@ BinaryTree.searchingMethods = {
                 success: false,
                 message: `The Binary Tree is empty!`
             };
-
-        let currentElement = this.state.array[0]; // Start at root
+        
+        let btArray = this.state.array;
+        let currentElement = btArray[0]; // Start at root
         let cvalue = currentElement.resolveValue();
         let cindex = currentElement.resolveIndex();
 
@@ -151,7 +156,7 @@ BinaryTree.searchingMethods = {
                 // Push currentElement
                 stack.push(currentElement);
 
-                let leftChild = this.state.array[this.leftChildOf(cindex)];
+                let leftChild = btArray[this.leftChildOf(cindex)];
                 currentElement = leftChild;
 
                 cvalue = !currentElement ? null : currentElement.resolveValue();
@@ -165,7 +170,7 @@ BinaryTree.searchingMethods = {
 
             currentElement.setBorderColors(this.constructor.COLORS.success);
             // define Step
-            await this.step() && (yield);
+            await this.step(`Highlighting ${cvalue}`) && (yield);
             currentElement.resetColors();
 
             if (cvalue === value)
@@ -180,7 +185,7 @@ BinaryTree.searchingMethods = {
                 break;
 
             // Check right subtree
-            let rightChild = this.state.array[this.rightChildOf(cindex)];
+            let rightChild = btArray[this.rightChildOf(cindex)];
             currentElement = rightChild;
             cvalue = !currentElement ? null : currentElement.resolveValue();
             cindex = !currentElement ? null : currentElement.resolveIndex();
@@ -199,7 +204,8 @@ BinaryTree.searchingMethods = {
                 message: `The Binary Tree is empty!`
             };
 
-        let currentElement = this.state.array[0]; // Start at root
+        let btArray = this.state.array;
+        let currentElement = btArray[0]; // Start at root
         let cvalue = currentElement.resolveValue();
         let cindex = currentElement.resolveIndex();
 
@@ -212,7 +218,7 @@ BinaryTree.searchingMethods = {
                 // Push currentElement
                 stack.push(currentElement);
 
-                let rightChild = this.state.array[this.rightChildOf(cindex)];
+                let rightChild = btArray[this.rightChildOf(cindex)];
                 currentElement = rightChild;
 
                 cvalue = !currentElement ? null : currentElement.resolveValue();
@@ -241,7 +247,7 @@ BinaryTree.searchingMethods = {
                 break;
 
             // Check left subtree
-            let leftChild = this.state.array[this.leftChildOf(cindex)];
+            let leftChild = btArray[this.leftChildOf(cindex)];
             currentElement = leftChild;
             cvalue = !currentElement ? null : currentElement.resolveValue();
             cindex = !currentElement ? null : currentElement.resolveIndex();
@@ -260,7 +266,8 @@ BinaryTree.searchingMethods = {
                 message: `The Binary Tree is empty!`
             };
 
-        let currentElement = this.state.array[0]; // Start at root
+        let btArray = this.state.array;
+        let currentElement = btArray[0]; // Start at root
         let cvalue = currentElement.resolveValue();
         let cindex = currentElement.resolveIndex();
 
@@ -269,9 +276,7 @@ BinaryTree.searchingMethods = {
 
         while (cvalue !== null && stack.length > 0) {
             // Pop the relevant node!
-            logger.print(stack);
             currentElement = stack.pop();
-            logger.print("=====>", currentElement);
             cvalue = currentElement.resolveValue();
             cindex = currentElement.resolveIndex();
 
@@ -292,13 +297,13 @@ BinaryTree.searchingMethods = {
                 break;
 
             // Push right and left child on stack if they exist
-            let rightChild = this.state.array[this.rightChildOf(cindex)];
+            let rightChild = btArray[this.rightChildOf(cindex)];
 
             if (typeof rightChild !== "undefined" && rightChild.resolveValue() !== null)
                 stack.push(rightChild);
 
             // Left child
-            let leftChild = this.state.array[this.leftChildOf(cindex)];
+            let leftChild = btArray[this.leftChildOf(cindex)];
 
             if (typeof leftChild !== "undefined" && leftChild.resolveValue() !== null)
                 stack.push(leftChild);
@@ -317,7 +322,9 @@ BinaryTree.searchingMethods = {
                 message: `The Binary Tree is empty!`
             };
 
-        let currentElement = this.state.array[0]; // Start at root
+
+        let btArray = this.state.array;
+        let currentElement = btArray[0]; // Start at root
         let cvalue = currentElement.resolveValue();
         let cindex = currentElement.resolveIndex();
 
@@ -347,13 +354,13 @@ BinaryTree.searchingMethods = {
                 break;
 
             // Left child
-            let leftChild = this.state.array[this.leftChildOf(cindex)];
+            let leftChild = btArray[this.leftChildOf(cindex)];
 
             if (typeof leftChild !== "undefined" && leftChild.resolveValue() !== null)
                 stack.push(leftChild);
 
             // Push right and left child on stack if they exist
-            let rightChild = this.state.array[this.rightChildOf(cindex)];
+            let rightChild = btArray[this.rightChildOf(cindex)];
 
             if (typeof rightChild !== "undefined" && rightChild.resolveValue() !== null)
                 stack.push(rightChild);

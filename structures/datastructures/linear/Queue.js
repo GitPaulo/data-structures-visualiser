@@ -26,14 +26,15 @@ class Queue extends VisualisationItem {
 
         let tailElement = this.state["tail_pointer"];
         let headElement = this.state["head_pointer"];
+        let queueArray  = this.state.Array;
 
-        if (tailElement.value === headElement.value && this.state.array[tailElement.value].value !== null)
+        if (tailElement.value === headElement.value && queueArray [tailElement.value].value !== null)
             return {
                 success: false,
                 message: `The Queue is full!`
             };
 
-        let element = this.state.array[tailElement.value];
+        let element = queueArray[tailElement.value];
         element.value = value;
         element.setColor(Queue.COLORS.success);
 
@@ -44,7 +45,7 @@ class Queue extends VisualisationItem {
         element.resetColor();
 
         // Increment tail (Circularity!)
-        tailElement.value = tailElement.value >= this.state.array.length - 1 ? 0 : tailElement.value + 1;
+        tailElement.value = tailElement.value >= queueArray.length - 1 ? 0 : tailElement.value + 1;
 
         return {
             success: true,
@@ -55,15 +56,16 @@ class Queue extends VisualisationItem {
     async *remove() {
         let tailElement = this.state["tail_pointer"];
         let headElement = this.state["head_pointer"];
+        let queueArray  = this.state.Array;
 
-        if (tailElement.value === headElement.value && this.state.array[headElement.value].value === null)
+        if (tailElement.value === headElement.value && queueArray[headElement.value].value === null)
             return {
                 success: false,
                 message: `The Queue is empty!`
             };
 
-        let element = this.state.array[headElement.value];
-        let oldvalue = element.value;
+        let element   = queueArray[headElement.value];
+        let oldvalue  = element.value;
         element.value = null;
         element.setColor(Queue.COLORS.fail);
 
@@ -74,7 +76,7 @@ class Queue extends VisualisationItem {
         element.resetColor();
 
         // Increment head (Circularity!)
-        headElement.value = headElement.value >= this.state.array.length - 1 ? 0 : headElement.value + 1;
+        headElement.value = headElement.value >= queueArray.length - 1 ? 0 : headElement.value + 1;
 
         return {
             success: true,
@@ -94,8 +96,9 @@ class Queue extends VisualisationItem {
 
         let tailElement = this.state["tail_pointer"];
         let headElement = this.state["head_pointer"];
+        let queueArray  = this.state.Array;
 
-        if (tailElement.value === headElement.value && this.state.array[headElement.value].value === null)
+        if (tailElement.value === headElement.value && queueArray[headElement.value].value === null)
             return {
                 success: false,
                 message: `The Queue is empty!`
@@ -107,7 +110,7 @@ class Queue extends VisualisationItem {
 
         do {
             /***** Dequeue Value *****/
-            let element = this.state.array[headElement.value];
+            let element  = queueArray[headElement.value];
             let oldvalue = element.value;
 
             /***** Compare Value  *****/
@@ -126,20 +129,20 @@ class Queue extends VisualisationItem {
 
             // Increment head (Circularity!)
             element.value = null;
-            headElement.value = headElement.value >= this.state.array.length - 1 ? 0 : headElement.value + 1;
+            headElement.value = headElement.value >= queueArray.length - 1 ? 0 : headElement.value + 1;
 
             // Define a step
             await this.step(`Incremented head pointer. (index=${headElement.value})`) && (yield);
 
             /***** Queue value back! *****/
-            element = this.state.array[tailElement.value];
+            element = queueArray[tailElement.value];
             element.value = oldvalue;
 
             // Define a step
             await this.step(`Enqueued value ${oldvalue} back in the queue.`) && (yield);
 
             // Increment tail (Circularity!)
-            tailElement.value = tailElement.value >= this.state.array.length - 1 ? 0 : tailElement.value + 1;
+            tailElement.value = tailElement.value >= queueArray - 1 ? 0 : tailElement.value + 1;
 
             // Define a step
             await this.step(`Incremented tail pointer. (index=${tailElement.value})`) && (yield);
@@ -167,14 +170,15 @@ class Queue extends VisualisationItem {
 
         let tailElement = this.state["tail_pointer"];
         let headElement = this.state["head_pointer"];
+        let queueArray  = this.state.Array;
 
-        if (tailElement.value === headElement.value && this.state.array[headElement.value].value === null)
+        if (tailElement.value === headElement.value && queueArray[headElement.value].value === null)
             return {
                 success: false,
                 message: `The Queue is empty!`
             };
 
-        const MAX = this.state.array.length;
+        const MAX = queueArray.length;
         let front = headElement.value
         let rear = tailElement.value;
 
@@ -182,7 +186,7 @@ class Queue extends VisualisationItem {
 
         for (let i = 0; i < numElements; i++) {
             /***** Dequeue item *****/
-            let element1 = this.state.array[headElement.value];
+            let element1 = queueArray[headElement.value];
             let oldvalue1 = element1.value;
             element1.value = null;
             element1.setColor(Queue.COLORS.pointer);
@@ -198,7 +202,7 @@ class Queue extends VisualisationItem {
 
             for (let j = 0; j < (numElements - 1); j++) {
                 /***** Dequeue item *****/
-                let element2 = this.state.array[headElement.value];
+                let element2 = queueArray[headElement.value];
                 let oldvalue2 = element2.value;
                 element2.value = null;
                 element2.setColor(Queue.COLORS.pointer);
@@ -217,14 +221,7 @@ class Queue extends VisualisationItem {
                 let comparisonBoolean = eval(`(${Number(oldvalue1)} ${operator} ${Number(oldvalue2)})`);
                 let enqueueValue = comparisonBoolean ? oldvalue2 : oldvalue1;
 
-                logger.print({
-                    comparisonBoolean,
-                    enqueueValue,
-                    oldvalue1,
-                    oldvalue2
-                })
-
-                let element3 = this.state.array[tailElement.value];
+                let element3 = queueArray[tailElement.value];
                 element3.value = enqueueValue;
                 element3.setColor(Queue.COLORS.success);
 
@@ -242,15 +239,15 @@ class Queue extends VisualisationItem {
             }
 
             /***** enqueue oldvalue1 *****/
-            let element3 = this.state.array[tailElement.value];
-            element3.value = oldvalue1;
-            element3.setColor(Queue.COLORS.pointer);
+            let element4 = queueArray[tailElement.value];
+            element4.value = oldvalue1;
+            element4.setColor(Queue.COLORS.pointer);
 
             // Define a step
             await this.step(`Enqueue: ${oldvalue1}`) && (yield);
 
             // Reset color
-            element3.resetColor();
+            element4.resetColor();
 
             // Increment tail (Circularity!)
             tailElement.value = tailElement.value >= MAX - 1 ? 0 : tailElement.value + 1;

@@ -17,14 +17,6 @@ class BinarySearchTree extends VisualisationItem {
 
     async *insert(value) {
         // check params
-        const MAX_SIZE = this.state.array.length;
-
-        if (this.state.num_elements >= MAX_SIZE)
-            return {
-                success: false,
-                message: `The Binary Search Tree is full!`
-            };
-
         value = Number(value);
 
         if (isNaN(value))
@@ -33,7 +25,16 @@ class BinarySearchTree extends VisualisationItem {
                 message: `Invalid paremeter! Parameter 'value' must be a number!`
             };
 
-        let rootElement = this.state.array[0];
+        let bstArray   = this.state.array;
+        const MAX_SIZE = bstArray.length;
+
+        if (this.state.num_elements >= MAX_SIZE)
+            return {
+                success: false,
+                message: `The Binary Search Tree is full!`
+            };
+ 
+        let rootElement = bstArray[0];
         let currentElement = rootElement;
         let cvalue = currentElement.resolveValue();
         let cindex = currentElement.resolveIndex();
@@ -61,18 +62,13 @@ class BinarySearchTree extends VisualisationItem {
                     message: "Binary Search Tree cannot grow beyond the current max-depth!"
                 };
 
-            currentElement = this.state.array[nextIndex];
+            currentElement = bstArray[nextIndex];
             cvalue = currentElement.resolveValue();
             cindex = currentElement.resolveIndex();
         }
 
         /***** Insert the Value  *****/
-        logger.print({
-            currentElement,
-            cindex,
-            cvalue
-        })
-        let newElement = this.state.array[cindex];
+        let newElement = bstArray[cindex];
 
         newElement.setValues(value);
         newElement.setColors(this.constructor.COLORS.success);
@@ -91,12 +87,6 @@ class BinarySearchTree extends VisualisationItem {
     }
 
     async *remove(value) {
-        if (this.state.num_elements <= 0)
-            return {
-                success: false,
-                message: `The Binary Search Tree is empty!`
-            };
-
         value = Number(value);
 
         if (isNaN(value))
@@ -105,13 +95,20 @@ class BinarySearchTree extends VisualisationItem {
                 message: `Invalid paremeter! Parameter 'value' must be a number!`
             };
 
-        let rootElement = this.state.array[0];
+        if (this.state.num_elements <= 0)
+            return {
+                success: false,
+                message: `The Binary Search Tree is empty!`
+            };
+        
+        let bstArray = this.state.array;
+        let rootElement = bstArray[0];
         let currentElement = rootElement;
         let cvalue = currentElement.resolveValue();
         let cindex = currentElement.resolveIndex();
         let found = false;
 
-        const MAX_SIZE = this.state.array.length;
+        const MAX_SIZE = bstArray.length;
 
         /***** Search for value's place *****/
         while (cvalue !== null) {
@@ -127,7 +124,7 @@ class BinarySearchTree extends VisualisationItem {
             if (cvalue === value) { // found, current
                 found = true;
                 break;
-            } else if (cvalue <= value) { // left
+            } else if (cvalue < value) { // left
                 nextIndex = this.rightChildOf(cindex);
             } else { // right
                 nextIndex = this.leftChildOf(cindex);
@@ -136,7 +133,7 @@ class BinarySearchTree extends VisualisationItem {
             if (nextIndex < 0 || nextIndex >= MAX_SIZE)
                 break;
 
-            currentElement = this.state.array[nextIndex];
+            currentElement = bstArray[nextIndex];
             cvalue = currentElement.resolveValue();
             cindex = currentElement.resolveIndex();
         }
@@ -149,7 +146,7 @@ class BinarySearchTree extends VisualisationItem {
                 message: `Could not find ${value} in the Binary Search tree!`
             };
 
-        let newElement = this.state.array[cindex];
+        let newElement = bstArray[cindex];
         newElement.setColors(this.constructor.COLORS.fail);
 
         // define Step
@@ -172,12 +169,6 @@ class BinarySearchTree extends VisualisationItem {
     }
 
     async *search(value) {
-        if (this.state.num_elements <= 0)
-            return {
-                success: false,
-                message: `The Binary Search Tree is empty!`
-            };
-
         value = Number(value);
 
         if (isNaN(value))
@@ -186,13 +177,20 @@ class BinarySearchTree extends VisualisationItem {
                 message: `Invalid paremeter! Parameter 'value' must be a number!`
             };
 
-        let rootElement = this.state.array[0];
+        if (this.state.num_elements <= 0)
+            return {
+                success: false,
+                message: `The Binary Search Tree is empty!`
+            };
+
+        let bstArray = this.state.array;
+        let rootElement = bstArray[0];
         let currentElement = rootElement;
         let cvalue = currentElement.resolveValue();
         let cindex = currentElement.resolveIndex();
         let found = false;
 
-        const MAX_SIZE = this.state.array.length;
+        const MAX_SIZE = bstArray.length;
 
         /***** Search for value's place *****/
         while (cvalue !== null) {
@@ -225,7 +223,7 @@ class BinarySearchTree extends VisualisationItem {
             if (found || nextIndex < 0 || nextIndex >= MAX_SIZE)
                 break;
 
-            currentElement = this.state.array[nextIndex];
+            currentElement = bstArray[nextIndex];
             cvalue = currentElement.resolveValue();
             cindex = currentElement.resolveIndex();
         }

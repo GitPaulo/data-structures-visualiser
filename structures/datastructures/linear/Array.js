@@ -181,8 +181,8 @@ StaticArray.sortingMethods = {
                 }
 
                 let hcolor = comparisonBoolean ? this.constructor.COLORS.fail : this.constructor.COLORS.success;
-                items[j].setColor(hcolor, 500);
-                items[j + 1].setColor(hcolor, 500);
+                items[j].setColor(hcolor);
+                items[j + 1].setColor(hcolor);
 
                 // Define a step
                 await this.step(comparisonBoolean ? "Values out of order" : "Values in order") && (yield);

@@ -278,7 +278,7 @@ var activeOperation = new Proxy(controlObject, metaTable);
         logger.print(activeItem.id, "loaded successfully!");
 
         // Update navbar
-        document.getElementById("navbar_title_path").innerHTML = `Data Structures Visualiser &#8594; Visualiser &#8594; ${activeItem.id}`;
+        document.getElementById("navbar_title_path").innerHTML = `Home &#8594; Visualiser &#8594; ${activeItem.id}`;
     }
 
     let addSideBarCategory = function (cname) {

@@ -16,12 +16,6 @@ class BinaryHeap extends VisualisationItem {
 
     async *insert(value) {
         // Check paramas
-        if (this.state.num_elements >= this.state.array.length)
-            return {
-                success: false,
-                message: `The heap is full!`
-            };
-
         value = Number(value);
 
         if (isNaN(value))
@@ -29,10 +23,19 @@ class BinaryHeap extends VisualisationItem {
                 success: false,
                 message: `Invalid paremeter! Parameter 'value' must be a number!`
             };
+        
+        let heapArray = this.state.array;
+        let n = this.state.num_elements;
+
+        if (n >= heapArray.length)
+            return {
+                success: false,
+                message: `The heap is full!`
+            };
 
         /***** Add new node at the end *****/
-        let i = this.state.num_elements;
-        let newElement = this.state.array[i];
+        let i = n;
+        let newElement = heapArray[i];
 
         newElement.setValues(value);
         newElement.setColors(this.constructor.COLORS.success);
@@ -50,26 +53,26 @@ class BinaryHeap extends VisualisationItem {
             let parentElement = activeItem.state.array[pi];
 
             let pvalue = parentElement.resolveValue();
-            let nvalue = currentElement.resolveValue();
+            let cvalue = currentElement.resolveValue();
 
             currentElement.setBorderColors(this.constructor.COLORS.success);
 
             // define Step
-            await this.step(`Highlighting child (${nvalue})`) && (yield);
+            await this.step(`Highlighting child (${cvalue})`) && (yield);
 
             parentElement.setBorderColors(this.constructor.COLORS.success);
 
             // define Step
             await this.step(`Highlighting parent (${pvalue}).`) && (yield);
 
-            let completed = pvalue < nvalue;
+            let completed = pvalue < cvalue;
             let color = completed ? this.constructor.COLORS.success : this.constructor.COLORS.fail;
 
             currentElement.setColors(color);
             parentElement.setColors(color);
 
             // define Step
-            await this.step(`Comparison: ${pvalue} < ${nvalue}`) && (yield);
+            await this.step(`Comparison: ${pvalue} < ${cvalue}`) && (yield);
 
             currentElement.resetColors();
             parentElement.resetColors();
@@ -77,7 +80,7 @@ class BinaryHeap extends VisualisationItem {
             if (completed)
                 break;
 
-            parentElement.setValues(nvalue);
+            parentElement.setValues(cvalue);
             currentElement.setValues(pvalue);
 
             // define Step
@@ -99,15 +102,18 @@ class BinaryHeap extends VisualisationItem {
 
     async *remove() {
         // check state
-        if (this.state.num_elements <= 0)
+        let heapArray = this.state.array;
+        let n = this.state.num_elements;
+
+        if (n <= 0)
             return {
                 success: false,
                 message: `The heap is empty!`
             };
 
         /***** Remove top element *****/
-        let nthElement = this.state.array[this.state.num_elements - 1];
-        let rootElement = this.state.array[0];
+        let nthElement  = heapArray[n - 1];
+        let rootElement = heapArray[0];
 
         // Decrement num elements!
         this.state.num_elements--;
@@ -152,27 +158,22 @@ class BinaryHeap extends VisualisationItem {
         rootElement.resetColors();
 
         /***** Trickle down! *****/
-        let n = this.state.num_elements;
         let i = 0;
+        n = this.state.num_elements;
+        
         do {
             let j = -1;
 
-            let currentElement = this.state.array[i];
+            let currentElement = heapArray[i];
             let cvalue = currentElement.resolveValue();
 
             let ri = this.rightChildOf(i);
-            let rightChildElement = this.state.array[ri];
+            let rightChildElement = heapArray[ri];
             let rvalue = rightChildElement && rightChildElement.resolveValue() || null;
 
             let li = this.leftChildOf(i);
-            let leftChildElement = this.state.array[li];
+            let leftChildElement = heapArray[li];
             let lvalue = leftChildElement && leftChildElement.resolveValue() || null;
-
-            logger.print({
-                cvalue,
-                rvalue,
-                lvalue
-            })
 
             if (rvalue !== null && rvalue < cvalue) {
                 if (lvalue < rvalue) {
@@ -187,29 +188,29 @@ class BinaryHeap extends VisualisationItem {
             }
 
             if (j >= 0) {
-                let jelement = this.state.array[j];
-                let jvalue = jelement.resolveValue();
+                let jElement = heapArray[j];
+                let jvalue = jElement.resolveValue();
 
                 currentElement.setBorderColors(this.constructor.COLORS.success);
 
                 // define step
                 await this.step(`Highlighting ${cvalue} node`) && (yield);
 
-                jelement.setBorderColors(this.constructor.COLORS.success);
+                jElement.setBorderColors(this.constructor.COLORS.success);
 
                 // define step
                 await this.step(`Highlighting ${jvalue} node`) && (yield);
 
-                jelement.setColors(this.constructor.COLORS.fail);
+                jElement.setColors(this.constructor.COLORS.fail);
                 currentElement.setColors(this.constructor.COLORS.fail);
 
                 // define a step
                 await this.step(`Swap needed! Swaping ${cvalue} and ${jvalue}`) && (yield);
 
-                jelement.resetColors();
+                jElement.resetColors();
                 currentElement.resetColors();
 
-                jelement.setValues(cvalue);
+                jElement.setValues(cvalue);
                 currentElement.setValues(jvalue);
             }
 
