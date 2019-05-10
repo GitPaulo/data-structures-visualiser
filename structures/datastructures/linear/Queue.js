@@ -26,9 +26,9 @@ class Queue extends VisualisationItem {
 
         let tailElement = this.state["tail_pointer"];
         let headElement = this.state["head_pointer"];
-        let queueArray  = this.state.Array;
+        let queueArray  = this.state.array; 
 
-        if (tailElement.value === headElement.value && queueArray [tailElement.value].value !== null)
+        if (tailElement.value === headElement.value && queueArray[tailElement.value].value !== null)
             return {
                 success: false,
                 message: `The Queue is full!`
@@ -56,7 +56,7 @@ class Queue extends VisualisationItem {
     async *remove() {
         let tailElement = this.state["tail_pointer"];
         let headElement = this.state["head_pointer"];
-        let queueArray  = this.state.Array;
+        let queueArray  = this.state.array;
 
         if (tailElement.value === headElement.value && queueArray[headElement.value].value === null)
             return {
@@ -96,7 +96,7 @@ class Queue extends VisualisationItem {
 
         let tailElement = this.state["tail_pointer"];
         let headElement = this.state["head_pointer"];
-        let queueArray  = this.state.Array;
+        let queueArray  = this.state.array;
 
         if (tailElement.value === headElement.value && queueArray[headElement.value].value === null)
             return {
@@ -170,7 +170,7 @@ class Queue extends VisualisationItem {
 
         let tailElement = this.state["tail_pointer"];
         let headElement = this.state["head_pointer"];
-        let queueArray  = this.state.Array;
+        let queueArray  = this.state.array;
 
         if (tailElement.value === headElement.value && queueArray[headElement.value].value === null)
             return {

@@ -25,11 +25,11 @@ class BinaryTree extends VisualisationItem {
                 message: `Invalid paremeter! Parameter 'value' must be a number!`
             };
 
-        const MAX_SIZE = btArray.length;
-
         let btArray = this.state.array;
         let n = this.state.num_elements;
-        
+            
+        const MAX_SIZE = btArray.length;
+
         if (n >= MAX_SIZE)
             return {
                 success: false,
