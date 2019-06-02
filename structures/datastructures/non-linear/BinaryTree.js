@@ -431,10 +431,9 @@ BinaryTree.CellGraphic = class {
         this.index = index;
         this.value = null;
 
-        this.width = 48;
-        this.height = 48;
-        this.x = null;
-        this.y = null;
+        // Dynamically generated (for responsive canvas resize purposes)
+        this.width = 0, this.height = 0;
+        this.x = 0, this.y = 0;
 
         this.resetColor();
     }
@@ -462,6 +461,9 @@ BinaryTree.CellGraphic = class {
     }
 
     draw(env) {
+        this.width  = env.width  * 0.06;
+        this.height = env.height * 0.12;
+
         let offset_x = (env.width - (this.arrayLength * this.width)) / 2;
         let offset_y = env.height * .8;
 
@@ -477,7 +479,7 @@ BinaryTree.CellGraphic = class {
         // draw value
         if (this.value !== null) {
             env.textFont(env.NORMAL_FONT);
-            env.textSize(30);
+            env.textSize(env.height * 0.08);
 
             let value = String(this.value);
             let tw = env.textWidth(value);
@@ -488,7 +490,7 @@ BinaryTree.CellGraphic = class {
         }
 
         // draw index
-        env.textSize(20);
+        env.textSize(env.height * 0.05);
 
         let index = "[" + String(this.index) + "]";
         let tw2 = env.textWidth(index);
@@ -504,11 +506,9 @@ BinaryTree.NodeGraphic = class {
         this.value = null;
         this.index = index;
 
-        this.x = null;
-        this.y = null;
-
-        this.radius = 48;
-        this.borderThickness = 6;
+        // Dynamic size & position 
+        this.x = 0, this.y = null;
+        this.radius = 0, this.borderThickness = 0;
 
         this.resetColor();
     }
@@ -535,6 +535,10 @@ BinaryTree.NodeGraphic = class {
         // Dont draw nodes that dont exist!
         if (this.value === null)
             return;
+
+        // Dynamic Size & Position
+        this.radius = env.width * 0.06;
+        this.borderThickness = env.width * 0.01;
 
         // Specific to root and others
         if (this.index === 0) { // root
@@ -569,7 +573,7 @@ BinaryTree.NodeGraphic = class {
 
         // draw value
         env.textFont(env.NORMAL_FONT);
-        env.textSize(26);
+        env.textSize(env.height * 0.06);
 
         let value = String(this.value);
         let tw = env.textWidth(value);

@@ -152,9 +152,9 @@ Stack.PointerGraphic = class {
     constructor() {
         this.value = -1;
 
-        this.x = 0;
-        this.y = 0;
-        this.size = 22;
+        // Dynamically generated (for responsive canvas resize purposes)
+        this.size = 0;
+        this.x = 0, this.y = 0;
 
         this.resetColor();
     }
@@ -173,16 +173,18 @@ Stack.PointerGraphic = class {
     }
 
     draw(env) {
+        // dynamic size
+        this.size = env.width * 0.02;
+        
         let element, ax, ay;
-
         if (this.value === -1) {
             element = activeItem.state.array[0];
             ax = element.x + this.size / 2;
             ay = element.y + element.height + this.size;
         } else {
             element = activeItem.state.array[this.value];
-            ax = element.x + element.width + this.size + 15;
-            ay = element.y + this.size;
+            ax = element.x + element.width + this.size;
+            ay = element.y + this.size + 5;
         }
 
         let offset = this.size;
@@ -196,7 +198,7 @@ Stack.PointerGraphic = class {
         env.pop();
 
         env.textFont(env.NORMAL_FONT);
-        env.textSize(24);
+        env.textSize(env.height * 0.06);
 
         let str = "Top Of Stack" + ((this.value === -1 && " (EMPTY)") || "");
         let tw = env.textWidth(str);
@@ -208,21 +210,15 @@ Stack.PointerGraphic = class {
 }
 
 Stack.ElementGraphic = class {
-    constructor(arrayLength, index, value, structure = {
-        width: 150,
-        height: 50,
-        x: 0,
-        y: 0
-    }) {
+    constructor(arrayLength, index) {
         this.arrayLength = arrayLength;
 
         this.index = index;
         this.value = null;
 
-        this.width = structure.width;
-        this.height = structure.height;
-        this.x = structure.x;
-        this.y = structure.y;
+        // Dynamically generated (for responsive canvas resize purposes)
+        this.width = 0, this.height = 0;
+        this.x = 0, this.y = 0;
 
         this.resetColor();
     }
@@ -250,6 +246,10 @@ Stack.ElementGraphic = class {
     }
 
     draw(env) {
+        // dynamic size & positioning
+        this.width  = env.width  * 0.26;
+        this.height = env.height * 0.11;
+
         let offset_x = env.width * .5;
         let offset_y = (this.arrayLength * this.height);
 
@@ -268,7 +268,7 @@ Stack.ElementGraphic = class {
         // draw value
         if (this.value !== null) {
             env.textFont(env.NORMAL_FONT);
-            env.textSize(35);
+            env.textSize(env.height * 0.08);
 
             let value = String(this.value);
             let tw = env.textWidth(value);
@@ -279,7 +279,7 @@ Stack.ElementGraphic = class {
         }
 
         // draw index
-        env.textSize(20);
+        env.textSize(env.height * 0.06);
 
         let index = "[" + String(this.index) + "]";
         let tw2 = env.textWidth(index);

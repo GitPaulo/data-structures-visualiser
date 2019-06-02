@@ -266,21 +266,14 @@ StaticArray.prototype.search.help = `Preforms linear search on the array for a (
 StaticArray.prototype.sort.help = `Sorts the array.\n (method): ${Object.keys(StaticArray.sortingMethods)+""} \n (type): 'ascending' or 'descending'`;
 
 StaticArray.ElementGraphic = class {
-    constructor(arrayLength, index, value, structure = {
-        width: 70,
-        height: 70,
-        x: 0,
-        y: 0
-    }) {
+    constructor(arrayLength, index, value) {
         this.arrayLength = arrayLength;
-
         this.index = index;
         this.value = value;
 
-        this.width = structure.width;
-        this.height = structure.height;
-        this.x = structure.x;
-        this.y = structure.y;
+        // Dynamically generated (for responsive canvas resize purposes)
+        this.width = 0, this.height = 0;
+        this.x = 0, this.y = 0;
 
         this.resetColor();
     }
@@ -308,6 +301,9 @@ StaticArray.ElementGraphic = class {
     }
 
     draw(env) {
+        this.width  = env.width  * 0.09;
+        this.height = env.height * 0.18;
+
         let offset_x = (env.width - (this.arrayLength * this.width)) / 2;
         let offset_y = env.height * .5;
 
@@ -322,7 +318,7 @@ StaticArray.ElementGraphic = class {
 
         // draw value
         env.textFont(env.NORMAL_FONT);
-        env.textSize(35);
+        env.textSize(env.height * 0.10);
 
         let value = String(this.value);
         let tw = env.textWidth(value);
@@ -332,7 +328,7 @@ StaticArray.ElementGraphic = class {
         env.text(value, this.x + this.width / 2 - tw / 2, this.y + this.height / 2 + th / 2.5);
 
         // draw index
-        env.textSize(20);
+        env.textSize(env.height * 0.06);
 
         let index = "[" + String(this.index) + "]";
         let tw2 = env.textWidth(index);

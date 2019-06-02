@@ -1,18 +1,19 @@
 Title: Binary Tree (Array Implementation)
 Description: |- 
- (...)
+ A tree whose elements have at most 2 children is called a binary tree. 
+ Since each element in a binary tree can have only 2 children, we typically name them the left and right child.
 Image: assets/media/Example.png
 Operations:
  Insertion:
-  Description: Operation which inserts a new element into the DS.
-  Complexity: "????"
+  Description: Operation which inserts a new element into the Binary Tree.
+  Complexity: "O(logn)"
  Deletion:
-   Description: Operation which deletes an element indexed into the DS
-   Complexity: "????"
+   Description: Operation which deletes an element indexed into the Binary Tree.
+   Complexity: "O(logn)"
  Search:
-  Description: Operation which searches the DS.
-  Complexity: "????"
+  Description: Operation which searches the Binary Tree.
+  Complexity: "O(logn)"
  Sort:
-  Description: Operation which sorts the DS.
-  Complexity: "????"
-Space Complexity: "????" 
+  Description: Operation which sorts the Binary Tree.
+  Complexity: "O(logn)"
+Space Complexity: "O(n)" 

@@ -5,8 +5,8 @@ class Queue extends VisualisationItem {
         super(
             "Queue",
             itemData, {
-                "head_pointer": new Queue.PointerGraphic("head", 50, 80, 70, 70), // x, y, w, h
-                "tail_pointer": new Queue.PointerGraphic("tail", 150, 80, 70, 70),
+                "head_pointer": new Queue.PointerGraphic("head"),
+                "tail_pointer": new Queue.PointerGraphic("tail"),
                 "array": Array.from({
                     length
                 }, (v, i) => new Queue.ElementGraphic(length, i))
@@ -276,14 +276,13 @@ Queue.prototype.search.help = `Search a (value) in the queue.`;
 Queue.prototype.sort.help = `Sort the queue in 'ascending' or 'descending' order.`;
 
 Queue.PointerGraphic = class {
-    constructor(name, x, y, width, height) {
+    constructor(name) {
         this.name = name;
         this.value = 0;
 
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        // Dynamically generated (for responsive canvas resize purposes)
+        this.width = 0, this.height = 0;
+        this.x = 0, this.y = 0;
 
         this.resetColor();
     }
@@ -307,6 +306,12 @@ Queue.PointerGraphic = class {
     }
 
     draw(env) {
+        // dynamic size & positioning
+        this.width  = env.width  * 0.09;
+        this.height = env.height * 0.18;
+        this.x = env.width * (this.name == "head" ? 0.1 : 0.25);
+        this.y = env.height * 0.15;
+
         // draw border rect
         env.fill(...this.borderColor);
         env.rect(this.x, this.y, this.width, this.height);
@@ -314,12 +319,12 @@ Queue.PointerGraphic = class {
         env.fill(...this.rectColor);
         env.rect(this.x + 4, this.y + 4, this.width - 8, this.height - 8);
 
-        // Text env config
+        // text env config
         env.textFont(env.NORMAL_FONT);
 
         // draw name
         env.fill(...this.textColor);
-        env.textSize(25);
+        env.textSize(env.height * 0.06);
 
         let tw = env.textWidth(this.name);
         let th = env.textSize();
@@ -328,7 +333,7 @@ Queue.PointerGraphic = class {
 
         // draw value
         env.fill(40, 40, 40);
-        env.textSize(35);
+        env.textSize(env.height * 0.10);
 
         let value = String(this.value);
         let tw2 = env.textWidth(value);
@@ -339,21 +344,15 @@ Queue.PointerGraphic = class {
 }
 
 Queue.ElementGraphic = class {
-    constructor(arrayLength, index, structure = {
-        width: 70,
-        height: 70,
-        x: 0,
-        y: 0
-    }) {
+    constructor(arrayLength, index) {
         this.arrayLength = arrayLength;
 
         this.index = index;
         this.value = null;
 
-        this.width = structure.width;
-        this.height = structure.height;
-        this.x = structure.x;
-        this.y = structure.y;
+        // Dynamically generated (for responsive canvas resize purposes)
+        this.width = 0, this.height = 0;
+        this.x = 0, this.y = 0;
 
         this.resetColor();
     }
@@ -386,6 +385,10 @@ Queue.ElementGraphic = class {
     }
 
     draw(env) {
+        // dynamic size & positioning
+        this.width  = env.width  * 0.09;
+        this.height = env.height * 0.18;
+
         let offset_x = (env.width - (this.arrayLength * this.width)) / 2;
         let offset_y = env.height * .6;
 
@@ -423,7 +426,7 @@ Queue.ElementGraphic = class {
         // draw value
         if (this.value !== null) { // dont draw empty cells
             env.textFont(env.NORMAL_FONT);
-            env.textSize(35);
+            env.textSize(env.height * 0.10);
 
             let value = String(this.value);
             let tw = env.textWidth(value);
@@ -434,7 +437,7 @@ Queue.ElementGraphic = class {
         }
 
         // draw index
-        env.textSize(20);
+        env.textSize(env.height * 0.06);
 
         let index = "[" + String(this.index) + "]";
         let tw2 = env.textWidth(index);

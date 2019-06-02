@@ -97,7 +97,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
     }
 
     function write(html, shouldLog=true) {
-        output.insertAdjacentHTML('beforeEnd', '<p>' + html + '</p>');
+        output.insertAdjacentHTML('beforeEnd', '<p class="console-text">' + html + '</p>');
         if(shouldLog) logger.logln(html);
     }
 
@@ -178,7 +178,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
                 break;
             case 'help':
                 let allCommands = CMDS.concat(ANIMATION_CMDS);
-                write('<div class="ls-files">' + allCommands.join('<br>') + '</div>');
+                write(allCommands.join('<br>'));
                 break;
             case 'instructions':
                 if (activeItem === null) {
@@ -249,7 +249,7 @@ var Terminal = Terminal || function (cmdLineContainer, outputContainer) {
 
     return {
         init: function () {
-            write('<h2>Visualiser Console</h2><p id="date_console">' + new Date() + '</p><p>Enter "help" for more console command information.</p><p>Enter "instructions" for data structure specific operation help!</p>', false);
+            output.insertAdjacentHTML('beforeEnd', '<h2 class="console-title">Visualiser Console</h2><p id="date_console" class="console-text">' + new Date() + '</p><p class="console-text">Enter "help" for more console command information.</p><p class="console-text">Enter "instructions" for data structure specific operation help!</p>');
             let consoleTimeElement = document.getElementById("date_console")
             window.setInterval(function () { // might cause problems!
                 consoleTimeElement.innerHTML = new Date();

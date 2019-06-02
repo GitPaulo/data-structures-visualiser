@@ -12,8 +12,8 @@ const url = require('url');
 
 const INDEX_FOLDER_PATH = path.join(__dirname, 'views', 'home');
 // Most common resolution :)
-const WINDOW_WIDTH  = 1600;
-const WINDOW_HEIGHT = 1080;
+const WINDOW_WIDTH  = 1366;
+const WINDOW_HEIGHT = 768;
 
 let mainWindow;
 

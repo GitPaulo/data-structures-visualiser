@@ -59,9 +59,9 @@ page {
     position: fixed;
     display: block;
     visibility: hidden;
-    height: 92%;
+    height: 91.7%;
     width: 100%;
-    overflow: auto;
+    overflow: hidden;
 }
 
 loading {
@@ -358,6 +358,7 @@ input[type="range"] {
     position: relative;
     font-size: 32px;
     cursor: pointer;
+    font-size: 2vw;
 }
 
 /* The button used to open the sidebar */
@@ -540,6 +541,7 @@ output p {
     font: inherit;
     border: none;
     color: inherit;
+    font-size: 1.5vh;
 }
 
 .ls-files {
@@ -548,6 +550,17 @@ output p {
     -moz-column-width: 100px;
     -o-column-width: 100px;
     column-width: 100px;
+}
+
+.console-title {
+    color: white;
+    font-size: 5vh;
+    font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.console-text {
+    color: white;
+    font-size: 1.5vh;
 }
 
 /* Visualiser Information */

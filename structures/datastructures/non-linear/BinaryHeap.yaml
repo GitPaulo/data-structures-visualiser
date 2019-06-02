@@ -1,15 +1,16 @@
 Title: Binary Heap (Min-Heap)
 Description: |- 
- (...)
+ In a Min-Heap the key present at the root node must be minimum among the keys present at all of it’s children. 
+ The same property must be recursively true for all sub-trees in that Binary Tree.
 Image: assets/media/BinaryHeap.png
 Operations:
  Insertion:
   Description: Operation which inserts a new element into the heap.
-  Complexity: O(1)
+  Complexity: O(logn)
  Deletion:
    Description: Operation which deletes an element indexed into the heap.
-   Complexity: O(1)
+   Complexity: O(logn)
  Search:
   Description: Operation which searches the heap for a value.
-  Complexity: O(n)
+  Complexity: O(logn)
 Space Complexity: O(n) 

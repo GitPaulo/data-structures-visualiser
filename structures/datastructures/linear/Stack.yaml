@@ -1,16 +1,20 @@
 Title: Stack
 Description: |- 
- Description needs to be written!
- etc...
+ Stack is a linear data structure which follows a particular order in which the operations are performed. 
+ The order may be LIFO(Last In First Out) or FILO(First In Last Out).
+ There are many real-life examples of a stack. Consider an example of plates stacked over one another in the canteen. 
+ The plate which is at the top is the first one to be removed, 
+ i.e. the plate which has been placed at the bottommost position remains in the stack for the longest period of time. 
+ So, it can be simply seen to follow LIFO(Last In First Out)/FILO(First In Last Out) order.
 Image: assets/media/Stack.png
 Operations:
  Insertion:
-  Description: (...).
-  Complexity: O(x)
+  Description: Uses a top of stack pointer to push a value to the stack.
+  Complexity: O(1)
  Deletion:
-  Description: (...).
-  Complexity: O(x)
+  Description: Uses a top of stack pointer to pop a value of the stack.
+  Complexity: O(1)
  Search:
-  Description: (...).
-  Complexity: O(x)
-Space Complexity: O(x)
+  Description: Search a stack by poping the necessary elements in linear fashion.
+  Complexity: O(n)
+Space Complexity: O(n)

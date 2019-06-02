@@ -1,15 +1,18 @@
 Title: Binary Search Tree
 Description: |- 
- (...)
+ Binary Search Tree is a node-based binary tree data structure which has the following properties
+    The left subtree of a node contains only nodes with keys lesser than the node’s key.
+    The right subtree of a node contains only nodes with keys greater than the node’s key.
+    The left and right subtree each must also be a binary search tree.
 Image: assets/media/BinarySearchTree.png
 Operations:
  Insertion:
   Description: Operation which inserts a new element into the BST.
-  Complexity: O(1)
+  Complexity: O(logn)
  Deletion:
    Description: Operation which deletes an element indexed into the BST.
-   Complexity: O(1)
+   Complexity: O(logn)
  Search:
   Description: Operation which searches the heap for a BST.
-  Complexity: O(n)
+  Complexity: O(logn)
 Space Complexity: O(n) 
