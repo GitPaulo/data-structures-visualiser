@@ -1,33 +1,33 @@
 {
-    "name": "Data-Structures-Visualiser",
+    "name": "data-structures-visualiser",
     "version": "1.0.0",
     "description": "A Data Structures Visualisation Tool",
     "main": "main.js",
     "scripts": {
         "start": "electron .",
-        "build": "electron-packager . Data-Structures-Visualiser"
+        "build": "electron-packager . data-structures-visualiser"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/GitPaulo/Data-Structures-Visualiser.git"
+        "url": "git+https://github.com/GitPaulo/data-structures-visualiser.git"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/GitPaulo/Data-Structures-Visualiser/issues"
+        "url": "https://github.com/GitPaulo/data-structures-visualiser/issues"
     },
-    "homepage": "https://github.com/GitPaulo/Data-Structures-Visualiser#readme",
+    "homepage": "https://github.com/GitPaulo/data-structures-visualiser#readme",
     "devDependencies": {
         "electron-packager": "^13.1.1",
         "eslint": "^5.16.0"
     },
     "dependencies": {
-        "codemirror": "^5.46.0",
+        "codemirror": "^5.47.0",
         "console-log-div": "^0.6.3",
-        "electron": "^4.1.4",
-        "jquery": "^3.4.0",
-        "js-beautify": "^1.9.1",
+        "electron": "^4.2.4",
+        "jquery": "^3.4.1",
+        "js-beautify": "^1.10.0",
         "js-yaml": "^3.13.1",
         "p5": "^0.7.3"
     }
