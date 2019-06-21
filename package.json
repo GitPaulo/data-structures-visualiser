@@ -23,7 +23,7 @@
         "eslint": "^5.16.0"
     },
     "dependencies": {
-        "codemirror": "^5.47.0",
+        "codemirror": "^5.48.0",
         "console-log-div": "^0.6.3",
         "electron": "^5.0.4",
         "jquery": "^3.4.1",
