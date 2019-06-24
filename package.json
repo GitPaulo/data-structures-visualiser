@@ -20,7 +20,7 @@
     "homepage": "https://github.com/GitPaulo/data-structures-visualiser#readme",
     "devDependencies": {
         "electron-packager": "^13.1.1",
-        "eslint": "^5.16.0"
+        "eslint": "^6.0.0"
     },
     "dependencies": {
         "codemirror": "^5.47.0",
