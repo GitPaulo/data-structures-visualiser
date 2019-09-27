@@ -142,7 +142,7 @@ class Queue extends VisualisationItem {
             await this.step(`Enqueued value ${oldvalue} back in the queue.`) && (yield);
 
             // Increment tail (Circularity!)
-            tailElement.value = tailElement.value >= queueArray - 1 ? 0 : tailElement.value + 1;
+            tailElement.value = tailElement.value >= queueArray.length - 1 ? 0 : tailElement.value + 1;
 
             // Define a step
             await this.step(`Incremented tail pointer. (index=${tailElement.value})`) && (yield);
