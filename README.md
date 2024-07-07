@@ -1,8 +1,7 @@
 # Data Structures Visualiser
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c95c5c82e8174221a9352e77cebf0fd1)](https://www.codacy.com/app/GitPaulo/data-structures-visualiser?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=GitPaulo/data-structures-visualiser&amp;utm_campaign=Badge_Grade)
-[![dependencies Status](https://david-dm.org/GitPaulo/data-structures-visualiser/status.svg)](https://david-dm.org/GitPaulo/data-structures-visualiser)
+> **Notice:** Old code, not maintained.
 
-A desktop application made with ![electron](https://github.com/electron/electron). Its goal is to display visualisations of data structures and their algorithms involved with manipulating the data stored. The structure of the app has been designed to easily allow the addition of visualisation items.
+A desktop application made with [electronJS](https://github.com/electron/electron). Its goal is to display visualisations of data structures and their algorithms involved with manipulating the data stored. The app's structure has been designed to allow the addition of visualisation items easily.
 
 ## Implemented Visualisations
 **Linear**
@@ -10,7 +9,7 @@ A desktop application made with ![electron](https://github.com/electron/electron
 -  Queue
 -  Stack
 
-**Non Linear**
+**Non-Linear**
 -  Binary Tree
 -  Min-Heap
 -  Binary Search Tree
